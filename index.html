@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en" data-theme="sunset">
 <head>
-<!-- Fitness Arcade standalone build 2026-10-11T21:26:39.036Z · Fonts: Press Start 2P & Monoton (SIL OFL 1.1) -->
+<!-- Fitness Arcade standalone build 2026-10-11T22:08:45.158Z · Fonts: Press Start 2P & Monoton (SIL OFL 1.1) -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b0320">
@@ -116,9 +116,9 @@ label { display: block; font-size: 13px; color: var(--muted); margin: 0 0 4px; }
 /* bottom nav: cassette deck buttons */
 nav.tabs { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; display: flex; justify-content: center; background: linear-gradient(180deg, #1b1b22, #08080c);
   border-top: 3px solid var(--hot); padding: 6px 4px calc(6px + env(safe-area-inset-bottom)); box-shadow: 0 -4px 20px rgba(0,0,0,.6); }
-nav.tabs .inner { display: grid; grid-template-columns: repeat(6, 1fr); gap: 3px; width: 100%; max-width: 480px; }
+nav.tabs .inner { display: grid; grid-template-columns: 1fr 1fr 1.25fr 1fr 1fr; gap: 4px; width: 100%; max-width: 480px; }
 nav.tabs button { min-height: 54px; border-radius: 6px; border: 1px solid #333; background: linear-gradient(180deg, #2c2c36, #15151b); color: #bbb; cursor: pointer;
-  font-family: 'Arcade', monospace; font-size: 7px; letter-spacing: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; box-shadow: 0 3px 0 #000; }
+  font-family: 'Arcade', monospace; font-size: 7.5px; letter-spacing: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; box-shadow: 0 3px 0 #000; }
 nav.tabs button .ico { font-size: 18px; font-family: system-ui; }
 nav.tabs button[aria-selected="true"] { color: #000; background: linear-gradient(180deg, var(--volt), color-mix(in srgb, var(--volt) 60%, #000)); transform: translateY(2px); box-shadow: 0 1px 0 #000, 0 0 12px var(--volt); }
 
@@ -343,13 +343,35 @@ fieldset.rate legend { color: var(--muted); font-size: 13px; padding: 0 4px; }
 .src-head { font-family: 'Arcade', monospace; font-size: 8px; color: var(--cyan); padding: 12px 0 4px !important; border-bottom: 1px solid rgba(0,229,255,.3) !important; }
 .net-note { font-size: 13px; color: #ffe08a; padding: 8px 0; }
 
+/* running-first: RUN tab is the big center button */
+nav.tabs .inner { grid-template-columns: 1fr 1fr 1.25fr 1fr 1fr; }
+nav.tabs button.tab-run { order: 3; min-height: 62px; margin-top: -14px; border: 2px solid #000; color: #fff; background: linear-gradient(180deg, var(--hot), color-mix(in srgb, var(--hot) 60%, #000)); box-shadow: 0 4px 0 #000, 0 0 14px var(--hot); font-size: 9px; }
+nav.tabs button.tab-run .ico { font-size: 22px; }
+nav.tabs button[data-goto="home"] { order: 1; } nav.tabs button[data-goto="map"] { order: 2; } nav.tabs button[data-goto="progress"] { order: 4; } nav.tabs button[data-goto="scores"] { order: 5; }
+nav.tabs button.tab-run[aria-selected="true"] { color: #000; background: linear-gradient(180deg, var(--volt), color-mix(in srgb, var(--volt) 60%, #000)); box-shadow: 0 2px 0 #000, 0 0 16px var(--volt); transform: none; }
+/* Home hero: today's run goal */
+.hero { position: relative; overflow: hidden; margin: 0 0 16px; padding: 14px 14px 16px; border-radius: 14px; border: 3px solid #000;
+  background: linear-gradient(160deg, color-mix(in srgb, var(--hot) 35%, var(--bg2)) 0%, var(--bg2) 55%, color-mix(in srgb, var(--cyan) 25%, var(--bg2)) 100%);
+  box-shadow: 0 0 0 2px var(--volt), 6px 6px 0 2px var(--hot), 0 0 26px rgba(255,46,136,.35); }
+.hero::after { content: ''; position: absolute; right: -30px; top: -10px; width: 150px; height: 150px; border-radius: 50%; opacity: .25; pointer-events: none;
+  background: linear-gradient(180deg, var(--sun1), var(--sun2) 60%, var(--sun3)); -webkit-mask: repeating-linear-gradient(180deg, #000 0 10px, transparent 10px 14px); mask: repeating-linear-gradient(180deg, #000 0 10px, transparent 10px 14px); }
+.hero-top { position: relative; display: flex; justify-content: space-between; font-family: 'Arcade', monospace; font-size: 9px; color: var(--cyan); }
+.hero-main { position: relative; display: flex; align-items: flex-end; justify-content: space-between; gap: 8px; margin: 14px 0 10px; }
+.hero-num b { font-family: 'Arcade', monospace; font-size: 46px; line-height: 1; color: var(--volt); text-shadow: 0 0 12px var(--volt), 4px 4px 0 var(--hot); }
+.hero-num span { display: block; font-family: 'Arcade', monospace; font-size: 11px; color: #fff; margin-top: 8px; }
+.hero-msg { font-family: 'Arcade', monospace; font-size: 10px; line-height: 1.5; text-align: right; color: #fff; max-width: 45%; animation: blink 1.6s steps(2, start) infinite; }
+.hero-bar .bar { height: 18px; border-radius: 9px; }
+.hero-week { position: relative; display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); margin: 12px 0 6px; }
+.hero-week b { color: var(--cyan); }
+.hero-btn { margin-top: 14px; min-height: 54px; font-size: 13px; }
+
 </style>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Fitness Arcade">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="description" content="'80s-style running, calorie & weight tracker. Data stays on your device.">
+<meta name="description" content="'80s-style running tracker — miles, pace, PRs, shoes, journeys. Data stays on your device.">
 </head>
 <body>
 <div class="backdrop" aria-hidden="true"><div class="sun"></div><div class="grid"></div></div>
@@ -357,8 +379,7 @@ fieldset.rate legend { color: var(--muted); font-size: 13px; padding: 0 4px; }
 <main class="app" id="main"></main>
 <nav class="tabs" aria-label="Screens"><div class="inner">
 <button data-goto="home"><span class="ico">🏠</span>HOME</button>
-<button data-goto="food"><span class="ico">🍔</span>FOOD</button>
-<button data-goto="run"><span class="ico">👟</span>RUN</button>
+<button data-goto="run" class="tab-run"><span class="ico">👟</span>RUN</button>
 <button data-goto="map"><span class="ico">🗺️</span>MAP</button>
 <button data-goto="progress"><span class="ico">📈</span>PROGRESS</button>
 <button data-goto="scores"><span class="ico">🏆</span>SCORES</button>
@@ -507,24 +528,7 @@ fieldset.rate legend { color: var(--muted); font-size: 13px; padding: 0 4px; }
     return { level: 'ok', label: 'FRESH', msg: (300 - miles).toFixed(0) + ' mi until the 300-mi check.' };
   }
 
-  // ---------- food / calories ----------
-  function dayCalories(food, date) { return food.reduce(function (s, f) { return s + (f.date === date ? f.cal : 0); }, 0); }
-  function searchFoods(db, q) {
-    q = (q || '').toLowerCase().trim();
-    if (!q) return [];
-    var terms = q.split(/\s+/);
-    return db.filter(function (f) {
-      var hay = (f.name + ' ' + (f.chain || '') + ' ' + (f.tags || '')).toLowerCase();
-      return terms.every(function (t) { return hay.indexOf(t) !== -1; });
-    }).sort(function (a, b) {
-      var an = a.name.toLowerCase().indexOf(q) === 0 ? 0 : 1, bn = b.name.toLowerCase().indexOf(q) === 0 ? 0 : 1;
-      return an - bn || a.cal - b.cal;
-    });
-  }
-  // smart drive-thru pick: <= 350 cal and >= 12 g protein per 200 cal (protein density)
-  function isSmartPick(item) { return item.cal <= 350 && item.protein != null && item.protein / item.cal >= 0.06; }
-
-  // ---------- weekly recap (7 days ending today, vs prior 7) ----------
+  // ---------- weekly recap of runs (7 days ending today, vs prior 7) ----------
   function weeklyRecap(state, today) {
     var start = addDays(today, -6), pStart = addDays(today, -13), pEnd = addDays(today, -7);
     function inRange(d, a, b) { return d >= a && d <= b; }
@@ -533,30 +537,34 @@ fieldset.rate legend { color: var(--muted); font-size: 13px; padding: 0 4px; }
     var miles = runs.reduce(function (s, r) { return s + r.miles; }, 0);
     var mins = runs.reduce(function (s, r) { return s + r.minutes; }, 0);
     var prevMiles = prevRuns.reduce(function (s, r) { return s + r.miles; }, 0);
+    var prevMins = prevRuns.reduce(function (s, r) { return s + r.minutes; }, 0);
     var days = [];
     for (var i = 0; i < 7; i++) {
-      var d = addDays(start, i);
-      days.push({ date: d, cal: dayCalories(state.food, d), logged: state.food.some(function (f) { return f.date === d; }) });
+      var d = addDays(start, i), dm = runs.reduce(function (s, r) { return s + (r.date === d ? r.miles : 0); }, 0);
+      days.push({ date: d, miles: round1(dm), ran: dm > 0 });
     }
-    function avgCal(a, b) {
-      var tot = 0, n = 0;
-      for (var d = a; d <= b; d = addDays(d, 1)) {
-        if (state.food.some(function (f) { return f.date === d; })) { tot += dayCalories(state.food, d); n++; }
-      }
-      return n ? Math.round(tot / n) : null;
-    }
-    var avg = avgCal(start, today), prevAvg = avgCal(pStart, pEnd);
-    var trend = (avg == null || prevAvg == null) ? 'flat' : (avg < prevAvg - 25 ? 'down' : avg > prevAvg + 25 ? 'up' : 'flat');
-    // weight change across window
+    var avgPace = miles > 0 ? mins / miles : null, prevPace = prevMiles > 0 ? prevMins / prevMiles : null;
+    var delta = round1(miles - prevMiles);
     var ws = state.weights.filter(function (w) { return inRange(w.date, addDays(start, -1), today); }).sort(function (a, b) { return a.date < b.date ? -1 : 1; });
-    var wChange = ws.length >= 2 ? round1(ws[ws.length - 1].lbs - ws[0].lbs) : null;
     return {
-      start: start, end: today, runs: runs.length, miles: round1(miles), prevMiles: round1(prevMiles),
-      avgPace: miles > 0 ? mins / miles : null, days: days, avgCal: avg, prevAvgCal: prevAvg,
-      calDelta: (avg != null && prevAvg != null) ? avg - prevAvg : null, calTrend: trend, weightChange: wChange
+      start: start, end: today, runs: runs.length, miles: round1(miles), prevMiles: round1(prevMiles), milesDelta: delta,
+      milesTrend: prevMiles === 0 && miles === 0 ? 'flat' : (delta > 0.05 ? 'up' : delta < -0.05 ? 'down' : 'flat'),
+      avgPace: avgPace, prevAvgPace: prevPace, paceDeltaSec: (avgPace && prevPace) ? Math.round((avgPace - prevPace) * 60) : null,
+      longest: runs.length ? round1(Math.max.apply(null, runs.map(function (r) { return r.miles; }))) : 0,
+      runDays: days.filter(function (d) { return d.ran; }).length, days: days,
+      weightChange: ws.length >= 2 ? round1(ws[ws.length - 1].lbs - ws[0].lbs) : null
     };
   }
-
+  // today's run goal (hero card on Home)
+  function todayGoal(runs, today, profile) {
+    var goal = (profile && profile.dailyGoal) || 3, weekGoal = (profile && profile.weeklyGoal) || 15;
+    var todayRuns = runs.filter(function (r) { return r.date === today; });
+    var miles = round1(todayRuns.reduce(function (s, r) { return s + r.miles; }, 0));
+    var wk = weekStart(today), weekMiles = round1(runs.reduce(function (s, r) { return s + (r.date >= wk && r.date <= today ? r.miles : 0); }, 0));
+    var daysLeft = 7 - dayDiff(wk, today);   // including today
+    return { goal: goal, miles: miles, done: miles >= goal, left: round1(Math.max(0, goal - miles)), pct: Math.min(100, miles / goal * 100), runs: todayRuns.length,
+      weekGoal: weekGoal, weekMiles: weekMiles, weekPct: Math.min(100, weekMiles / weekGoal * 100), weekLeft: round1(Math.max(0, weekGoal - weekMiles)), daysLeftInWeek: daysLeft };
+  }
 
   // ---------- race countdown ----------
   var RACE_DISTANCES = { '5K': 3.10686, '10K': 6.21371, '15K': 9.32057, 'Half Marathon': 13.1094, 'Marathon': 26.2188 };
@@ -825,8 +833,8 @@ fieldset.rate legend { color: var(--muted); font-size: 13px; padding: 0 4px; }
     streakSegments: streakSegments, longestStreak: longestStreak, currentStreak: currentStreak, weeklyMiles: weeklyMiles,
     highScores: highScores, latestWeight: latestWeight, lbsLost: lbsLost, totalMiles: totalMiles, levelInfo: levelInfo,
     THEMES: THEMES, themesFor: themesFor, WEIGHT_STEP: WEIGHT_STEP, MILE_STEP: MILE_STEP,
-    shoeMiles: shoeMiles, shoeStatus: shoeStatus, dayCalories: dayCalories, searchFoods: searchFoods, isSmartPick: isSmartPick,
-    weeklyRecap: weeklyRecap, drinksFor: drinksFor,
+    shoeMiles: shoeMiles, shoeStatus: shoeStatus,
+    weeklyRecap: weeklyRecap, todayGoal: todayGoal, drinksFor: drinksFor,
     RACE_DISTANCES: RACE_DISTANCES, raceInfo: raceInfo, MILESTONE_STEP: MILESTONE_STEP, weightMilestone: weightMilestone,
     crossedMilestone: crossedMilestone, beforeAfter: beforeAfter, TEMPO_GUIDE: TEMPO_GUIDE, avgCadence: avgCadence, mixtape: mixtape,
     JOURNEYS: JOURNEYS, journeyProgress: journeyProgress, routeNames: routeNames, ghostFor: ghostFor, ghostCompare: ghostCompare,
@@ -834,68 +842,6 @@ fieldset.rate legend { color: var(--muted); font-size: 13px; padding: 0 4px; }
     PR_DISTANCES: PR_DISTANCES, personalRecords: personalRecords
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.FA = api;
-})(this);
-
-</script>
-<script>
-/* Fitness Arcade — food data.
-   Generic foods: approximate values based on USDA FoodData Central typical servings.
-   Drive-thru items: calories/protein from each chain's published US nutrition info (checked Oct 2026). Menus change; re-check occasionally. */
-(function (root) {
-  'use strict';
-  var BREAKFAST_PICKS = [
-    { id: 'bp-yogurt', name: 'Greek yogurt + berries', serving: '¾ cup nonfat plain + ½ cup blueberries', cal: 140, protein: 17, icon: '🫐' },
-    { id: 'bp-eggs', name: '2 eggs + wheat toast', serving: '2 large eggs (cooked, no oil) + 1 slice', cal: 225, protein: 16, icon: '🍳' },
-    { id: 'bp-oats', name: 'Oatmeal + banana', serving: '1 cup cooked oats + 1 medium banana', cal: 270, protein: 7, icon: '🥣' },
-    { id: 'bp-pbtoast', name: 'PB banana toast', serving: '1 slice wheat + 1 tbsp PB + ½ banana', cal: 230, protein: 7, icon: '🍞' },
-    { id: 'bp-cottage', name: 'Cottage cheese + pineapple', serving: '½ cup low-fat + ½ cup pineapple', cal: 130, protein: 14, icon: '🍍' },
-    { id: 'bp-omelet', name: 'Egg-white veggie omelet', serving: '4 egg whites + veggies + 1 tsp oil', cal: 140, protein: 15, icon: '🥚' }
-  ];
-
-  // chain items: cal + protein (g) from chain-published nutrition
-  var DRIVE_THRU = [
-    { chain: "McDonald's", name: 'Egg McMuffin', cal: 310, protein: 17 },
-    { chain: "McDonald's", name: 'Fruit & Maple Oatmeal', cal: 320, protein: 6, tip: 'Skip brown sugar: about 250 cal' },
-    { chain: "McDonald's", name: 'Sausage Burrito', cal: 310, protein: 13 },
-    { chain: "McDonald's", name: 'Hash Brown', cal: 140, protein: 2, tip: 'Easy 140 cal to skip' },
-    { chain: "McDonald's", name: 'Sausage McMuffin with Egg', cal: 480, protein: 20 },
-    { chain: "McDonald's", name: 'Hotcakes (with butter & syrup)', cal: 580, protein: 9 },
-    { chain: 'Starbucks', name: 'Egg White & Roasted Red Pepper Egg Bites', cal: 170, protein: 12 },
-    { chain: 'Starbucks', name: 'Turkey Bacon, Cheddar & Egg White Sandwich', cal: 260, protein: 17 },
-    { chain: 'Starbucks', name: 'Spinach, Feta & Egg White Wrap', cal: 290, protein: 20 },
-    { chain: 'Starbucks', name: 'Bacon & Gruyère Egg Bites', cal: 300, protein: 19 },
-    { chain: 'Chick-fil-A', name: 'Egg White Grill', cal: 300, protein: 27 },
-    { chain: 'Chick-fil-A', name: 'Chick-n-Minis (4 ct)', cal: 360, protein: 20 },
-    { chain: 'Chick-fil-A', name: 'Berry Parfait', cal: 270, protein: 13 },
-    { chain: 'Chick-fil-A', name: 'Chicken Biscuit', cal: 460, protein: 19 },
-    { chain: "Dunkin'", name: 'Egg & Cheese Wake-Up Wrap', cal: 180, protein: 7 },
-    { chain: "Dunkin'", name: 'Avocado Toast', cal: 240, protein: 6 },
-    { chain: "Dunkin'", name: 'Glazed Donut', cal: 240, protein: 4 },
-    { chain: "McDonald's", name: 'Big Mac', cal: 590, protein: 25, meal: 'lunch' },
-    { chain: "McDonald's", name: 'McChicken', cal: 400, protein: 14, meal: 'lunch' },
-    { chain: "McDonald's", name: 'Chicken McNuggets (6 pc)', cal: 250, protein: 14, meal: 'lunch' },
-    { chain: "McDonald's", name: 'Medium French Fries', cal: 320, protein: 5, meal: 'lunch' },
-    { chain: 'Chick-fil-A', name: 'Grilled Nuggets (8 ct)', cal: 130, protein: 25, meal: 'lunch' },
-    { chain: 'Chick-fil-A', name: 'Chick-fil-A Chicken Sandwich', cal: 420, protein: 29, meal: 'lunch' },
-    { chain: 'Chick-fil-A', name: 'Medium Waffle Potato Fries', cal: 420, protein: 5, meal: 'lunch' }
-  ];
-
-  var FOODS = [
-    ['Banana, medium', 105, 1], ['Apple, medium', 95, 0], ['Orange, medium', 62, 1], ['Blueberries, 1 cup', 84, 1], ['Strawberries, 1 cup', 49, 1],
-    ['Egg, large', 72, 6], ['Egg whites, 4 large', 68, 14], ['Greek yogurt, nonfat plain ¾ cup', 100, 17], ['Cottage cheese low-fat, ½ cup', 90, 12],
-    ['Oatmeal, 1 cup cooked', 166, 6], ['Whole wheat toast, 1 slice', 80, 4], ['Bagel, plain', 270, 10], ['Peanut butter, 1 tbsp', 95, 4], ['Avocado, ½', 120, 1],
-    ['Chicken breast, 4 oz cooked', 187, 35], ['Salmon, 4 oz cooked', 233, 25], ['Ground beef 90/10, 4 oz cooked', 245, 28], ['Turkey deli, 2 oz', 60, 10],
-    ['White rice, 1 cup cooked', 205, 4], ['Brown rice, 1 cup cooked', 216, 5], ['Pasta, 1 cup cooked', 220, 8], ['Sweet potato, medium', 103, 2], ['Baked potato, medium', 161, 4],
-    ['Broccoli, 1 cup', 31, 3], ['Side salad, no dressing', 20, 1], ['Ranch dressing, 2 tbsp', 130, 0], ['Almonds, 1 oz', 164, 6], ['Cheddar cheese, 1 oz', 114, 7],
-    ['Milk 2%, 1 cup', 122, 8], ['Protein bar (typical)', 200, 20], ['Pizza, 1 slice cheese (14")', 285, 12], ['Turkey sandwich', 350, 22], ['Cheeseburger (homemade)', 450, 26],
-    ['Black coffee', 2, 0], ['Coffee w/ cream & sugar', 70, 1], ['Diet Coke, 12 oz', 0, 0], ['Coca-Cola, 12 oz', 140, 0], ['Orange juice, 8 oz', 110, 2],
-    ['Light beer, 12 oz', 103, 1], ['Gatorade, 20 oz', 140, 0]
-  ].map(function (a, i) { return { id: 'f' + i, name: a[0], cal: a[1], protein: a[2], tags: 'generic' }; });
-
-  DRIVE_THRU.forEach(function (d, i) { d.id = 'dt' + i; d.tags = 'drive-thru fast food ' + (d.meal || 'breakfast'); });
-
-  var api = { BREAKFAST_PICKS: BREAKFAST_PICKS, DRIVE_THRU: DRIVE_THRU, FOODS: FOODS, ALL_FOODS: FOODS.concat(DRIVE_THRU) };
-  if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.FA_DATA = api;
 })(this);
 
 </script>
@@ -1240,75 +1186,10 @@ fieldset.rate legend { color: var(--muted); font-size: 13px; padding: 0 4px; }
 
 </script>
 <script>
-/* Online food databases: USDA FoodData Central (DEMO_KEY or your own key) + Open Food Facts (no key).
-   Pure helpers (URLs, parsing, calorie math) — network calls live in app.js. */
-(function (root) {
-  'use strict';
-  function r0(n) { return Math.round(n); }
-  // USDA search via POST (JSON body). GET with "Survey (FNDDS)" in the query string is intermittently rejected (HTTP 400) by the API gateway.
-  function usdaUrl(q, key) { return 'https://api.nal.usda.gov/fdc/v1/foods/search?api_key=' + encodeURIComponent(key || 'DEMO_KEY'); }
-  function usdaRequest(q, key) {
-    // generic foods with household portions (FNDDS) + SR Legacy + Foundation; values are per 100 g
-    return { url: usdaUrl(q, key), init: { method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query: q, pageSize: 12, dataType: ['Survey (FNDDS)', 'SR Legacy', 'Foundation'] }) } };
-  }
-  function usdaFallbackUrl(q, key) { return usdaUrl(q, key) + '&query=' + encodeURIComponent(q) + '&pageSize=12&dataType=SR%20Legacy,Foundation'; }
-  function offUrl(q) {
-    return 'https://world.openfoodfacts.org/cgi/search.pl?search_terms=' + encodeURIComponent(q) +
-      '&search_simple=1&action=process&json=1&page_size=12&fields=code,product_name,brands,nutriments,serving_size,serving_quantity' +
-      '&tagtype_0=countries&tag_contains_0=contains&tag_0=united-states';
-  }
-  function titleCase(s) { return String(s || '').toLowerCase().replace(/(^|[\s,(\/-])([a-z])/g, function (m, a, b) { return a + b.toUpperCase(); }); }
-  function usdaKcal100(f) {
-    var n = f.foodNutrients || [], kcal = null, kj = null;
-    n.forEach(function (x) {
-      var id = x.nutrientId, num = String(x.nutrientNumber || ''), unit = String(x.unitName || '').toUpperCase();
-      if ((id === 1008 || num === '208') && unit === 'KCAL') kcal = x.value;
-      else if ((id === 2047 || id === 2048 || num === '957' || num === '958') && unit === 'KCAL' && kcal == null) kcal = x.value;
-      else if ((id === 1062 || num === '268') && unit === 'KJ') kj = x.value;
-    });
-    if (kcal == null && kj != null) kcal = kj / 4.184;
-    return kcal;
-  }
-  function usdaProtein100(f) { var p = (f.foodNutrients || []).filter(function (x) { return x.nutrientId === 1003 || String(x.nutrientNumber) === '203'; })[0]; return p ? p.value : null; }
-  function parseUsda(json) {
-    return (json && json.foods || []).map(function (f) {
-      var kcal = usdaKcal100(f); if (kcal == null) return null;
-      var servings = [];
-      (f.foodMeasures || []).forEach(function (m) {
-        var label = m.disseminationText || m.measureUnitName; if (!m.gramWeight || !label || /quantity not specified/i.test(label)) return;
-        if (!servings.some(function (s) { return s.label === label; })) servings.push({ label: label + ' (' + r0(m.gramWeight) + ' g)', grams: m.gramWeight });
-      });
-      if (f.servingSize && /^g$/i.test(f.servingSizeUnit || '')) servings.unshift({ label: (f.householdServingFullText || 'serving') + ' (' + r0(f.servingSize) + ' g)', grams: f.servingSize });
-      servings.push({ label: '100 g', grams: 100 });
-      return { id: 'usda-' + f.fdcId, source: 'USDA', name: titleCase(f.description), brand: f.brandOwner || f.brandName || '', kcal100: kcal, protein100: usdaProtein100(f), servings: servings };
-    }).filter(Boolean);
-  }
-  function parseOff(json) {
-    return (json && json.products || []).map(function (p) {
-      var n = p.nutriments || {}, kcal = n['energy-kcal_100g'];
-      if (kcal == null && n.energy_100g != null) kcal = n.energy_100g / 4.184;      // energy_100g is kJ
-      kcal = kcal == null ? null : +kcal;
-      if (kcal == null || isNaN(kcal) || !p.product_name) return null;
-      var servings = [], sq = parseFloat(p.serving_quantity);
-      if (sq > 0) servings.push({ label: (p.serving_size || 'serving') + (/\d\s*g\)?$/i.test(p.serving_size || '') ? '' : ' (' + r0(sq) + ' g)'), grams: sq });
-      servings.push({ label: '100 g', grams: 100 });
-      var brand = String(p.brands || '').split(',')[0].trim();
-      return { id: 'off-' + p.code, source: 'Open Food Facts', name: p.product_name.trim(), brand: brand, kcal100: kcal, protein100: n.proteins_100g != null ? +n.proteins_100g : null, servings: servings };
-    }).filter(Boolean);
-  }
-  function kcalFor(item, grams, qty) { return Math.round(item.kcal100 * (grams / 100) * (qty || 1)); }
-  function defaultServing(item) { return item.servings[0]; }
-  var api = { usdaUrl: usdaUrl, usdaRequest: usdaRequest, usdaFallbackUrl: usdaFallbackUrl, offUrl: offUrl, parseUsda: parseUsda, parseOff: parseOff, kcalFor: kcalFor, defaultServing: defaultServing, usdaKcal100: usdaKcal100 };
-  if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.FA_FOODAPI = api;
-})(this);
-
-</script>
-<script>
 /* Fitness Arcade — UI */
 (function () {
   'use strict';
-  var F = window.FA, D = window.FA_DATA, Q = window.FA_QUOTES, API = window.FA_FOODAPI;
+  var F = window.FA, Q = window.FA_QUOTES;
   var KEY = 'fitnessArcade.v1', PHOTO_KEY = 'fitnessArcade.photos';
   var params = new URLSearchParams(location.search);
   function today() { return params.get('today') || F.toISO(new Date()); }
@@ -1317,15 +1198,30 @@ fieldset.rate legend { color: var(--muted); font-size: 13px; padding: 0 4px; }
   function $(sel, el) { return (el || document).querySelector(sel); }
 
   function blank() {
-    return { v: 1, profile: { initials: 'JON', startWeight: null, startDate: null, goalWeight: null, calGoal: 2000, waterGoal: 8 },
-      weights: [], runs: [], food: [], shoes: [], activeShoe: null, drinks: {}, race: null, theme: 'sunset',
+    return { v: 1, profile: { initials: 'JON', startWeight: null, startDate: null, goalWeight: null, dailyGoal: 3, weeklyGoal: 15, waterGoal: 8 },
+      weights: [], runs: [], shoes: [], activeShoe: null, drinks: {}, race: null, theme: 'sunset',
       celebrated: { milestone: 0, badges: [] }, ui: { tab: 'home', chain: 'All', smartOnly: false },
       journey: { id: 'natchez', startDate: null },
       weather: { loc: { name: 'Murfreesboro, TN', lat: 35.8456, lon: -86.3903 }, cache: null } };
   }
   function load() {
-    try { var s = JSON.parse(localStorage.getItem(KEY)); if (s && s.v === 1) return Object.assign(blank(), s); } catch (e) {}
+    try { var s = JSON.parse(localStorage.getItem(KEY)); if (s && s.v === 1) return migrate(Object.assign(blank(), s)); } catch (e) {}
     return blank();
+  }
+  // Older saves may contain food/calorie data (food[], profile.calGoal, profile.usdaKey, ui.tab 'food').
+  // It is left untouched in storage (so the food version can be restored) but ignored by this running-only app.
+  function migrate(s) {
+    var b = blank();
+    s.profile = Object.assign({}, b.profile, s.profile || {});
+    ['runs', 'weights', 'shoes'].forEach(function (k) { if (!Array.isArray(s[k])) s[k] = []; });
+    s.runs = s.runs.filter(function (r) { return r && r.date && r.miles > 0 && r.minutes > 0; });
+    if (!s.drinks || typeof s.drinks !== 'object') s.drinks = {};
+    s.ui = Object.assign({}, b.ui, s.ui || {});
+    if (['home', 'run', 'map', 'progress', 'scores'].indexOf(s.ui.tab) === -1) s.ui.tab = 'home';
+    s.journey = s.journey && s.journey.id ? s.journey : b.journey;
+    s.weather = s.weather && s.weather.loc ? s.weather : b.weather;
+    s.celebrated = s.celebrated || b.celebrated;
+    return s;
   }
   var state = load();
   function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { toast('Storage full — could not save'); } }
@@ -1411,33 +1307,29 @@ fieldset.rate legend { color: var(--muted); font-size: 13px; padding: 0 4px; }
   }
   function header() {
     var li = info();
-    return '<header class="top"><h1 class="logo">Fitness Arcade<small>INSERT COIN · RUN · FUEL</small></h1>' +
+    return '<header class="top"><h1 class="logo">Fitness Arcade<small>INSERT COIN · RUN · REPEAT</small></h1>' +
       '<div class="row"><span class="lvl-pill" aria-label="Level">LV ' + li.level + '</span><button class="icon-btn" data-action="settings" aria-label="Settings">⚙</button></div></header>';
   }
   function title(t) { return '<h2 class="screen-title">' + t + '</h2><div class="stripes"></div>'; }
 
   // ---------- HOME ----------
   function renderHome() {
-    var t = today(), li = info(), cal = F.dayCalories(state.food, t), goal = state.profile.calGoal || 2000;
+    var t = today(), li = info(), tg = F.todayGoal(state.runs, t, state.profile);
     var dr = F.drinksFor(state, t), tot = dr.water + dr.coke;
     var shoe = activeShoe(), h = title('Home');
+    // hero: today's run goal
+    var streak = F.currentStreak(state.runs, t);
+    h += '<section class="hero" data-testid="run-hero"><div class="hero-top"><span>TODAY · ' + F.fmtShort(t).toUpperCase() + '</span><span>🔥 ' + streak + '-DAY STREAK</span></div>' +
+      '<div class="hero-main"><div class="hero-num"><b data-testid="today-miles">' + tg.miles.toFixed(1) + '</b><span>/ ' + tg.goal + ' MI</span></div>' +
+      '<div class="hero-msg" data-testid="today-status">' + (tg.done ? 'GOAL CRUSHED! ★' : tg.miles > 0 ? tg.left + ' MI TO GO' : 'READY PLAYER ONE') + '</div></div>' +
+      '<div class="hero-bar">' + bar(tg.pct, tg.done ? 'volt' : '') + '</div>' +
+      '<div class="hero-week"><span>THIS WEEK <b data-testid="week-miles">' + tg.weekMiles.toFixed(1) + '</b> / ' + tg.weekGoal + ' MI</span><span>' + (tg.weekLeft > 0 ? tg.weekLeft + ' mi in ' + tg.daysLeftInWeek + ' day' + (tg.daysLeftInWeek === 1 ? '' : 's') : 'WEEK GOAL ✔') + '</span></div>' + bar(tg.weekPct, 'cyan') +
+      '<button class="btn pink block hero-btn" data-goto="run">▶ ' + (tg.runs ? 'LOG ANOTHER RUN' : 'LOG TODAY’S RUN') + '</button></section>';
     if (shoe) {
       var sm = F.shoeMiles(shoe, state.runs), st = F.shoeStatus(sm);
       if (st.level !== 'ok') h += '<div class="alert ' + (st.level === 'warn' ? '' : 'danger') + '" data-testid="shoe-alert">👟 ' + esc(shoe.name) + ': ' + sm.toFixed(0) + ' mi — ' + st.label + '. ' + esc(st.msg) + '</div>';
     }
-    // today
-    h += '<section class="card memphis"><h3>TODAY · ' + F.fmtShort(t).toUpperCase() + '</h3>' +
-      '<div class="row spread"><div><div class="big-num" data-testid="cal-today">' + cal + '</div><div class="muted">of ' + goal + ' cal · ' + Math.max(goal - cal, 0) + ' left</div></div>' +
-      '<div style="text-align:right"><div class="big-num" style="color:var(--volt);text-shadow:0 0 10px var(--volt)">' + F.currentStreak(state.runs, t) + '</div><div class="muted">day run streak</div></div></div>' +
-      '<div style="margin-top:10px">' + bar(cal / goal * 100, cal > goal ? '' : 'cyan') + '</div>' +
-      '<div class="row" style="margin-top:12px"><button class="btn block" data-goto="food">+ FOOD</button><button class="btn pink block" data-goto="run">+ RUN</button></div></section>';
-    // water vs coke
-    h += '<section class="card hot" data-testid="versus"><h3>WATER VS DIET COKE<span class="sub">Tap to count today’s drinks · goal ' + state.profile.waterGoal + ' waters</span></h3>' +
-      '<div class="versus"><button class="tapper water" data-action="drink" data-kind="water" aria-label="Add water"><span class="e">💧</span><span class="n" data-testid="water-count">' + dr.water + '</span><span class="t">WATER</span></button>' +
-      '<div class="vs">VS</div>' +
-      '<button class="tapper coke" data-action="drink" data-kind="coke" aria-label="Add Diet Coke"><span class="e">🥤</span><span class="n" data-testid="coke-count">' + dr.coke + '</span><span class="t">DIET COKE</span></button></div>' +
-      '<div class="vsbar" aria-hidden="true"><div class="w" style="flex:' + (tot ? dr.water : 1) + '"></div><div class="c" style="flex:' + (tot ? dr.coke : 1) + '"></div></div>' +
-      '<div class="minus-row"><button data-action="undrink" data-kind="water">− water</button><span class="muted small">' + (tot ? (dr.water >= dr.coke ? '💧 Water is winning!' : '🥤 Diet Coke leads — hydrate!') : 'Round 1 — FIGHT!') + '</span><button data-action="undrink" data-kind="coke">− coke</button></div></section>';
+    h += weatherCard();
     // race countdown
     var r = F.raceInfo(state.race, t, state.runs);
     if (r) {
@@ -1455,33 +1347,38 @@ fieldset.rate legend { color: var(--muted); font-size: 13px; padding: 0 4px; }
         h += '</div></div>';
       }
       h += '</section>';
-    } else h += '<section class="card volt"><h3>RACE COUNTDOWN</h3><div class="muted">No race set yet.</div><button class="btn sm" style="margin-top:8px" data-action="race-form">SET A RACE</button></section>';
-    h += weatherCard();
-    h += journeyMini();
+    } else h += '<section class="card volt" data-testid="race-card"><h3>RACE COUNTDOWN</h3><div class="muted">No race set yet.</div><button class="btn sm" style="margin-top:8px" data-action="race-form">SET A RACE</button></section>';
     h += recapCard(t);
+    h += journeyMini();
+    // water vs coke
+    h += '<section class="card hot" data-testid="versus"><h3>WATER VS DIET COKE<span class="sub">Tap to count today’s drinks · goal ' + state.profile.waterGoal + ' waters</span></h3>' +
+      '<div class="versus"><button class="tapper water" data-action="drink" data-kind="water" aria-label="Add water"><span class="e">💧</span><span class="n" data-testid="water-count">' + dr.water + '</span><span class="t">WATER</span></button>' +
+      '<div class="vs">VS</div>' +
+      '<button class="tapper coke" data-action="drink" data-kind="coke" aria-label="Add Diet Coke"><span class="e">🥤</span><span class="n" data-testid="coke-count">' + dr.coke + '</span><span class="t">DIET COKE</span></button></div>' +
+      '<div class="vsbar" aria-hidden="true"><div class="w" style="flex:' + (tot ? dr.water : 1) + '"></div><div class="c" style="flex:' + (tot ? dr.coke : 1) + '"></div></div>' +
+      '<div class="minus-row"><button data-action="undrink" data-kind="water">− water</button><span class="muted small">' + (tot ? (dr.water >= dr.coke ? '💧 Water is winning!' : '🥤 Diet Coke leads — hydrate!') : 'Round 1 — FIGHT!') + '</span><button data-action="undrink" data-kind="coke">− coke</button></div></section>';
     // level
     h += '<section class="card"><h3>LEVEL ' + li.level + '<span class="sub">Every 10 lbs lost or 50 miles run = level up + badge</span></h3>' +
-      '<div class="small">⚖ ' + li.nextWeight.have + ' / 10 lbs to next</div>' + bar(li.nextWeight.have / 10 * 100, 'volt') +
-      '<div class="small" style="margin-top:8px">🏃 ' + li.nextMiles.have + ' / 50 mi to next</div>' + bar(li.nextMiles.have / 50 * 100, 'cyan') + '</section>';
+      '<div class="small">🏃 ' + li.nextMiles.have + ' / 50 mi to next</div>' + bar(li.nextMiles.have / 50 * 100, 'cyan') +
+      '<div class="small" style="margin-top:8px">⚖ ' + li.nextWeight.have + ' / 10 lbs to next</div>' + bar(li.nextWeight.have / 10 * 100, 'volt') + '</section>';
     var qt = Q.quoteFor(t);
     h += '<section class="quote-card" data-testid="daily-quote"><div class="q-sun" aria-hidden="true"></div><div class="q-label">DAILY DHARMA · ' + F.fmtShort(t).toUpperCase() + '</div>' +
       '<blockquote>“' + esc(qt.text) + '”</blockquote><div class="q-attr">— ' + esc(qt.author) + (qt.source ? '<span>' + esc(qt.source) + '</span>' : '') + '</div></section>';
     return h;
   }
   function recapCard(t) {
-    var rc = F.weeklyRecap(state, t), max = Math.max.apply(null, rc.days.map(function (d) { return d.cal; }).concat([1]));
-    var arrow = { down: '▼', up: '▲', flat: '■' }[rc.calTrend];
+    var rc = F.weeklyRecap(state, t), max = Math.max.apply(null, rc.days.map(function (d) { return d.miles; }).concat([1]));
+    var arrow = { down: '▼', up: '▲', flat: '■' }[rc.milesTrend];
     var h = '<section class="card" data-testid="recap"><h3>WEEKLY RECAP<span class="sub">' + F.fmtShort(rc.start) + ' – ' + F.fmtShort(rc.end) + ' (last 7 days)</span></h3><div class="vhs-label">' +
       '<div class="lbl-title"><span>REC ● SP</span><span>VOL. ' + F.weekStart(t).slice(5).replace('-', '/') + '</span></div>' +
       '<div class="stats"><div class="stat"><b data-testid="recap-miles">' + rc.miles.toFixed(1) + '</b><span>miles · ' + rc.runs + ' runs</span></div>' +
       '<div class="stat"><b data-testid="recap-pace">' + (rc.avgPace ? F.fmtPace(rc.avgPace) : '--:--') + '</b><span>avg pace /mi</span></div>' +
-      '<div class="stat"><b>' + (rc.avgCal == null ? '—' : rc.avgCal) + '</b><span>avg cal/day</span></div></div>' +
-      '<div class="spark" aria-label="Daily calories">' + rc.days.map(function (d) { return '<div class="' + (d.logged ? '' : 'empty') + '" title="' + d.date + ': ' + d.cal + ' cal" style="height:' + (d.logged ? Math.max(6, d.cal / max * 100) : 6) + '%"></div>'; }).join('') + '</div>' +
+      '<div class="stat"><b data-testid="recap-longest">' + rc.longest.toFixed(1) + '</b><span>longest run</span></div></div>' +
+      '<div class="spark" aria-label="Daily miles">' + rc.days.map(function (d) { return '<div class="' + (d.ran ? '' : 'empty') + '" title="' + d.date + ': ' + d.miles + ' mi" style="height:' + (d.ran ? Math.max(8, d.miles / max * 100) : 6) + '%"></div>'; }).join('') + '</div>' +
       '<div class="spark-days">' + rc.days.map(function (d) { return '<span>' + 'SMTWTFS'[F.parseISO(d.date).getDay()] + '</span>'; }).join('') + '</div>' +
-      '<div class="small" style="margin-top:8px">Calorie trend: <span class="trend ' + rc.calTrend + '" data-testid="recap-trend">' + arrow + ' ' +
-      (rc.calDelta == null ? 'not enough data' : (rc.calDelta > 0 ? '+' : '') + rc.calDelta + ' cal/day vs prior week') + '</span>' +
-      (rc.weightChange != null ? ' · Weight ' + (rc.weightChange > 0 ? '+' : '') + rc.weightChange + ' lbs' : '') +
-      ' · Miles vs prior wk: ' + (rc.miles - rc.prevMiles >= 0 ? '+' : '') + F.round1(rc.miles - rc.prevMiles) + '</div></div></section>';
+      '<div class="small" style="margin-top:8px">Miles vs prior week: <span class="trend ' + (rc.milesTrend === 'up' ? 'down' : rc.milesTrend === 'down' ? 'up' : 'flat') + '" data-testid="recap-trend">' + arrow + ' ' + (rc.milesDelta >= 0 ? '+' : '') + rc.milesDelta + ' mi</span>' +
+      (rc.paceDeltaSec != null ? ' · Pace ' + (rc.paceDeltaSec <= 0 ? Math.abs(rc.paceDeltaSec) + ' sec/mi faster' : rc.paceDeltaSec + ' sec/mi slower') : '') +
+      ' · ' + rc.runDays + '/7 run days' + (rc.weightChange != null ? ' · Weight ' + (rc.weightChange > 0 ? '+' : '') + rc.weightChange + ' lbs' : '') + '</div></div></section>';
     return h;
   }
 
@@ -1613,141 +1510,6 @@ fieldset.rate legend { color: var(--muted); font-size: 13px; padding: 0 4px; }
     h += recent.length ? '<ul class="list" style="margin-top:8px" data-testid="journal-entries">' + recent.map(function (r) {
       return '<li><div class="name"><b>' + (F.MOODS[r.mood] || '') + ' ' + (r.energy ? '⚡' + r.energy : '') + '</b> ' + F.fmtShort(r.date) + ' · ' + r.miles + ' mi @ ' + F.fmtPace(F.pace(r)) + (r.note ? '<span class="s">“' + esc(r.note) + '”</span>' : '') + '</div></li>'; }).join('') + '</ul>' : '';
     return h + '</section>';
-  }
-
-  // ---------- FOOD ----------
-  function foodRow(f, action) {
-    var smart = f.chain && F.isSmartPick(f);
-    return '<li><div class="name">' + esc(f.name) + (smart ? '<span class="tag">SMART PICK</span>' : '') +
-      '<span class="s">' + (f.chain ? esc(f.chain) + ' · ' : '') + (f.protein != null ? f.protein + 'g protein' : '') + (f.tip ? ' · ' + esc(f.tip) : '') + '</span></div>' +
-      '<span class="cal">' + f.cal + '</span><button class="add-btn" data-action="' + (action || 'add-food') + '" data-id="' + f.id + '" aria-label="Add ' + esc(f.name) + '">+</button></li>';
-  }
-  function renderFood() {
-    var t = today(), cal = F.dayCalories(state.food, t), goal = state.profile.calGoal || 2000, h = title('Food');
-    h += '<section class="card"><div class="row spread"><div><div class="big-num">' + cal + '</div><div class="muted">cal today · ' + Math.max(goal - cal, 0) + ' left</div></div><div style="width:45%">' + bar(cal / goal * 100, 'cyan') + '</div></div></section>';
-    h += '<section class="card hot"><h3>SEARCH FOOD</h3><input id="food-q" type="search" placeholder="Search foods & brands (e.g. banana, Chobani)" autocomplete="off" value="' + esc(state.ui.q || '') + '" aria-label="Search foods">' +
-      '<ul class="list" id="food-results" data-testid="food-results"></ul><div id="online-results" data-testid="online-results"></div></section>';
-    h += '<section class="card volt"><h3>BREAKFAST QUICK-PICKS<span class="sub">One tap adds it to today’s log</span></h3><div class="qp-grid">' +
-      D.BREAKFAST_PICKS.map(function (p) { return '<button class="qp" data-action="add-pick" data-id="' + p.id + '"><span class="e">' + p.icon + '</span><b>' + esc(p.name) + '</b><span class="c">' + p.cal + ' CAL · ' + p.protein + 'G PRO</span></button>'; }).join('') + '</div></section>';
-    var chains = ['All'].concat(D.DRIVE_THRU.map(function (d) { return d.chain; }).filter(function (c, i, a) { return a.indexOf(c) === i; }));
-    var list = D.DRIVE_THRU.filter(function (d) { return (state.ui.chain === 'All' || d.chain === state.ui.chain) && (!state.ui.smartOnly || F.isSmartPick(d)); })
-      .sort(function (a, b) { return (F.isSmartPick(b) - F.isSmartPick(a)) || a.cal - b.cal; });
-    h += '<section class="card"><h3>DRIVE-THRU PICKS<span class="sub">Chain-published calories. SMART PICK = ≤350 cal with solid protein.</span></h3>' +
-      '<div class="chips">' + chains.map(function (c) { return '<button class="chip" data-action="chain" data-chain="' + esc(c) + '" aria-pressed="' + (state.ui.chain === c) + '">' + esc(c) + '</button>'; }).join('') +
-      '<button class="chip" data-action="smart" aria-pressed="' + !!state.ui.smartOnly + '">★ Smart only</button></div>' +
-      '<ul class="list" data-testid="drive-thru">' + list.map(function (f) { return foodRow(f); }).join('') + '</ul></section>';
-    h += '<section class="card"><h3>CUSTOM ENTRY</h3><form id="custom-food" class="row"><input class="grow" name="name" placeholder="Food" required aria-label="Food name"><input name="cal" type="number" inputmode="numeric" min="0" max="5000" placeholder="Cal" style="width:90px" required aria-label="Calories"><button class="add-btn" aria-label="Add custom food">+</button></form></section>';
-    var log = state.food.filter(function (f) { return f.date === t; });
-    h += '<section class="card"><h3>TODAY’S LOG</h3>' + (log.length ? '<ul class="list" data-testid="food-log">' + log.map(function (f) {
-      return '<li><div class="name">' + esc(f.name) + '</div><span class="cal">' + f.cal + '</span><button class="del" data-action="del-food" data-id="' + f.id + '" aria-label="Remove ' + esc(f.name) + '">✕</button></li>'; }).join('') + '</ul>' : '<div class="empty-note">Nothing logged yet today.</div>') + '</section>';
-    return h;
-  }
-  function renderResults() {
-    var el = $('#food-results'); if (!el) return;
-    var q = state.ui.q || '';
-    var res = F.searchFoods(D.ALL_FOODS, q).slice(0, 8);
-    el.innerHTML = q ? '<li class="src-head">BUILT-IN</li>' + (res.length ? res.map(function (f) { return foodRow(f); }).join('') : '<li class="muted">No built-in match.</li>') : '';
-    renderOnline();
-    queueOnline(q);
-  }
-
-  // ---------- online food search (USDA FoodData Central + Open Food Facts) ----------
-  var ONLINE_CACHE = 'fitnessArcade.foodCache';
-  var online = { q: '', usda: null, off: null, err: {}, loading: {} }, onlineItems = {}, onlineTimer = null, onlineSeq = 0;
-  function cacheGet(q) { try { var c = JSON.parse(localStorage.getItem(ONLINE_CACHE)) || {}; var e = c[q]; return e && Date.now() - e.at < 864e5 ? e : null; } catch (x) { return null; } }
-  function cachePut(q, src, items) {
-    try { var c = JSON.parse(localStorage.getItem(ONLINE_CACHE)) || {}; c[q] = c[q] || { at: Date.now() }; c[q][src] = items;
-      var keys = Object.keys(c); if (keys.length > 40) keys.sort(function (a, b) { return c[a].at - c[b].at; }).slice(0, keys.length - 40).forEach(function (k) { delete c[k]; });
-      localStorage.setItem(ONLINE_CACHE, JSON.stringify(c)); } catch (x) {}
-  }
-  function queueOnline(q) {
-    q = (q || '').trim().toLowerCase(); clearTimeout(onlineTimer);
-    if (q.length < 3) { online = { q: '', usda: null, off: null, err: {}, loading: {} }; renderOnline(); return; }
-    if (q === online.q) return;
-    onlineTimer = setTimeout(function () { searchOnline(q); }, params.get('fastsearch') ? 50 : 650);
-  }
-  function fetchJson(url, ms, init) {
-    var ctl = typeof AbortController !== 'undefined' ? new AbortController() : null, to = setTimeout(function () { if (ctl) ctl.abort(); }, ms || 9000);
-    var opts = Object.assign({}, init || {}); if (ctl) opts.signal = ctl.signal;
-    return fetch(url, opts).then(function (r) {
-      clearTimeout(to); if (!r.ok) { var e = new Error('HTTP ' + r.status); e.status = r.status; throw e; } return r.json();
-    }, function (e) { clearTimeout(to); throw e; });
-  }
-  function errMsg(src, e) {
-    if (typeof navigator !== 'undefined' && navigator.onLine === false) return 'offline';
-    if (e.name === 'AbortError') return src + ' timed out';
-    if (e.status === 429) return src === 'USDA' ? 'USDA hourly limit reached (DEMO_KEY) — add a free key in ⚙ Settings' : src + ' is rate-limiting, try again soon';
-    if (e.status === 403 || e.status === 401) return 'USDA key rejected — check it in ⚙ Settings';
-    if (e.status) return src + ' error (' + e.status + ')';
-    return src + ' unreachable';
-  }
-  function searchOnline(q) {
-    var seq = ++onlineSeq; online = { q: q, usda: null, off: null, err: {}, loading: {} };
-    var c = cacheGet(q);
-    var key = state.profile.usdaKey;
-    function usdaFetch() {
-      var rq = API.usdaRequest(q, key);
-      return fetchJson(rq.url, 10000, rq.init).catch(function (e) {   // retry once as a simple GET (no preflight) on gateway errors
-        if (e.status === 400 || e.status >= 500 || e.name === 'TypeError') return fetchJson(API.usdaFallbackUrl(q, key), 10000);
-        throw e;
-      });
-    }
-    [['usda', usdaFetch, API.parseUsda, 'USDA'], ['off', function () { return fetchJson(API.offUrl(q), 15000); }, API.parseOff, 'Open Food Facts']].forEach(function (src) {
-      var key = src[0];
-      if (c && c[key]) { online[key] = c[key]; return; }
-      if (typeof navigator !== 'undefined' && navigator.onLine === false) { online.err[key] = 'offline'; return; }
-      online.loading[key] = true;
-      src[1]().then(function (j) { if (seq !== onlineSeq) return; online[key] = src[2](j).slice(0, 8); cachePut(q, key, online[key]); })
-        .catch(function (e) { if (seq !== onlineSeq) return; online.err[key] = errMsg(src[3], e); })
-        .then(function () { if (seq !== onlineSeq) return; online.loading[key] = false; renderOnline(); });
-    });
-    renderOnline();
-  }
-  function onlineRow(it) {
-    onlineItems[it.id] = it; var sv = API.defaultServing(it);
-    return '<li><div class="name">' + esc(it.name) + '<span class="s">' + (it.brand ? esc(it.brand) + ' · ' : '') + Math.round(it.kcal100) + ' cal/100 g' +
-      (sv.grams !== 100 ? ' · ' + API.kcalFor(it, sv.grams) + ' cal per ' + esc(sv.label) : '') + '</span></div>' +
-      '<span class="cal">' + API.kcalFor(it, sv.grams) + '</span><button class="add-btn" data-action="online-pick" data-id="' + esc(it.id) + '" aria-label="Choose serving for ' + esc(it.name) + '">+</button></li>';
-  }
-  function renderOnline() {
-    var el = $('#online-results'); if (!el) return;
-    el.dataset.q = online.q; el.dataset.busy = (online.loading.usda || online.loading.off) ? '1' : '0';
-    if (!online.q) { el.innerHTML = (state.ui.q || '').trim().length > 0 && (state.ui.q || '').trim().length < 3 ? '<div class="muted small" style="margin-top:8px">Type 3+ letters to search online databases too.</div>' : ''; return; }
-    var off = online.err.usda === 'offline' && online.err.off === 'offline';
-    if (off) { el.innerHTML = '<div class="net-note" data-testid="online-status">📴 You’re offline — showing built-in foods only.</div>'; return; }
-    var h = '';
-    [['usda', 'USDA FOODDATA CENTRAL'], ['off', 'OPEN FOOD FACTS · BRANDS']].forEach(function (s) {
-      var k = s[0];
-      h += '<ul class="list" data-testid="online-' + k + '"><li class="src-head">' + s[1] + '</li>';
-      if (online.loading[k]) h += '<li class="muted small" data-testid="online-status">📡 Searching…</li>';
-      else if (online.err[k]) h += '<li class="net-note" data-testid="online-status">⚠ ' + esc(online.err[k]) + '. Built-in results above still work.</li>';
-      else if (online[k] && online[k].length) h += online[k].map(onlineRow).join('');
-      else if (online[k]) h += '<li class="muted small">No matches.</li>';
-      h += '</ul>';
-    });
-    el.innerHTML = h;
-  }
-  function servingModal(it) {
-    var opts = it.servings.map(function (s, i) { return '<option value="' + i + '">' + esc(s.label) + '</option>'; }).join('') + '<option value="custom">Custom grams…</option>';
-    overlay('<div class="modal" role="dialog" aria-label="Choose serving"><h3>ADD FOOD</h3><div><b>' + esc(it.name) + '</b><div class="muted small">' + (it.brand ? esc(it.brand) + ' · ' : '') + esc(it.source) + ' · ' + Math.round(it.kcal100) + ' cal per 100 g' + (it.protein100 != null ? ' · ' + (Math.round(it.protein100 * 10) / 10) + ' g protein/100 g' : '') + '</div></div>' +
-      '<form id="serving-form" data-id="' + esc(it.id) + '" style="margin-top:12px"><div class="field"><label for="sv-size">Serving size</label><select id="sv-size" name="size">' + opts + '</select></div>' +
-      '<div class="field" id="sv-grams-wrap" style="display:none"><label for="sv-grams">Grams</label><input id="sv-grams" name="grams" type="number" inputmode="decimal" min="1" max="3000" value="100"></div>' +
-      '<div class="field"><label for="sv-qty">How many servings</label><input id="sv-qty" name="qty" type="number" inputmode="decimal" min="0.25" max="20" step="0.25" value="1"></div>' +
-      '<div class="row spread" style="margin:6px 0 12px"><span class="muted">Total</span><span class="big-num" id="sv-total" data-testid="serving-total">0</span></div>' +
-      '<button class="btn pink block">ADD TO LOG</button></form><button class="btn ghost block" style="margin-top:10px" data-action="close-overlay">CANCEL</button></div>');
-    updateServing();
-  }
-  function servingGrams() {
-    var f = $('#serving-form'); if (!f) return null; var it = onlineItems[f.dataset.id];
-    var v = f.size.value; $('#sv-grams-wrap').style.display = v === 'custom' ? '' : 'none';
-    return { it: it, grams: v === 'custom' ? parseFloat(f.grams.value) || 0 : it.servings[+v].grams, label: v === 'custom' ? (parseFloat(f.grams.value) || 0) + ' g' : it.servings[+v].label, qty: parseFloat(f.qty.value) || 0 };
-  }
-  function updateServing() { var g = servingGrams(); if (g) $('#sv-total').textContent = API.kcalFor(g.it, g.grams, g.qty) + ' cal'; }
-  function findFood(id) { return D.ALL_FOODS.concat(D.BREAKFAST_PICKS).filter(function (f) { return f.id === id; })[0]; }
-  function addFood(f) {
-    var item = { id: uid(), date: today(), name: f.chain ? f.chain + ' ' + f.name : f.name, cal: Math.round(f.cal) };
-    state.food.push(item); save(); render();
-    toast('+' + item.cal + ' cal · ' + item.name, function () { state.food = state.food.filter(function (x) { return x.id !== item.id; }); save(); render(); });
   }
 
   // ---------- RUN ----------
@@ -1897,10 +1659,9 @@ fieldset.rate legend { color: var(--muted); font-size: 13px; padding: 0 4px; }
   function settings() {
     var p = state.profile;
     overlay('<div class="modal" role="dialog" aria-label="Settings"><h3>SETTINGS</h3><form id="settings-form">' +
-      '<div class="grid2"><div class="field"><label>Initials (3)</label><input name="initials" maxlength="3" value="' + esc(p.initials) + '"></div><div class="field"><label>Daily calorie goal</label><input name="calGoal" type="number" value="' + esc(p.calGoal) + '"></div>' +
+      '<div class="grid2"><div class="field"><label>Initials (3)</label><input name="initials" maxlength="3" value="' + esc(p.initials) + '"></div><div class="field"><label>Daily run goal (mi)</label><input name="dailyGoal" type="number" step="0.1" min="0.1" value="' + esc(p.dailyGoal) + '"></div><div class="field"><label>Weekly goal (mi)</label><input name="weeklyGoal" type="number" step="0.5" min="1" value="' + esc(p.weeklyGoal) + '"></div>' +
       '<div class="field"><label>Starting weight</label><input name="startWeight" type="number" step="0.1" value="' + esc(p.startWeight || '') + '"></div><div class="field"><label>Start date</label><input name="startDate" type="date" value="' + esc(p.startDate || '') + '"></div>' +
       '<div class="field"><label>Goal weight</label><input name="goalWeight" type="number" step="0.1" value="' + esc(p.goalWeight || '') + '"></div><div class="field"><label>Water goal (glasses)</label><input name="waterGoal" type="number" value="' + esc(p.waterGoal) + '"></div></div>' +
-      '<div class="field"><label>USDA FoodData Central API key (optional — free at api.data.gov; blank = DEMO_KEY, limited per hour)</label><input name="usdaKey" autocomplete="off" value="' + esc(p.usdaKey || '') + '" placeholder="DEMO_KEY"></div>' +
       '<button class="btn block">SAVE</button></form><hr style="border-color:#444;margin:16px 0">' +
       '<div class="row wrap"><button class="btn sm cyan" data-action="export">EXPORT DATA</button><label class="btn sm cyan">IMPORT<input type="file" accept="application/json" class="sr" id="import-file"></label><button class="btn sm" data-action="demo">LOAD DEMO</button><button class="btn sm pink" data-action="reset">RESET ALL</button></div>' +
       '<div class="muted small" style="margin-top:10px">Data is saved in this browser on this device.</div><button class="btn ghost block" style="margin-top:12px" data-action="close-overlay">CLOSE</button></div>');
@@ -1919,7 +1680,7 @@ fieldset.rate legend { color: var(--muted); font-size: 13px; padding: 0 4px; }
   function demo() {
     var t = today(), s = blank(), rnd = 7;
     function rand() { rnd = (rnd * 9301 + 49297) % 233280; return rnd / 233280; }
-    s.profile = { initials: 'JON', startWeight: 248, startDate: F.addDays(t, -120), goalWeight: 215, calGoal: 2100, waterGoal: 8 };
+    s.profile = { initials: 'JON', startWeight: 248, startDate: F.addDays(t, -120), goalWeight: 215, dailyGoal: 4, weeklyGoal: 25, waterGoal: 8 };
     s.shoes = [{ id: 'sh1', name: 'Brooks Ghost 15', startMiles: 120, retired: true }, { id: 'sh2', name: 'Nike Pegasus 41', startMiles: 150 }];
     s.activeShoe = 'sh2';
     for (var i = 120; i >= 0; i--) {
@@ -1939,15 +1700,6 @@ fieldset.rate legend { color: var(--muted); font-size: 13px; padding: 0 4px; }
       if (i % 4 === 0) s.weights.push({ id: 'w' + i, date: d, lbs: F.round1(248 - (120 - i) * 0.165 + (rand() - 0.5) * 1.2) });
     }
     s.weights[0].lbs = 248;
-    var picks = D.BREAKFAST_PICKS, mains = D.FOODS;
-    for (var j = 13; j >= 0; j--) {
-      var dd = F.addDays(t, -j), target = j > 6 ? 2150 : 1900;
-      var p = picks[j % picks.length]; s.food.push({ id: 'fb' + j, date: dd, name: p.name, cal: p.cal });
-      if (j === 0) { s.food.push({ id: 'fd0', date: dd, name: 'Starbucks Egg White & Roasted Red Pepper Egg Bites', cal: 170 }); s.food.push({ id: 'fd1', date: dd, name: 'Chicken breast, 4 oz cooked', cal: 187 }); s.food.push({ id: 'fd2', date: dd, name: 'Brown rice, 1 cup cooked', cal: 216 }); continue; }
-      var left = target - p.cal + Math.round((rand() - 0.5) * 300);
-      s.food.push({ id: 'fl' + j, date: dd, name: 'Turkey sandwich', cal: 350 }); left -= 350;
-      s.food.push({ id: 'fdn' + j, date: dd, name: 'Dinner', cal: left });
-    }
     s.drinks[t] = { water: 5, coke: 2 };
     s.race = { name: 'Turkey Trot', distance: '10K', date: F.addDays(t, 46), targetTime: '58:00' };
     var li = F.levelInfo(s.profile, s.weights, s.runs);
@@ -1977,13 +1729,12 @@ fieldset.rate legend { color: var(--muted); font-size: 13px; padding: 0 4px; }
   }
 
   // ---------- main render ----------
-  var SCREENS = { home: renderHome, food: renderFood, run: renderRun, map: renderMap, progress: renderProgress, scores: renderScores };
+  var SCREENS = { home: renderHome, run: renderRun, map: renderMap, progress: renderProgress, scores: renderScores };
   function render() {
     document.documentElement.setAttribute('data-theme', state.theme || 'sunset');
     var tab = state.ui.tab in SCREENS ? state.ui.tab : 'home';
     $('#main').innerHTML = header() + '<div class="screen active" data-screen="' + tab + '">' + SCREENS[tab]() + '</div>';
     document.querySelectorAll('nav.tabs button').forEach(function (b) { b.setAttribute('aria-selected', b.dataset.goto === tab); });
-    if (tab === 'food') renderResults();
     if (tab === 'home') fetchWeather();
   }
   function go(tab) { state.ui.tab = tab; save(); render(); window.scrollTo(0, 0); }
@@ -1996,11 +1747,6 @@ fieldset.rate legend { color: var(--muted); font-size: 13px; padding: 0 4px; }
       case 'drink': case 'undrink':
         var dr = state.drinks[t] = Object.assign({ water: 0, coke: 0 }, state.drinks[t]);
         dr[a.dataset.kind] = Math.max(0, dr[a.dataset.kind] + (act === 'drink' ? 1 : -1)); save(); render(); break;
-      case 'add-food': case 'add-pick': addFood(findFood(id)); break;
-      case 'online-pick': servingModal(onlineItems[id]); break;
-      case 'del-food': state.food = state.food.filter(function (f) { return f.id !== id; }); save(); render(); break;
-      case 'chain': state.ui.chain = a.dataset.chain; save(); render(); break;
-      case 'smart': state.ui.smartOnly = !state.ui.smartOnly; save(); render(); break;
       case 'undo': if (undoFn) { undoFn(); undoFn = null; } $('#toast').classList.remove('show'); break;
       case 'del-run': state.runs = state.runs.filter(function (r) { return r.id !== id; }); save(); render(); break;
       case 'del-weight': state.weights = state.weights.filter(function (w) { return w.id !== id; }); save(); render(); break;
@@ -2029,12 +1775,9 @@ fieldset.rate legend { color: var(--muted); font-size: 13px; padding: 0 4px; }
     }
   });
   document.addEventListener('input', function (e) {
-    if (e.target.id === 'food-q') { state.ui.q = e.target.value; renderResults(); }
     if (e.target.closest && e.target.closest('#run-form')) updateGhostPreview();
-    if (e.target.closest && e.target.closest('#serving-form')) updateServing();
   });
   document.addEventListener('change', function (e) {
-    if (e.target.closest && e.target.closest('#serving-form')) updateServing();
     if (e.target.dataset && e.target.dataset.action === 'ghost-route') { state.ui.ghostRoute = e.target.value; save(); render(); return; }
     var k = e.target.dataset && e.target.dataset.photo; if (k && e.target.files[0]) savePhoto(k, e.target.files[0]);
     if (e.target.id === 'import-file' && e.target.files[0]) {
@@ -2043,7 +1786,6 @@ fieldset.rate legend { color: var(--muted); font-size: 13px; padding: 0 4px; }
   });
   document.addEventListener('submit', function (e) {
     e.preventDefault(); var f = e.target, fd = new FormData(f), before;
-    if (f.id === 'custom-food') { addFood({ name: fd.get('name').trim(), cal: +fd.get('cal') }); }
     if (f.id === 'run-form') {
       var mi = parseFloat(fd.get('miles')), min = F.parseDuration(fd.get('time'));
       if (!(mi > 0) || !(min > 0)) { toast('Enter miles and a time like 30:00'); return; }
@@ -2078,12 +1820,6 @@ fieldset.rate legend { color: var(--muted); font-size: 13px; padding: 0 4px; }
       if (tt && !(F.parseDuration(tt) > 0)) { toast('Target time like 55:00 or 1:59:00'); return; }
       state.race = { name: fd.get('name').trim(), distance: fd.get('distance'), date: fd.get('date'), targetTime: tt }; save(); closeOverlay(); render();
     }
-    if (f.id === 'serving-form') {
-      var g = servingGrams(); if (!g || !(g.grams > 0) || !(g.qty > 0)) { toast('Pick a serving size and amount'); return; }
-      closeOverlay();
-      addFood({ name: g.it.name + (g.it.brand ? ' (' + g.it.brand + ')' : '') + ' · ' + (g.qty !== 1 ? g.qty + ' × ' : '') + g.label, cal: API.kcalFor(g.it, g.grams, g.qty) });
-      return;
-    }
     if (f.id === 'geo-form') {
       var q = $('#geo-q').value.trim(); if (!q) return; $('#geo-results').innerHTML = '<li class="muted">Searching…</li>';
       fetch(F.geocodeUrl(q)).then(function (r) { return r.json(); }).then(function (d) {
@@ -2100,15 +1836,15 @@ fieldset.rate legend { color: var(--muted); font-size: 13px; padding: 0 4px; }
     }
     if (f.id === 'settings-form') {
       var p = state.profile;
-      p.initials = (fd.get('initials') || 'JON').toUpperCase().slice(0, 3); p.calGoal = +fd.get('calGoal') || 2000;
+      p.initials = (fd.get('initials') || 'JON').toUpperCase().slice(0, 3); p.dailyGoal = parseFloat(fd.get('dailyGoal')) || 3; p.weeklyGoal = parseFloat(fd.get('weeklyGoal')) || 15;
       p.startWeight = parseFloat(fd.get('startWeight')) || null; p.startDate = fd.get('startDate') || null;
-      p.goalWeight = parseFloat(fd.get('goalWeight')) || null; p.waterGoal = +fd.get('waterGoal') || 8; p.usdaKey = (fd.get('usdaKey') || '').trim();
+      p.goalWeight = parseFloat(fd.get('goalWeight')) || null; p.waterGoal = +fd.get('waterGoal') || 8;
       save(); closeOverlay(); render();
     }
   });
 
   if (params.get('demo') === '1' && !localStorage.getItem(KEY)) { state = demo(); save(); }
-  if (params.get('tab')) state.ui.tab = params.get('tab');
+  if (params.get('tab') && ['home', 'run', 'map', 'progress', 'scores'].indexOf(params.get('tab')) !== -1) state.ui.tab = params.get('tab');
   window.FitnessArcade = { demo: demo, getState: function () { return state; }, setState: function (s) { state = s; save(); render(); }, render: render };
   render();
 })();
