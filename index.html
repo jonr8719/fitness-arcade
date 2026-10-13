@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<!-- Grit standalone build 2026-10-13T17:25:47.755Z · Fonts: Inter (SIL OFL 1.1) -->
+<!-- Grit standalone build 2026-10-13T18:29:17.376Z · Fonts: Inter (SIL OFL 1.1) -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#000000">
@@ -204,11 +204,24 @@ form.row input { width: auto; } form.row input.grow { flex: 1 1 0; } form.row .b
 .bar .tick { position: absolute; top: 0; bottom: 0; width: 2px; background: rgba(0,0,0,.6); }
 @keyframes fill { from { transform: scaleX(0); } }
 
-/* journeys */
-.checkpoints { display: grid; gap: 10px; }
-.postcard { padding: 14px; border-radius: var(--r-sm); background: var(--bg1); border-left: 3px solid var(--green); }
-.cp-mile { font-size: 12px; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: .06em; }
-.cp-name { font-size: 17px; font-weight: 700; }
+/* routes */
+.route-head { display: flex; align-items: flex-start; gap: 10px; }
+.route-head h3 { font-size: 19px; font-weight: 800; }
+.icon-btn.sm { width: 44px; height: 44px; background: var(--card2); }
+.icon-btn.sm svg { width: 18px; height: 18px; }
+.route-notes { margin: 8px 0 0; }
+.route-best { display: flex; align-items: flex-end; justify-content: space-between; gap: 14px; margin: 16px 0; padding: 14px; border-radius: var(--r-sm); background: linear-gradient(150deg, #0d1a2b, var(--bg1) 80%); }
+.rb-v { font-size: 36px; font-weight: 800; letter-spacing: -.04em; line-height: 1.1; color: var(--green); }
+.spark { display: flex; align-items: flex-end; gap: 4px; height: 52px; width: 112px; flex: none; }
+.spark i { flex: 1; background: var(--navy2); border-radius: 3px; animation: grow .6s var(--ease) both; transform-origin: bottom; }
+.spark i.last { background: var(--muted); } .spark i.best { background: var(--green); }
+.stats.r4 b { font-size: 22px; }
+.route-runs { margin-top: 14px; border-top: 1px solid var(--line); }
+.route-runs summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; color: var(--green); font-weight: 600; font-size: 14px; list-style: none; }
+.route-runs summary::-webkit-details-marker { display: none; }
+.route-runs li { gap: 10px; font-size: 14px; }
+.new-route { margin: -4px 0 4px; padding: 12px 12px 0; border-radius: var(--r-sm); background: var(--bg1); border: 1px dashed var(--line2); }
+.new-route[hidden] { display: none; }
 
 /* charts */
 .chart { width: 100%; height: auto; display: block; overflow: visible; }
@@ -318,7 +331,7 @@ nav.tabs svg { width: 24px; height: 24px; }
 <button data-goto="run"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg><span>Log</span></button>
 <button data-goto="scores"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0zM8 6H5v1.5A3.5 3.5 0 0 0 8.5 11M16 6h3v1.5a3.5 3.5 0 0 1-3.5 3.5M12 13v4M8.5 20h7M10 17h4v3h-4z"/></svg><span>Records</span></button>
 <button data-goto="progress"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19h16M6 15l4-4 3 3 5-6"/><path d="M15 8h3v3"/></svg><span>Progress</span></button>
-<button data-goto="map"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4 4 6v14l5-2 6 2 5-2V4l-5 2-6-2zM9 4v14M15 6v14"/></svg><span>Journeys</span></button>
+<button data-goto="routes"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="18" r="2"/><circle cx="18" cy="6" r="2"/><path d="M8 18h7.5a3.5 3.5 0 0 0 0-7h-7a3.5 3.5 0 0 1 0-7H16"/></svg><span>Routes</span></button>
 </div></nav>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div class="overlay" id="overlay"></div>
@@ -537,52 +550,6 @@ nav.tabs svg { width: 24px; height: 24px; }
     };
   }
 
-  // ---------- virtual journeys ----------
-  // Distances are approximate. Landmark mileages are approximate cumulative miles along the route, in order.
-  var JOURNEYS = [
-    { id: 'natchez', name: 'Natchez Trace Parkway', from: 'Natchez, MS', to: 'Nashville, TN', miles: 444,
-      note: '444-mile parkway; landmark miles follow the parkway mileposts.',
-      stops: [[0, 'Natchez, MS', 'Southern terminus on the Mississippi River bluffs'], [10, 'Emerald Mound', 'One of the largest Mississippian-era mounds in the U.S.'],
-        [15, 'Mount Locust', 'Historic 1780s inn (“stand”) on the Old Trace'], [105, 'Ross Barnett Reservoir', 'Parkway skirts the reservoir near Jackson, MS'],
-        [266, 'Tupelo, MS', 'Parkway headquarters & visitor center'], [308, 'Alabama state line', 'A short run across NW Alabama'],
-        [327, 'Colbert Ferry', 'Tennessee River crossing'], [386, 'Meriwether Lewis Monument', 'Grave site of the Lewis & Clark explorer'],
-        [438, 'Double Arch Bridge', 'Award-winning arch bridge over TN-96'], [444, 'Nashville, TN', 'Northern terminus — home stretch to Murfreesboro!']] },
-    { id: 'route66', name: 'Route 66', from: 'Chicago, IL', to: 'Santa Monica, CA', miles: 2448,
-      note: 'Historic route length is usually cited as ~2,448 mi; landmark positions are approximate.',
-      stops: [[0, 'Chicago, IL', '“Begin Route 66” sign on Adams St'], [225, 'Springfield, IL', 'Lincoln’s hometown'],
-        [340, 'St. Louis, MO', 'Gateway Arch & Chain of Rocks Bridge'], [655, 'Galena, KS', 'Route 66’s short Kansas stretch'],
-        [775, 'Tulsa, OK', 'Blue Whale of Catoosa just up the road'], [895, 'Oklahoma City, OK', 'Pops 66 soda ranch in Arcadia'],
-        [1185, 'Amarillo, TX', 'Cadillac Ranch'], [1240, 'Adrian, TX', 'Midpoint Café'], [1510, 'Albuquerque, NM', 'Neon along Central Ave'],
-        [1665, 'Gallup, NM', 'El Rancho Hotel'], [1775, 'Holbrook, AZ', 'Wigwam Motel & Petrified Forest'], [1810, 'Winslow, AZ', 'Standin’ on the Corner Park'],
-        [1880, 'Flagstaff, AZ', 'Gateway to the Grand Canyon'], [1965, 'Seligman, AZ', 'Birthplace of Historic Route 66'],
-        [2045, 'Kingman, AZ', 'Route 66 museum'], [2110, 'Needles, CA', 'Into the Mojave'], [2275, 'Barstow, CA', 'Desert crossroads'],
-        [2360, 'San Bernardino, CA', 'Original McDonald’s site'], [2448, 'Santa Monica Pier', '“End of the Trail” sign']] },
-    { id: 'at', name: 'Appalachian Trail', from: 'Springer Mtn, GA', to: 'Katahdin, ME', miles: 2197,
-      note: 'Official length changes yearly (~2,197 mi in 2024); landmark miles are approximate northbound trail miles.',
-      stops: [[0, 'Springer Mountain, GA', 'Southern terminus'], [31, 'Neels Gap, GA', 'Mountain Crossings outfitter'], [78, 'GA/NC line', 'First state down'],
-        [166, 'Fontana Dam, NC', 'Gateway to the Smokies'], [200, 'Clingmans Dome, TN', 'Highest point on the AT (6,643 ft)'], [275, 'Hot Springs, NC', 'Trail runs down Main St'],
-        [470, 'Damascus, VA', '“Trail Town USA”'], [500, 'Grayson Highlands, VA', 'Wild ponies'], [710, 'McAfee Knob, VA', 'Most photographed spot on the AT'],
-        [1025, 'Harpers Ferry, WV', 'ATC HQ — the “psychological halfway”'], [1100, 'Pine Grove Furnace, PA', 'Half-gallon ice cream challenge near halfway'],
-        [1295, 'Delaware Water Gap', 'PA/NJ line'], [1405, 'Bear Mountain, NY', 'Lowest point on the AT is nearby'], [1590, 'Mount Greylock, MA', 'Highest point in MA'],
-        [1750, 'Hanover, NH', 'Dartmouth College'], [1865, 'Mount Washington, NH', 'Home of the world’s worst weather'], [1915, 'Mahoosuc Notch, ME', '“Hardest mile” of the AT'],
-        [2080, 'Monson, ME', 'Start of the 100-Mile Wilderness'], [2197, 'Katahdin, ME', 'Northern terminus — summit sign!']] }
-  ];
-  function journeyProgress(journey, runs, startDate) {
-    var miles = round1(runs.reduce(function (s, r) { return s + (!startDate || r.date >= startDate ? r.miles : 0); }, 0));
-    var pos = Math.min(miles, journey.miles);
-    var passed = journey.stops.filter(function (st) { return st[0] <= pos; });
-    var next = journey.stops.filter(function (st) { return st[0] > pos; })[0] || null;
-    // date each stop was reached (walk runs chronologically)
-    var sorted = runs.filter(function (r) { return !startDate || r.date >= startDate; }).sort(function (a, b) { return a.date < b.date ? -1 : 1; });
-    var cum = 0, reached = {};
-    sorted.forEach(function (r) { cum += r.miles; journey.stops.forEach(function (st, i) { if (!reached[i] && cum >= st[0]) reached[i] = r.date; }); });
-    return {
-      miles: miles, pct: Math.min(100, miles / journey.miles * 100), done: miles >= journey.miles, remaining: round1(Math.max(0, journey.miles - miles)),
-      postcards: passed.map(function (st) { var i = journey.stops.indexOf(st); return { at: st[0], name: st[1], blurb: st[2], date: reached[i] || startDate }; }),
-      next: next ? { at: next[0], name: next[1], blurb: next[2], milesAway: round1(next[0] - pos) } : null
-    };
-  }
-
   // ---------- ghost runner ----------
   function normRoute(s) { return (s || '').trim().toLowerCase().replace(/\s+/g, ' '); }
   function routeNames(runs) {
@@ -610,6 +577,42 @@ nav.tabs svg { width: 24px; height: 24px; }
     return { ghost: g, ready: true, ghostTime: ghostTime, deltaSec: deltaSec, paceDeltaSec: paceDeltaSec, ahead: deltaSec < 0, tie: deltaSec === 0,
       // how far ahead/behind at the finish, in miles, at the ghost's pace
       gapMiles: Math.round(Math.abs(deltaSec / 60) / g.pace * 100) / 100 };
+  }
+
+  // ---------- saved routes ----------
+  var SURFACES = ['Paved', 'Trail', 'Track', 'Treadmill', 'Mixed'];
+  function median(a) { a = a.slice().sort(function (x, y) { return x - y; }); var m = a.length >> 1; return a.length ? (a.length % 2 ? a[m] : (a[m - 1] + a[m]) / 2) : null; }
+  function routeRuns(route, runs) { // runs on a saved route: linked by routeId, or by matching name
+    var key = normRoute(route.name);
+    return runs.filter(function (r) { return r.routeId ? r.routeId === route.id : normRoute(r.route) === key; });
+  }
+  // Turn free-text route names on runs into saved routes (idempotent). mkId() makes new ids.
+  function migrateRoutes(routes, runs, mkId) {
+    routes = Array.isArray(routes) ? routes.filter(function (r) { return r && r.id && r.name; }) : [];
+    var byName = {}; routes.forEach(function (r) { byName[normRoute(r.name)] = r; });
+    var added = 0;
+    runs.forEach(function (r) {
+      var k = normRoute(r.route);
+      if (r.routeId && routes.some(function (x) { return x.id === r.routeId; })) { r.route = routes.filter(function (x) { return x.id === r.routeId; })[0].name; return; }
+      if (r.routeId) delete r.routeId;
+      if (!k) return;
+      if (!byName[k]) { byName[k] = { id: mkId(), name: r.route.trim().replace(/\s+/g, ' '), miles: null, surface: '', location: '', notes: '' }; routes.push(byName[k]); added++; }
+      r.routeId = byName[k].id; r.route = byName[k].name;
+    });
+    routes.forEach(function (rt) { if (!(rt.miles > 0)) { var m = median(routeRuns(rt, runs).map(function (r) { return r.miles; })); rt.miles = m ? Math.round(m * 100) / 100 : null; } });
+    return { routes: routes, added: added };
+  }
+  function routeStats(route, runs) {
+    var list = routeRuns(route, runs).filter(function (r) { return r.miles > 0 && r.minutes > 0; }).sort(function (a, b) { return a.date < b.date ? 1 : a.date > b.date ? -1 : 0; });
+    if (!list.length) return { count: 0, runs: [], best: null, last: null, avgPace: null, trend: [], trendSec: null };
+    var best = list.slice().sort(function (a, b) { return pace(a) - pace(b); })[0];
+    var avgPace = list.reduce(function (s, r) { return s + r.minutes; }, 0) / list.reduce(function (s, r) { return s + r.miles; }, 0);
+    var trend = list.slice(0, 8).reverse().map(function (r) { return { date: r.date, pace: pace(r), id: r.id }; });
+    // recent 3 vs the 3 before (negative = getting faster)
+    var avg = function (a) { return a.reduce(function (s, r) { return s + r.minutes; }, 0) / a.reduce(function (s, r) { return s + r.miles; }, 0); };
+    var trendSec = list.length >= 4 ? Math.round((avg(list.slice(0, 3)) - avg(list.slice(3, 6))) * 60) : null;
+    return { count: list.length, runs: list, best: best, bestPace: pace(best), last: list[0], avgPace: avgPace, trend: trend, trendSec: trendSec,
+      totalMiles: round1(list.reduce(function (s, r) { return s + r.miles; }, 0)) };
   }
 
   // ---------- weather tips ----------
@@ -775,7 +778,7 @@ nav.tabs svg { width: 24px; height: 24px; }
     weeklyRecap: weeklyRecap, todayGoal: todayGoal, drinksFor: drinksFor,
     RACE_DISTANCES: RACE_DISTANCES, raceInfo: raceInfo, MILESTONE_STEP: MILESTONE_STEP, weightMilestone: weightMilestone,
     crossedMilestone: crossedMilestone, beforeAfter: beforeAfter,
-    JOURNEYS: JOURNEYS, journeyProgress: journeyProgress, routeNames: routeNames, ghostFor: ghostFor, ghostCompare: ghostCompare,
+    SURFACES: SURFACES, migrateRoutes: migrateRoutes, routeStats: routeStats, routeRuns: routeRuns, routeNames: routeNames, ghostFor: ghostFor, ghostCompare: ghostCompare,
     WMO: WMO, weatherTips: weatherTips, weatherUrl: weatherUrl, geocodeUrl: geocodeUrl, fmtHour: fmtHour, MOODS: MOODS, journalPatterns: journalPatterns,
     PR_DISTANCES: PR_DISTANCES, personalRecords: personalRecords, newRecords: newRecords, prTargets: prTargets, closestRecord: closestRecord, weeklyPace: weeklyPace
   };
@@ -1130,7 +1133,7 @@ nav.tabs svg { width: 24px; height: 24px; }
   var F = window.FA, Q = window.FA_QUOTES;
   // Storage keys are unchanged from the original app so existing data on the phone carries over.
   var KEY = 'fitnessArcade.v1', PHOTO_KEY = 'fitnessArcade.photos';
-  var TABS = ['home', 'run', 'scores', 'progress', 'map'];
+  var TABS = ['home', 'run', 'scores', 'progress', 'routes'];
   var params = new URLSearchParams(location.search);
   function today() { return params.get('today') || F.toISO(new Date()); }
   function uid() { return Math.random().toString(36).slice(2, 9); }
@@ -1156,6 +1159,7 @@ nav.tabs svg { width: 24px; height: 24px; }
     up: '<path d="m6 15 6-6 6 6"/>', down: '<path d="m6 9 6 6 6-6"/>', x: '<path d="M6 6l12 12M18 6 6 18"/>',
     drop: '<path d="M12 3s6 6.4 6 11a6 6 0 0 1-12 0c0-4.6 6-11 6-11z"/>', can: '<path d="M8 4h8l1 3v12a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V7z"/><path d="M7 8h10"/>',
     edit: '<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/>',
+    routes: '<circle cx="6" cy="18" r="2"/><circle cx="18" cy="6" r="2"/><path d="M8 18h7.5a3.5 3.5 0 0 0 0-7h-7a3.5 3.5 0 0 1 0-7H16"/>',
     pin: '<path d="M12 21s-6-5.6-6-11a6 6 0 0 1 12 0c0 5.4-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/>',
     chevron: '<path d="m9 6 6 6-6 6"/>', camera: '<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>'
   };
@@ -1165,9 +1169,8 @@ nav.tabs svg { width: 24px; height: 24px; }
   // ---------- state ----------
   function blank() {
     return { v: 1, profile: { name: '', initials: 'JON', startWeight: null, startDate: null, goalWeight: null, dailyGoal: 3, weeklyGoal: 15, waterGoal: 8 },
-      weights: [], runs: [], shoes: [], activeShoe: null, drinks: {}, race: null,
+      weights: [], runs: [], routes: [], shoes: [], activeShoe: null, drinks: {}, race: null,
       celebrated: { milestone: 0, badges: [], ach: [] }, ui: { tab: 'home' },
-      journey: { id: 'natchez', startDate: null },
       weather: { loc: { name: 'Murfreesboro, TN', lat: 35.8456, lon: -86.3903 }, cache: null } };
   }
   function load() {
@@ -1175,7 +1178,7 @@ nav.tabs svg { width: 24px; height: 24px; }
     return blank();
   }
   // Older saves (Fitness Arcade) may contain fields this app no longer uses: food[], calGoal, usdaKey, theme, ui.chip (music player),
-  // ui.push, celebrated.badges (levels). They are left as-is in storage and simply ignored here.
+  // ui.push, celebrated.badges (levels), journey (virtual journeys). They are left as-is in storage and simply ignored here.
   function migrate(s) {
     var b = blank();
     s.profile = Object.assign({}, b.profile, s.profile || {});
@@ -1184,8 +1187,10 @@ nav.tabs svg { width: 24px; height: 24px; }
     s.weights = s.weights.filter(function (w) { return w && w.date && w.lbs > 0; });
     if (!s.drinks || typeof s.drinks !== 'object') s.drinks = {};
     s.ui = Object.assign({}, b.ui, s.ui || {});
+    if (s.ui.tab === 'map') s.ui.tab = 'routes'; // Journeys tab was replaced by Routes
     if (TABS.indexOf(s.ui.tab) === -1) s.ui.tab = 'home';
-    s.journey = s.journey && s.journey.id ? s.journey : b.journey;
+    // old free-text route names on runs become saved routes; the removed journey field is ignored
+    s.routes = F.migrateRoutes(s.routes, s.runs, uid).routes;
     s.weather = s.weather && s.weather.loc ? s.weather : b.weather;
     s.celebrated = Object.assign({ milestone: 0, badges: [] }, s.celebrated || {});
     // first launch of Grit on an existing save: count already-earned achievements as seen (no flood of celebrations)
@@ -1238,7 +1243,6 @@ nav.tabs svg { width: 24px; height: 24px; }
       items.push(ghostItem);
     }
     achs.forEach(function (a) { items.push({ icon: 'flag', title: a.label, delta: 'Achievement unlocked' }); });
-    if (info.postcard) items.push({ icon: 'pin', title: info.postcard.name, delta: 'Checkpoint reached · mile ' + info.postcard.at });
     if (recs.length) {
       var top = items.shift();
       return celebrate({ eyebrow: recs.length > 1 ? recs.length + ' new personal bests' : 'New personal best', title: top.title, sub: esc(top.delta), items: items });
@@ -1249,7 +1253,6 @@ nav.tabs svg { width: 24px; height: 24px; }
         sub: esc(ghostItem.delta) + '. ' + (gc.ahead ? 'Better than yesterday.' : gc.tie ? 'Matched your best to the second.' : 'Close — that best effort is still the one to beat.'), items: items });
     }
     if (achs.length) { items.shift(); return celebrate({ eyebrow: 'Achievement unlocked', title: achs[0].label, items: items }); }
-    if (info.postcard) return celebrate({ eyebrow: 'Checkpoint reached', title: info.postcard.name, sub: esc(info.postcard.blurb) + ' · ' + esc(journey().name) + ', mile ' + info.postcard.at });
   }
   function afterWeigh(beforeLost) {
     var lost = F.lbsLost(state.profile, state.weights), ms = F.crossedMilestone(beforeLost, lost), achs = newAchievements(); save();
@@ -1317,7 +1320,7 @@ nav.tabs svg { width: 24px; height: 24px; }
       var sm = F.shoeMiles(shoe, state.runs), st = F.shoeStatus(sm);
       if (st.level !== 'ok') h += '<div class="alert ' + st.level + '" data-testid="shoe-alert">' + ico('shoe') + '<div><b>' + esc(shoe.name) + ' · ' + sm.toFixed(0) + ' mi</b><span>' + esc(st.msg) + '</span></div></div>';
     }
-    h += recapCard(t) + raceCard(t) + weatherCard() + journeyMini() + drinksCard(t);
+    h += recapCard(t) + raceCard(t) + weatherCard() + drinksCard(t);
     var qt = Q.quoteFor(t);
     h += '<section class="quote-card" data-testid="daily-quote"><div class="eyebrow">Daily reflection</div>' +
       '<blockquote>“' + esc(qt.text) + '”</blockquote><div class="q-attr">— ' + esc(qt.author) + (qt.source ? '<span>' + esc(qt.source) + '</span>' : '') + '</div></section>';
@@ -1415,44 +1418,79 @@ nav.tabs svg { width: 24px; height: 24px; }
       '<button class="btn primary block">Save location</button></form><div class="sheet-actions"><button class="btn secondary block" data-action="wx-reset">Reset to Murfreesboro</button><button class="btn ghost block" data-action="close-overlay">Cancel</button></div></div>');
   }
 
-  // ---------- JOURNEYS ----------
-  function journey() { return F.JOURNEYS.filter(function (j) { return j.id === state.journey.id; })[0] || F.JOURNEYS[0]; }
-  function journeyMini() {
-    var j = journey(), p = F.journeyProgress(j, state.runs, state.journey.startDate);
-    return card('', 'journey-mini', hd('Virtual journey', esc(j.name), '<button class="link" data-goto="map">Map' + ico('chevron', 'inline') + '</button>'), bar(p.pct) +
-      '<div class="row spread small" style="margin-top:10px"><span><b>' + p.miles.toFixed(1) + '</b> <span class="muted">of ' + j.miles.toLocaleString() + ' mi</span></span><span class="muted">' + (p.next ? 'Next: ' + esc(p.next.name) + ' · ' + p.next.milesAway + ' mi' : 'Finished') + '</span></div>');
+  // ---------- ROUTES ----------
+  function routeById(id) { return state.routes.filter(function (r) { return r.id === id; })[0] || null; }
+  function routeByName(n) { var k = (n || '').trim().toLowerCase().replace(/\s+/g, ' '); return state.routes.filter(function (r) { return r.name.toLowerCase().replace(/\s+/g, ' ') === k; })[0] || null; }
+  function sortedRoutes() {
+    return state.routes.slice().sort(function (a, b) { var la = F.routeStats(a, state.runs).last, lb = F.routeStats(b, state.runs).last; return (lb ? lb.date : '') < (la ? la.date : '') ? -1 : (lb ? lb.date : '') > (la ? la.date : '') ? 1 : a.name.localeCompare(b.name); });
   }
-  function routeSvg(j, p) {
-    var W = 340, H = 140, n = 6, pts = [];
-    for (var i = 0; i <= n; i++) pts.push([16 + i * (W - 32) / n, i % 2 ? 36 : 100]);
-    function at(frac) { var seg = Math.min(n - 1, Math.floor(frac * n)), f = frac * n - seg, a = pts[seg], b = pts[seg + 1]; return [a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f]; }
-    var path = pts.map(function (q) { return q.join(','); }).join(' '), done = p.pct / 100, donePts = [];
-    for (var k = 0; k <= 60; k++) { if (k / 60 > done) break; donePts.push(at(k / 60).join(',')); }
-    donePts.push(at(done).join(','));
-    var svg = '<svg class="chart" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Journey map for ' + esc(j.name) + '">' +
-      '<polyline points="' + path + '" fill="none" stroke="#1d2228" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>' +
-      '<polyline points="' + donePts.join(' ') + '" fill="none" stroke="#69BE28" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>';
-    j.stops.forEach(function (st) { var q = at(st[0] / j.miles), reached = st[0] <= p.miles; svg += '<circle cx="' + q[0] + '" cy="' + q[1] + '" r="4.5" fill="' + (reached ? '#69BE28' : '#000') + '" stroke="' + (reached ? '#000' : '#A5ACAF') + '" stroke-width="2"><title>' + esc(st[1]) + ' (mi ' + st[0] + ')</title></circle>'; });
-    var me = at(done);
-    svg += '<circle cx="' + me[0] + '" cy="' + me[1] + '" r="8" fill="#fff" stroke="#69BE28" stroke-width="3"/>';
-    svg += '<text x="10" y="134" fill="#A5ACAF" font-size="10">' + esc(j.from) + '</text><text x="' + (W - 10) + '" y="134" fill="#A5ACAF" font-size="10" text-anchor="end">' + esc(j.to) + '</text></svg>';
-    return svg;
+  // route picker used by the Log form and the edit sheet; "+ New route" reveals inline fields
+  function routePicker(prefix, selectedId) {
+    return '<div class="field"><label for="' + prefix + '-route">Route</label><select id="' + prefix + '-route" name="routeId" data-route-pick="' + prefix + '"><option value="">No route</option>' +
+      sortedRoutes().map(function (r) { return '<option value="' + r.id + '" data-miles="' + (r.miles || '') + '"' + (r.id === selectedId ? ' selected' : '') + '>' + esc(r.name) + (r.miles ? ' · ' + r.miles + ' mi' : '') + '</option>'; }).join('') +
+      '<option value="__new">+ New route…</option></select></div>' +
+      '<div class="new-route" id="' + prefix + '-newroute" hidden><div class="grid2"><div class="field"><label for="' + prefix + '-nr-name">New route name</label><input id="' + prefix + '-nr-name" name="nrName" maxlength="60" placeholder="e.g. Greenway loop"></div>' +
+      '<div class="field"><label for="' + prefix + '-nr-miles">Typical distance (mi)</label><input id="' + prefix + '-nr-miles" name="nrMiles" type="number" inputmode="decimal" step="0.01" min="0.1" max="100" placeholder="Optional"></div></div></div>';
   }
-  function renderMap() {
-    var j = journey(), p = F.journeyProgress(j, state.runs, state.journey.startDate), h = title('Journeys', 'Your miles, mapped onto real routes.');
-    h += '<div class="seg">' + F.JOURNEYS.map(function (x) { return '<button data-action="journey" data-id="' + x.id + '" aria-pressed="' + (x.id === j.id) + '">' + esc(x.name) + '</button>'; }).join('') + '</div>';
-    h += card('', 'journey', hd(esc(j.name), esc(j.from) + ' → ' + esc(j.to) + ' · ~' + j.miles.toLocaleString() + ' mi'), routeSvg(j, p) + bar(p.pct) +
-      '<div class="stats" style="margin-top:14px"><div class="stat"><b data-testid="journey-miles">' + p.miles.toFixed(1) + '</b><span>miles</span></div><div class="stat"><b>' + p.pct.toFixed(p.pct < 10 ? 1 : 0) + '%</b><span>complete</span></div><div class="stat"><b>' + p.remaining.toFixed(0) + '</b><span>to go</span></div></div>' +
-      (p.next ? '<p class="small" style="margin-top:12px">Next: <b data-testid="journey-next">' + esc(p.next.name) + '</b> in ' + p.next.milesAway + ' mi — <span class="muted">' + esc(p.next.blurb) + '</span></p>' : '<p class="small" style="margin-top:12px">You finished the ' + esc(j.name) + '. Pick another journey.</p>') +
-      '<p class="fine">Counting runs ' + (state.journey.startDate ? 'since ' + F.fmtShort(state.journey.startDate) : 'from your first log') + '. ' + esc(j.note) + ' Map is stylized, not to scale.</p>' +
-      '<button class="btn ghost sm" data-action="journey-restart">Start fresh from today</button>');
-    h += card('', null, hd('Checkpoints', p.postcards.length + ' of ' + j.stops.length + ' reached'), '<div class="checkpoints" data-testid="postcards">' +
-      p.postcards.slice().reverse().map(function (c) { return '<div class="postcard"><div class="cp-mile">Mile ' + c.at + '</div><div class="cp-name">' + esc(c.name) + '</div><div class="muted small">' + esc(c.blurb) + '</div><div class="fine">' + (c.date ? F.fmtShort(c.date) : '') + '</div></div>'; }).join('') +
-      (p.postcards.length ? '' : '<p class="muted">Log a run to reach your first checkpoint.</p>') + '</div>');
-    return h;
+  // returns {id, name} for the chosen/new route, or null; false if invalid
+  function resolveRoute(fd, runMiles) {
+    var v = fd.get('routeId') || '';
+    if (v === '__new') {
+      var nm = (fd.get('nrName') || '').trim().replace(/\s+/g, ' '); if (!nm) { toast('Name the new route'); return false; }
+      var ex = routeByName(nm); if (ex) return ex;
+      var rm = parseFloat(fd.get('nrMiles'));
+      var rt = { id: uid(), name: nm, miles: rm > 0 ? Math.round(rm * 100) / 100 : (runMiles > 0 ? Math.round(runMiles * 100) / 100 : null), surface: '', location: '', notes: '' };
+      state.routes.push(rt); return rt;
+    }
+    return v ? routeById(v) : null;
+  }
+  function formRouteName(f) {
+    var sel = f.querySelector('[data-route-pick]'); if (!sel) return '';
+    if (sel.value === '__new') { var n = f.querySelector('[name=nrName]'); return n ? n.value : ''; }
+    var r = routeById(sel.value); return r ? r.name : '';
+  }
+  function sparkPace(trend) {
+    if (trend.length < 2) return '';
+    var ps = trend.map(function (x) { return x.pace; }), lo = Math.min.apply(null, ps), hi = Math.max.apply(null, ps), rg = hi - lo || 1;
+    return '<div class="spark" aria-label="Pace on recent runs, taller is faster">' + trend.map(function (x, i) {
+      return '<i class="' + (x.pace === lo ? 'best' : '') + (i === trend.length - 1 ? ' last' : '') + '" style="height:' + Math.round(25 + (hi - x.pace) / rg * 75) + '%" title="' + F.fmtShort(x.date) + ' ' + F.fmtPace(x.pace) + '/mi"></i>'; }).join('') + '</div>';
+  }
+  function routeCard(rt) {
+    var st = F.routeStats(rt, state.runs), meta = [rt.miles ? rt.miles + ' mi' : null, rt.surface || null, rt.location ? esc(rt.location) : null].filter(Boolean).join(' · ');
+    var b = '<div class="route-head"><div class="grow"><h3>' + esc(rt.name) + '</h3><div class="sub">' + (meta || 'No details yet') + '</div></div>' +
+      '<button class="icon-btn sm" data-action="route-edit" data-id="' + rt.id + '" aria-label="Edit ' + esc(rt.name) + '">' + ico('edit') + '</button></div>';
+    if (rt.notes) b += '<p class="small muted route-notes">' + esc(rt.notes) + '</p>';
+    if (!st.count) return '<section class="card route" data-testid="route" data-route="' + esc(rt.name) + '">' + b + '<p class="muted small">No runs yet. Pick this route when you log a run and its best becomes your ghost.</p></section>';
+    var tr = st.trendSec;
+    b += '<div class="route-best"><div><div class="eyebrow">' + ico('ghost', 'inline') + 'Best · your ghost</div><div class="rb-v" data-testid="route-best">' + F.fmtDuration(st.best.minutes) + '</div>' +
+      '<div class="muted small">' + F.fmtPace(st.bestPace) + '/mi · ' + st.best.miles + ' mi · ' + F.fmtShort(st.best.date) + '</div></div>' + sparkPace(st.trend) + '</div>';
+    b += '<div class="stats r4"><div class="stat"><b data-testid="route-count">' + st.count + '</b><span>times run</span></div><div class="stat"><b data-testid="route-avg">' + F.fmtPace(st.avgPace) + '</b><span>avg pace</span></div>' +
+      '<div class="stat"><b>' + F.fmtShort(st.last.date).replace(/^\w+ /, function (m) { return m; }) + '</b><span>last run</span></div></div>';
+    b += '<div class="trend-row" style="margin-top:12px">' + (tr == null ? '<span class="chip">Trend after 4 runs</span>' : '<span class="chip ' + (tr < 0 ? 'pos' : tr > 0 ? 'neg' : '') + '" data-testid="route-trend">' + (tr < 0 ? ico('up', 'inline') + Math.abs(tr) + 's/mi faster' : tr > 0 ? ico('down', 'inline') + tr + 's/mi slower' : 'Holding steady') + ' lately</span>') +
+      '<span class="chip">Last ' + F.fmtDuration(st.last.minutes) + ' · ' + F.fmtPace(F.pace(st.last)) + '/mi</span><span class="chip">' + st.totalMiles + ' mi total</span></div>';
+    b += '<details class="route-runs"><summary>All runs (' + st.count + ')</summary><ul class="list">' + st.runs.map(function (r) {
+      return '<li><div class="name">' + F.fmtShort(r.date) + '<span class="s">' + r.miles + ' mi</span></div><b>' + F.fmtDuration(r.minutes) + '</b><span class="muted small">' + F.fmtPace(F.pace(r)) + '/mi</span>' + (r.id === st.best.id ? '<span class="tag accent">Best</span>' : '') + '</li>'; }).join('') + '</ul></details>';
+    return '<section class="card route" data-testid="route" data-route="' + esc(rt.name) + '">' + b + '</section>';
+  }
+  function renderRoutes() {
+    var h = title('Routes', 'Your regular runs. Each one keeps its own best to beat.');
+    h += '<button class="btn primary block" data-action="route-new" style="margin-bottom:14px">' + ico('pin') + 'New route</button>';
+    if (!state.routes.length) h += card('', 'routes-empty', hd('No saved routes yet'), '<p class="muted">Save the loops you run often, like a greenway or a neighborhood loop, with a typical distance. Pick one when you log a run to fill in the distance and race your best time on it.</p>');
+    return h + '<div data-testid="route-list">' + sortedRoutes().map(routeCard).join('') + '</div>';
+  }
+  function routeForm(id) {
+    var r = id ? routeById(id) : { name: '', miles: '', surface: '', location: '', notes: '' }, n = id ? F.routeRuns(r, state.runs).length : 0;
+    overlay('<div class="sheet" role="dialog" aria-label="' + (id ? 'Edit route' : 'New route') + '"><h2>' + (id ? 'Edit route' : 'New route') + '</h2><form id="route-form" data-id="' + (id || '') + '">' +
+      '<div class="field"><label for="rt-name">Name</label><input id="rt-name" name="name" maxlength="60" required value="' + esc(r.name) + '" placeholder="Stones River Greenway"></div>' +
+      '<div class="grid2"><div class="field"><label for="rt-miles">Typical distance (mi)</label><input id="rt-miles" name="miles" type="number" inputmode="decimal" step="0.01" min="0.1" max="100" value="' + (r.miles || '') + '" placeholder="3.10"></div>' +
+      '<div class="field"><label for="rt-surface">Surface</label><select id="rt-surface" name="surface"><option value="">—</option>' + F.SURFACES.map(function (x) { return '<option' + (x === r.surface ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select></div></div>' +
+      '<div class="field"><label for="rt-loc">Location (optional)</label><input id="rt-loc" name="location" maxlength="80" value="' + esc(r.location || '') + '" placeholder="Murfreesboro, TN"></div>' +
+      '<div class="field"><label for="rt-notes">Notes (optional)</label><input id="rt-notes" name="notes" maxlength="200" value="' + esc(r.notes || '') + '" placeholder="Start at the trailhead, hilly back half…"></div>' +
+      '<button class="btn primary block">' + (id ? 'Save route' : 'Add route') + '</button></form><div class="sheet-actions">' +
+      (id ? '<button class="btn danger block" data-action="route-del" data-id="' + id + '">Delete route' + (n ? ' (keeps its ' + plural(n, 'run') + ')' : '') + '</button>' : '') +
+      '<button class="btn ghost block" data-action="close-overlay">Cancel</button></div></div>');
   }
 
-  // ---------- GHOST ----------
   function ghostHtml(cmp) {
     if (!cmp) return '';
     var g = cmp.ghost, gr = g.run, label = g.mode === 'route' ? esc(gr.route) : 'similar distance (' + gr.miles + ' mi)';
@@ -1466,7 +1504,7 @@ nav.tabs svg { width: 24px; height: 24px; }
   }
   function updateGhostPreview() {
     var f = $('#run-form'), el = $('#ghost-preview'); if (!f || !el) return;
-    el.innerHTML = ghostHtml(F.ghostCompare(state.runs, { route: f.route.value, miles: parseFloat(f.miles.value), minutes: readTime(f, 'time'), beforeDate: f.date.value }));
+    el.innerHTML = ghostHtml(F.ghostCompare(state.runs, { route: formRouteName(f), miles: parseFloat(f.miles.value), minutes: readTime(f, 'time'), beforeDate: f.date.value }));
   }
 
   // ---------- JOURNAL ----------
@@ -1496,7 +1534,7 @@ nav.tabs svg { width: 24px; height: 24px; }
       '<div class="field"><label for="run-shoe">Shoes</label><select id="run-shoe" name="shoe"><option value="">None</option>' + shoesActive.map(function (s) { return '<option value="' + s.id + '"' + (s.id === state.activeShoe ? ' selected' : '') + '>' + esc(s.name) + '</option>'; }).join('') + '</select></div>' +
       '<div class="field"><label for="run-cad">Cadence (spm)</label><input id="run-cad" name="cadence" type="number" inputmode="numeric" min="100" max="230" placeholder="Optional"></div>' +
       '<div class="field"><label for="run-hr">Avg heart rate</label><input id="run-hr" name="hr" type="number" inputmode="numeric" min="40" max="230" placeholder="Optional"></div></div>' +
-      '<div class="field"><label for="run-route">Route</label><input id="run-route" name="route" list="route-list" placeholder="Name it to race your ghost next time" autocomplete="off"><datalist id="route-list">' + F.routeNames(state.runs).map(function (n) { return '<option value="' + esc(n) + '">'; }).join('') + '</datalist></div>' +
+      routePicker('run', null) +
       '<div id="ghost-preview"></div>' +
       '<div class="field"><label>How did it feel?</label>' + seg('mood', [1, 2, 3, 4, 5].map(function (n) { return [n, F.MOODS[n]]; }), 'Mood') + '</div>' +
       '<div class="field"><label>Energy</label>' + seg('energy', [1, 2, 3, 4, 5].map(function (n) { return [n, String(n)]; }), 'Energy') + '</div>' +
@@ -1643,7 +1681,7 @@ nav.tabs svg { width: 24px; height: 24px; }
       '<div class="field"><label for="edit-miles">Distance (mi)</label><input id="edit-miles" name="miles" type="number" inputmode="decimal" step="0.01" min="0.1" max="100" value="' + r.miles + '" required></div>' +
       '<div class="field"><label for="edit-date">Date</label><input id="edit-date" name="date" type="date" max="' + today() + '" value="' + r.date + '" required></div></div>' +
       timeField('etime', 'Time', r.minutes, true) +
-      '<div class="field"><label for="edit-route">Route</label><input id="edit-route" name="route" value="' + esc(r.route || '') + '"></div>' +
+      routePicker('edit', r.routeId) +
       '<button class="btn primary block">Save changes</button></form><div class="sheet-actions"><button class="btn ghost block" data-action="close-overlay">Cancel</button></div></div>');
   }
 
@@ -1671,6 +1709,9 @@ nav.tabs svg { width: 24px; height: 24px; }
     }
     s.weights[0].lbs = 248;
     s.drinks[t] = { water: 5, coke: 2 };
+    s.routes = F.migrateRoutes([], s.runs, uid).routes;
+    s.routes.forEach(function (r) { if (/Greenway/.test(r.name)) { r.surface = 'Paved'; r.location = 'Murfreesboro, TN'; r.notes = 'Start at Thompson Lane trailhead. Flat and shaded.'; } else { r.surface = 'Mixed'; r.location = 'Barfield Crescent Park'; } });
+    s.routes.push({ id: uid(), name: 'Old Fort trail', miles: 5, surface: 'Trail', location: 'Old Fort Park', notes: 'Rooty in the woods section' });
     s.race = { name: 'Turkey Trot', distance: '10K', date: F.addDays(t, 46), targetTime: '58:00' };
     s.celebrated = { milestone: F.weightMilestone(F.lbsLost(s.profile, s.weights)), badges: [], ach: F.achievements(s.profile, s.weights, s.runs).earned.map(function (a) { return a.id; }) };
     if (state && state.weather) s.weather = state.weather;
@@ -1696,7 +1737,7 @@ nav.tabs svg { width: 24px; height: 24px; }
   }
 
   // ---------- main render ----------
-  var SCREENS = { home: renderHome, run: renderRun, scores: renderScores, progress: renderProgress, map: renderMap };
+  var SCREENS = { home: renderHome, run: renderRun, scores: renderScores, progress: renderProgress, routes: renderRoutes };
   function render() {
     var tab = state.ui.tab in SCREENS ? state.ui.tab : 'home';
     $('#main').innerHTML = header() + '<div class="screen" data-screen="' + tab + '">' + SCREENS[tab]() + '</div>';
@@ -1734,8 +1775,14 @@ nav.tabs svg { width: 24px; height: 24px; }
       case 'wx-refresh': fetchWeather(true); render(); break;
       case 'wx-reset': state.weather.loc = { name: 'Murfreesboro, TN', lat: 35.8456, lon: -86.3903 }; save(); closeOverlay(); render(); break;
       case 'geo-pick': state.weather.loc = { name: a.dataset.name, lat: +a.dataset.lat, lon: +a.dataset.lon }; save(); closeOverlay(); render(); break;
-      case 'journey': state.journey = { id: id, startDate: state.journey.id === id ? state.journey.startDate : null }; save(); render(); break;
-      case 'journey-restart': if (confirm('Restart this journey counting only runs from today?')) { state.journey.startDate = t; save(); render(); } break;
+      case 'route-new': routeForm(null); break;
+      case 'route-edit': routeForm(id); break;
+      case 'route-del':
+        var dr0 = routeById(id); if (!dr0) break;
+        if (confirm('Delete the route "' + dr0.name + '"? Your runs on it are kept, just without a route.')) {
+          state.runs.forEach(function (r) { if (r.routeId === id) { r.routeId = null; r.route = null; } });
+          state.routes = state.routes.filter(function (r) { return r.id !== id; }); save(); closeOverlay(); render(); toast('Route deleted');
+        } break;
       case 'show-ba': closeOverlay(); go('progress'); setTimeout(function () { var el = $('[data-testid="before-after"]'); if (el) el.scrollIntoView(); }, 30); break;
       case 'photo-del': var ph = photos(); delete ph[a.dataset.kind]; localStorage.setItem(PHOTO_KEY, JSON.stringify(ph)); render(); break;
       case 'demo': if (confirm('Replace your data with demo data?')) { state = demo(); save(); closeOverlay(); render(); } break;
@@ -1755,6 +1802,14 @@ nav.tabs svg { width: 24px; height: 24px; }
       if (el.classList.contains('t-h') && d.length >= 2) tf.querySelector('.t-m').focus();
     } if (e.target.closest && e.target.closest('#run-form')) updateGhostPreview(); });
   document.addEventListener('change', function (e) {
+    var rp = e.target.dataset && e.target.dataset.routePick;
+    if (rp) {
+      var fm = e.target.form, box = document.getElementById(rp + '-newroute'), opt = e.target.selectedOptions[0], mEl = fm.querySelector('[name=miles]');
+      box.hidden = e.target.value !== '__new'; if (!box.hidden) fm.querySelector('[name=nrName]').focus();
+      if (opt && opt.dataset.miles && mEl && (!mEl.value || mEl.dataset.prefilled === '1')) { mEl.value = opt.dataset.miles; mEl.dataset.prefilled = '1'; }
+      if (fm.id === 'run-form') updateGhostPreview(); return;
+    }
+    if (e.target.name === 'miles') e.target.dataset.prefilled = '';
     if (e.target.dataset && e.target.dataset.action === 'ghost-route') { state.ui.ghostRoute = e.target.value; save(); render(); return; }
     var k = e.target.dataset && e.target.dataset.photo; if (k && e.target.files[0]) savePhoto(k, e.target.files[0]);
     if (e.target.id === 'import-file' && e.target.files[0]) { var f = e.target.files[0]; f.text().then(importData); }
@@ -1764,23 +1819,31 @@ nav.tabs svg { width: 24px; height: 24px; }
     if (f.id === 'run-form') {
       var mi = parseFloat(fd.get('miles')), min = readTime(f, 'time');
       if (!(mi > 0) || !(min > 0)) { toast('Enter a distance and a time (minutes and seconds)'); return; }
-      var cad = parseInt(fd.get('cadence'), 10), hr = parseInt(fd.get('hr'), 10), route = (fd.get('route') || '').trim();
+      var rt = resolveRoute(fd, mi); if (rt === false) return;
+      var cad = parseInt(fd.get('cadence'), 10), hr = parseInt(fd.get('hr'), 10), route = rt ? rt.name : '';
       var newRun = { id: uid(), date: fd.get('date'), miles: Math.round(mi * 100) / 100, minutes: min, cadence: cad > 0 ? cad : null, hr: hr > 0 ? hr : null, shoeId: fd.get('shoe') || null,
-        route: route || null, mood: +fd.get('mood') || null, energy: +fd.get('energy') || null, note: (fd.get('note') || '').trim() || null };
+        route: route || null, routeId: rt ? rt.id : null, mood: +fd.get('mood') || null, energy: +fd.get('energy') || null, note: (fd.get('note') || '').trim() || null };
       var hadRuns = state.runs.length > 0, prsBefore = F.personalRecords(state.runs);
       var gc = F.ghostCompare(state.runs, { route: route, miles: newRun.miles, minutes: min, beforeDate: newRun.date });
-      var jBefore = F.journeyProgress(journey(), state.runs, state.journey.startDate).postcards.length;
       state.runs.push(newRun);
-      var jAfter = F.journeyProgress(journey(), state.runs, state.journey.startDate);
       var recs = F.newRecords(prsBefore, F.personalRecords(state.runs));
       save(); render(); toast(hadRuns ? 'Run saved · ' + newRun.miles + ' mi at ' + F.fmtPace(min / mi) + '/mi' : 'First run saved. That’s your baseline — now beat it.');
-      afterRun({ recs: recs, hadRuns: hadRuns, ghost: gc, postcard: jAfter.postcards.length > jBefore ? jAfter.postcards[jAfter.postcards.length - 1] : null });
+      afterRun({ recs: recs, hadRuns: hadRuns, ghost: gc });
     }
     if (f.id === 'edit-form') {
       var er = state.runs.filter(function (x) { return x.id === f.dataset.id; })[0], emi = parseFloat(fd.get('miles')), emin = readTime(f, 'etime');
       if (!er) return; if (!(emi > 0) || !(emin > 0)) { toast('Enter a distance and a time (seconds 0–59)'); return; }
-      er.miles = Math.round(emi * 100) / 100; er.minutes = emin; er.date = fd.get('date') || er.date; er.route = (fd.get('route') || '').trim() || null;
+      var ert = resolveRoute(fd, emi); if (ert === false) return;
+      er.miles = Math.round(emi * 100) / 100; er.minutes = emin; er.date = fd.get('date') || er.date; er.route = ert ? ert.name : null; er.routeId = ert ? ert.id : null;
       save(); closeOverlay(); render(); toast('Run updated'); return;
+    }
+    if (f.id === 'route-form') {
+      var rid = f.dataset.id, nm = (fd.get('name') || '').trim().replace(/\s+/g, ' '), dup = routeByName(nm), rmi = parseFloat(fd.get('miles'));
+      if (!nm) return; if (dup && dup.id !== rid) { toast('You already have a route called ' + dup.name); return; }
+      var ro = rid ? routeById(rid) : { id: uid() };
+      ro.name = nm; ro.miles = rmi > 0 ? Math.round(rmi * 100) / 100 : null; ro.surface = fd.get('surface') || ''; ro.location = (fd.get('location') || '').trim(); ro.notes = (fd.get('notes') || '').trim();
+      if (rid) state.runs.forEach(function (r) { if (r.routeId === rid) r.route = nm; }); else state.routes.push(ro);
+      save(); closeOverlay(); render(); toast(rid ? 'Route saved' : 'Route added'); return;
     }
     if (f.id === 'shoe-form') {
       var sh = { id: uid(), name: fd.get('name').trim(), startMiles: parseFloat(fd.get('start')) || 0 };
