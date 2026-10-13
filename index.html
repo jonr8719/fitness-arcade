@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<!-- Grit standalone build 2026-10-13T18:29:17.376Z · Fonts: Inter (SIL OFL 1.1) -->
+<!-- Grit standalone build 2026-10-13T20:17:26.097Z · Fonts: Inter (SIL OFL 1.1) -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#000000">
@@ -315,6 +315,25 @@ nav.tabs svg { width: 24px; height: 24px; }
 .tfield span { color: var(--dim); font-weight: 700; }
 .tfield input { text-align: center; padding: 0 6px; font-variant-numeric: tabular-nums; }
 .tfield .t-h { font-size: 14px; }
+
+/* gold: personal records */
+:root { --gold: #D4AF37; --gold-hi: #F3D77A; --gold-lo: #A8862A; --gold-a: rgba(212,175,55,.14); }
+.goldtxt { color: var(--gold); background: linear-gradient(180deg, var(--gold-hi) 0%, var(--gold) 55%, var(--gold-lo) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.pr.gold { border-color: rgba(212,175,55,.42); box-shadow: 0 0 0 1px rgba(212,175,55,.06) inset, 0 8px 28px -14px rgba(212,175,55,.45); background: linear-gradient(155deg, #1b1708 0%, var(--card) 55%); }
+.pr.gold:first-child { background: linear-gradient(150deg, #241d07 0%, #111008 45%, var(--card) 100%); }
+.pr.gold .eyebrow { color: #cdb46a; }
+.pr.gold .eyebrow svg { color: var(--gold); }
+.pr.gold .pr-v, .pr.gold:first-child .pr-v { color: var(--gold); background: linear-gradient(180deg, var(--gold-hi) 0%, var(--gold) 50%, var(--gold-lo) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.pr.gold .pr-v small { -webkit-text-fill-color: #b9a46a; }
+.pr.gold .est { background: var(--gold-a); color: #d9c27e; }
+.pr.empty { border-style: dashed; }
+.tag.gold { background: var(--gold-a); color: var(--gold-hi); }
+.celebrate.gold { border-color: rgba(212,175,55,.3); background: radial-gradient(120% 60% at 50% 0%, rgba(212,175,55,.12), rgba(14,16,18,0) 60%), #0e1012; }
+.celebrate.gold .burst .c { fill: var(--gold-a); stroke: var(--gold); }
+.celebrate.gold .burst .k { stroke: var(--gold-hi); }
+.celebrate.gold .halo { border-color: var(--gold); }
+.celebrate.gold .cel-list li > svg { color: var(--gold); }
+.celebrate.gold .cel-list span { color: #d9c27e; }
 
 </style>
 <link rel="manifest" href="manifest.webmanifest">
@@ -1229,8 +1248,8 @@ nav.tabs svg { width: 24px; height: 24px; }
     return { title: nm + ' · ' + p.time, delta: (p.first ? 'First ' + nm + ' on record' : fmtGap(p.deltaSec) + ' faster than your previous best') + (p.estimate ? ' (est.)' : '') };
   }
   function celebrate(o) {
-    overlay('<div class="sheet celebrate" role="dialog" aria-label="' + esc(o.eyebrow) + '">' + burst() +
-      '<div class="eyebrow accent">' + esc(o.eyebrow) + '</div><h2>' + esc(o.title) + '</h2>' + (o.sub ? '<p class="cel-sub">' + o.sub + '</p>' : '') +
+    overlay('<div class="sheet celebrate' + (o.gold ? ' gold' : '') + '" role="dialog" aria-label="' + esc(o.eyebrow) + '">' + burst() +
+      '<div class="eyebrow ' + (o.gold ? 'goldtxt' : 'accent') + '">' + esc(o.eyebrow) + '</div><h2>' + esc(o.title) + '</h2>' + (o.sub ? '<p class="cel-sub">' + o.sub + '</p>' : '') +
       (o.items && o.items.length ? '<ul class="cel-list">' + o.items.map(function (i) { return '<li>' + ico(i.icon || 'check') + '<div><b>' + esc(i.title) + '</b>' + (i.delta ? '<span>' + esc(i.delta) + '</span>' : '') + '</div></li>'; }).join('') + '</ul>' : '') +
       '<div class="sheet-actions">' + (o.actions || '') + '<button class="btn primary block" data-action="close-overlay">Done</button></div></div>');
   }
@@ -1245,7 +1264,7 @@ nav.tabs svg { width: 24px; height: 24px; }
     achs.forEach(function (a) { items.push({ icon: 'flag', title: a.label, delta: 'Achievement unlocked' }); });
     if (recs.length) {
       var top = items.shift();
-      return celebrate({ eyebrow: recs.length > 1 ? recs.length + ' new personal bests' : 'New personal best', title: top.title, sub: esc(top.delta), items: items });
+      return celebrate({ gold: true, eyebrow: recs.length > 1 ? recs.length + ' new personal bests' : 'New personal best', title: top.title, sub: esc(top.delta), items: items });
     }
     if (ghostItem) {
       items.splice(items.indexOf(ghostItem), 1);
@@ -1331,7 +1350,7 @@ nav.tabs svg { width: 24px; height: 24px; }
     var targets = F.prTargets(state.runs, t), close = F.closestRecord(state.runs, t), top;
     if (close) {
       var b = close.best;
-      top = '<div class="pr-focus"><div class="big" data-testid="pr-gap">' + fmtGap(close.last.gapSec) + '</div><div><div class="pr-focus-t" data-testid="pr-gap-label">off your ' + DIST_NAME[close.id] + ' best</div><div class="muted small">Best ' + b.time + ' (' + F.fmtPace(b.pace) + '/mi), ' + F.fmtShort(b.date) + ' · latest ' + F.fmtShort(close.last.date) + '</div></div></div>';
+      top = '<div class="pr-focus"><div class="big goldtxt" data-testid="pr-gap">' + fmtGap(close.last.gapSec) + '</div><div><div class="pr-focus-t" data-testid="pr-gap-label">off your ' + DIST_NAME[close.id] + ' best</div><div class="muted small">Best ' + b.time + ' (' + F.fmtPace(b.pace) + '/mi), ' + F.fmtShort(b.date) + ' · latest ' + F.fmtShort(close.last.date) + '</div></div></div>';
     } else top = '<div class="pr-focus"><div class="big accent">' + ico('bolt') + '</div><div><div class="pr-focus-t">Your latest effort is your best.</div><div class="muted small">Now raise the bar again.</div></div></div>';
     var rows = targets.map(function (x) {
       if (!x.set) return '<li data-testid="target-' + x.id + '"><span class="t-l">' + DIST_NAME[x.id] + '</span><span class="t-v"><span class="muted">Run ' + needMi(x.id) + ' mi to set</span></span></li>';
@@ -1557,7 +1576,7 @@ nav.tabs svg { width: 24px; height: 24px; }
     var keys = prRunKeys(), runs = state.runs.slice().sort(function (a, b) { return a.date < b.date ? 1 : a.date > b.date ? -1 : 0; }).slice(0, 20);
     h += card('', 'history', hd('History', plural(state.runs.length, 'run') + ' · ' + F.totalMiles(state.runs).toFixed(1) + ' mi'), runs.length ? '<ul class="list runs" data-testid="run-list">' + runs.map(function (x) {
       var sh = state.shoes.filter(function (s) { return s.id === x.shoeId; })[0], pr = keys[x.date + '|' + F.pace(x).toFixed(6)];
-      return '<li><div class="name"><b>' + x.miles.toFixed(2) + ' mi · ' + F.fmtDuration(x.minutes) + ' · ' + F.fmtPace(F.pace(x)) + '/mi</b>' + (pr ? ' <span class="tag accent" data-testid="pr-tag">PR</span>' : '') +
+      return '<li><div class="name"><b>' + x.miles.toFixed(2) + ' mi · ' + F.fmtDuration(x.minutes) + ' · ' + F.fmtPace(F.pace(x)) + '/mi</b>' + (pr ? ' <span class="tag gold" data-testid="pr-tag">PR</span>' : '') +
         '<span class="s">' + F.fmtShort(x.date) + (x.route ? ' · ' + esc(x.route) : '') + (x.cadence ? ' · ' + x.cadence + ' spm' : '') + (x.hr ? ' · ' + x.hr + ' bpm' : '') + (sh ? ' · ' + esc(sh.name) : '') + (x.mood ? ' · ' + F.MOODS[x.mood] : '') + '</span></div>' +
         '<button class="del" data-action="edit-run" data-id="' + x.id + '" aria-label="Edit run">' + ico('edit') + '</button><button class="del" data-action="del-run" data-id="' + x.id + '" aria-label="Delete run">' + ico('x') + '</button></li>'; }).join('') + '</ul>' : '<p class="muted">No runs yet.</p>');
     return h;
@@ -1628,7 +1647,7 @@ nav.tabs svg { width: 24px; height: 24px; }
       var big = !p.set ? '–' : p.id === 'long' ? p.miles.toFixed(1) + '<small>mi</small>' : p.id === 'pace' ? F.fmtPace(p.pace) + '<small>/mi</small>' : p.time;
       var sub = !p.set ? (p.id === 'long' || p.id === 'pace' ? 'Log a run to set' : 'Run ' + needMi(p.id) + '+ mi to set') :
         (p.id === 'long' ? F.fmtDuration(p.minutes) + ' · ' + F.fmtPace(p.pace) + '/mi' : p.id === 'pace' ? p.fromMiles + ' mi run' : F.fmtPace(p.pace) + '/mi') + ' · ' + F.fmtShort(p.date);
-      return '<div class="pr' + (p.set ? '' : ' empty') + '" data-testid="pr-' + p.id + '"><div class="eyebrow">' + DIST_NAME[p.id] + '</div><div class="pr-v">' + big + '</div><div class="muted small">' + sub + '</div>' +
+      return '<div class="pr' + (p.set ? ' gold' : ' empty') + '" data-testid="pr-' + p.id + '"><div class="eyebrow">' + (p.set ? ico('scores', 'inline') : '') + DIST_NAME[p.id] + '</div><div class="pr-v">' + big + '</div><div class="muted small">' + sub + '</div>' +
         (p.estimate ? '<div class="est">Est. from ' + p.fromMiles + ' mi run</div>' : '') + '</div>';
     }).join('') + '</section><p class="fine">Distance bests use a run’s average pace × the distance. “Est.” means it came from a longer run, not a timed effort.</p>';
     var cur = F.currentStreak(state.runs, t), best = F.longestStreak(state.runs);
