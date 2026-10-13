@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<!-- Grit standalone build 2026-10-13T20:17:26.097Z · Fonts: Inter (SIL OFL 1.1) -->
+<!-- Grit standalone build 2026-10-13T20:20:39.017Z · Fonts: Inter (SIL OFL 1.1) -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#000000">
@@ -334,6 +334,8 @@ nav.tabs svg { width: 24px; height: 24px; }
 .celebrate.gold .halo { border-color: var(--gold); }
 .celebrate.gold .cel-list li > svg { color: var(--gold); }
 .celebrate.gold .cel-list span { color: #d9c27e; }
+.ach.earned { border-color: rgba(212,175,55,.45); background: rgba(212,175,55,.1); color: var(--gold-hi); box-shadow: 0 4px 14px -8px rgba(212,175,55,.5); }
+.ach.earned svg { color: var(--gold); }
 
 </style>
 <link rel="manifest" href="manifest.webmanifest">
@@ -1271,7 +1273,7 @@ nav.tabs svg { width: 24px; height: 24px; }
       return celebrate({ eyebrow: gc.ahead ? 'Faster than your ghost' : gc.tie ? 'Dead even' : 'Your ghost held on', title: (gc.ahead ? '−' : gc.tie ? '±' : '+') + fmtGap(gc.deltaSec),
         sub: esc(ghostItem.delta) + '. ' + (gc.ahead ? 'Better than yesterday.' : gc.tie ? 'Matched your best to the second.' : 'Close — that best effort is still the one to beat.'), items: items });
     }
-    if (achs.length) { items.shift(); return celebrate({ eyebrow: 'Achievement unlocked', title: achs[0].label, items: items }); }
+    if (achs.length) { items.shift(); return celebrate({ gold: true, eyebrow: 'Achievement unlocked', title: achs[0].label, items: items }); }
   }
   function afterWeigh(beforeLost) {
     var lost = F.lbsLost(state.profile, state.weights), ms = F.crossedMilestone(beforeLost, lost), achs = newAchievements(); save();
