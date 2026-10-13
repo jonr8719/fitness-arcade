@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<!-- Grit standalone build 2026-10-13T20:28:56.028Z · Fonts: Inter (SIL OFL 1.1) -->
+<!-- Grit standalone build 2026-10-13T20:39:04.975Z · Fonts: Inter (SIL OFL 1.1) -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#000000">
@@ -355,6 +355,67 @@ nav.tabs svg { width: 24px; height: 24px; }
 .latest-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--green); margin-left: 6px; vertical-align: 2px; }
 .gh-miles { color: var(--text); font-weight: 700; }
 
+/* progress: transformation hero */
+.tf-hero { position: relative; overflow: hidden; padding: 22px; background: radial-gradient(120% 80% at 100% 0%, rgba(0,34,68,.85), rgba(0,34,68,0) 60%), linear-gradient(170deg, #0c141d, var(--card) 70%); border-color: rgba(255,255,255,.1); }
+.tf-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; margin: 8px 0 16px; }
+.tf-cur b { font-size: 64px; font-weight: 800; letter-spacing: -.05em; line-height: .95; display: block; }
+.tf-cur span, .tf-lost span { font-size: 13px; color: var(--muted); }
+.tf-lost { text-align: right; } .tf-lost b { display: block; font-size: 40px; font-weight: 800; letter-spacing: -.04em; line-height: 1; }
+.tf-empty { font-size: 30px; font-weight: 800; margin: 6px 0 6px; }
+.tf-note { font-size: 14px; color: var(--muted); margin: -4px 0 14px; } .tf-note svg { color: var(--green); }
+.tf-track { position: relative; height: 14px; border-radius: 14px; background: rgba(255,255,255,.07); margin: 6px 0 8px; }
+.tf-fill { position: absolute; inset: 0 auto 0 0; border-radius: 14px; background: linear-gradient(90deg, #3f8a17, var(--green)); box-shadow: 0 0 18px rgba(105,190,40,.35); animation: fill 1s var(--ease) both; transform-origin: left; }
+.tf-tick { position: absolute; top: 3px; width: 2px; height: 8px; margin-left: -1px; border-radius: 2px; background: rgba(255,255,255,.18); }
+.tf-tick.hit { background: var(--gold-hi); box-shadow: 0 0 6px rgba(212,175,55,.8); }
+.tf-dot { position: absolute; top: 50%; width: 22px; height: 22px; margin: -11px 0 0 -11px; border-radius: 50%; background: #fff; border: 4px solid var(--green); box-shadow: 0 0 0 4px rgba(105,190,40,.2); }
+.tf-ends { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); } .tf-ends b { color: var(--text); font-size: 14px; }
+.tf-proj { margin: 14px 0 0; font-size: 14px; color: var(--muted); } .tf-proj b { color: var(--text); } .tf-proj svg { color: var(--green); }
+.qw { display: grid; grid-template-columns: 1fr auto; gap: 10px; margin-top: 18px; }
+.qw-in { position: relative; } .qw-in input { height: 56px; font-size: 22px; font-weight: 700; padding-right: 52px; background: rgba(0,0,0,.45); }
+.qw-in span { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: var(--dim); font-weight: 600; }
+.qw .btn { min-height: 56px; padding: 0 26px; font-size: 16px; }
+.qw-date { grid-column: 1 / -1; } .qw-date summary { list-style: none; color: var(--muted); font-size: 13px; cursor: pointer; min-height: 32px; display: inline-flex; align-items: center; }
+.qw-date summary::-webkit-details-marker { display: none; } .qw-date input { margin-top: 6px; }
+.tf-kpis { margin: 0 0 14px; }
+/* before & after */
+.ba { position: relative; grid-template-columns: 1fr 1fr; gap: 10px; }
+.photo { position: relative; aspect-ratio: 3/4; margin: 0; }
+.ph-empty { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 12px; color: var(--dim); }
+.ph-pick { position: absolute; inset: 0; cursor: pointer; }
+.ph-cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 26px 10px 10px; background: linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,.85)); text-align: left; pointer-events: none; }
+.ph-cap .eyebrow { display: block; font-size: 10px; } .ph-cap b { display: block; font-size: 26px; font-weight: 800; letter-spacing: -.03em; line-height: 1.1; } .ph-cap span:last-child { font-size: 12px; color: var(--muted); }
+.pane.after .photo { border-color: rgba(105,190,40,.35); }
+.ba-badge { position: absolute; left: 50%; top: 42%; transform: translate(-50%, -50%); z-index: 2; width: 74px; height: 74px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: radial-gradient(circle at 35% 30%, #2a2208, #0b0a06); border: 2px solid var(--gold); box-shadow: 0 0 24px rgba(212,175,55,.35); color: var(--gold-hi); font-size: 20px; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+.ba-badge span { font-size: 10px; font-weight: 600; color: #cdb46a; margin-top: 2px; }
+.ba-badge.flat { border-color: var(--line2); color: var(--muted); box-shadow: none; background: var(--card2); } .ba-badge.flat span { color: var(--dim); }
+.pane .link { min-height: 36px; padding: 6px 0 0; }
+/* miles bars & seg */
+.seg.mini { margin: 0; padding: 3px; flex: none; } .seg.mini button { min-height: 40px; min-width: 52px; padding: 0 12px; font-size: 12px; flex: none; }
+.bars8 .top i { background: var(--green); box-shadow: 0 0 12px rgba(105,190,40,.35); } .bars8 .top em { color: var(--green); font-weight: 700; }
+/* weigh-in history */
+.wlist li { gap: 10px; } .wlist b { font-size: 16px; }
+.wchg { min-width: 58px; text-align: right; font-size: 13px; font-weight: 700; color: var(--dim); }
+.wchg.down { color: var(--green); } .wchg.up { color: var(--muted); font-weight: 600; } .wchg.start { color: var(--dim); font-weight: 600; }
+/* journal */
+.moodbars .mb .col i { background: linear-gradient(180deg, var(--green), #2f6e10); }
+
+/* water tracker */
+.water-card { background: radial-gradient(120% 70% at 0% 0%, rgba(0,34,68,.75), rgba(0,34,68,0) 60%), var(--card); }
+.wt-top { display: flex; align-items: center; gap: 18px; }
+.water-ring .val { stroke: var(--green); }
+.water-ring.done .val { filter: drop-shadow(0 0 6px rgba(105,190,40,.6)); }
+.water-ring .ring-in b { font-size: 32px; }
+.wt-side { min-width: 0; } .wt-side .link { padding: 6px 0 0; min-height: 40px; }
+.wt-quick { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 18px 0 10px; }
+.wt-q { min-height: 60px; border-radius: var(--r-sm); border: 1px solid var(--line2); background: var(--card2); display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: transform .12s var(--ease), border-color .2s; padding: 0 2px; }
+.wt-q:active { transform: scale(.95); border-color: var(--green); }
+.wt-q b { font-size: 17px; font-weight: 800; letter-spacing: -.02em; } .wt-q span { font-size: 11px; color: var(--muted); }
+.wt-custom { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
+.wt-log { margin-top: 12px; border-top: 1px solid var(--line); }
+.wt-log summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; color: var(--green); font-weight: 600; font-size: 14px; list-style: none; }
+.wt-log summary::-webkit-details-marker { display: none; }
+
 </style>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
@@ -471,9 +532,54 @@ nav.tabs svg { width: 24px; height: 24px; }
     if (!weights.length) return null;
     return weights.slice().sort(function (a, b) { return a.date < b.date ? -1 : a.date > b.date ? 1 : 0; })[weights.length - 1].lbs;
   }
+  function sortedWeights(weights) { return weights.slice().sort(function (a, b) { return a.date < b.date ? -1 : a.date > b.date ? 1 : 0; }); }
+  // Start weight: an explicit start set in Settings (profile.startWeight) wins; otherwise the earliest weigh-in in the log.
+  function startInfo(profile, weights) {
+    var sw = sortedWeights(weights);
+    if (profile && +profile.startWeight > 0) return { lbs: +profile.startWeight, date: profile.startDate || (sw[0] && sw[0].date) || null, explicit: true };
+    return sw.length ? { lbs: sw[0].lbs, date: sw[0].date, explicit: false } : null;
+  }
   function lbsLost(profile, weights) {
-    var w = latestWeight(weights); if (w == null || !profile.startWeight) return 0;
-    return Math.max(0, round1(profile.startWeight - w));
+    var w = latestWeight(weights), st = startInfo(profile, weights); if (w == null || !st) return 0;
+    return Math.max(0, round1(st.lbs - w));
+  }
+  // One weight log: normalize entries and fold a separately-stored start weight into the log.
+  function migrateWeights(profile, weights, mkId, todayIso) {
+    var out = [], byDate = {};
+    (weights || []).forEach(function (w) {
+      var lbs = parseFloat(w && w.lbs), d = w && typeof w.date === 'string' ? w.date.slice(0, 10) : null;
+      if (!(lbs > 0) || !/^\d{4}-\d\d-\d\d$/.test(d || '')) return;
+      var e = { id: w.id || mkId(), date: d, lbs: Math.round(lbs * 10) / 10 };
+      if (byDate[d]) out.splice(out.indexOf(byDate[d]), 1);     // one weigh-in per day (latest entry wins)
+      byDate[d] = e; out.push(e);
+    });
+    var added = 0, sw = +parseFloat(profile.startWeight);
+    if (sw > 0) {
+      var sd = typeof profile.startDate === 'string' && /^\d{4}-\d\d-\d\d/.test(profile.startDate) ? profile.startDate.slice(0, 10) : null;
+      var match = out.filter(function (w) { return Math.abs(w.lbs - sw) < 0.05 && (!sd || w.date === sd); })[0];
+      if (!match && !out.some(function (w) { return Math.abs(w.lbs - sw) < 0.05; })) {
+        var d0 = sd || (out.length ? null : todayIso);
+        if (d0 && !byDate[d0]) { match = { id: mkId(), date: d0, lbs: Math.round(sw * 10) / 10 }; out.push(match); byDate[d0] = match; added++; }
+      } else if (!match) match = out.filter(function (w) { return Math.abs(w.lbs - sw) < 0.05; })[0];
+      var first = sortedWeights(out)[0];
+      if (match && first && match === first) { profile.startWeight = null; profile.startDate = null; } // the log now holds the start
+      else { profile.startWeight = sw; }
+    } else { profile.startWeight = null; profile.startDate = null; }
+    return { weights: sortedWeights(out), added: added };
+  }
+  // Linear trend over recent weigh-ins -> projected date to reach goal (null if not enough data or not trending toward it)
+  function weightProjection(weights, goal, todayIso) {
+    var sw = sortedWeights(weights); if (!(goal > 0) || sw.length < 3) return null;
+    var lastD = sw[sw.length - 1].date, recent = sw.filter(function (w) { return dayDiff(w.date, lastD) <= 60; });
+    if (recent.length < 3 || dayDiff(recent[0].date, lastD) < 14) return null;
+    var xs = recent.map(function (w) { return dayDiff(recent[0].date, w.date); }), ys = recent.map(function (w) { return w.lbs; }), n = xs.length;
+    var mx = xs.reduce(function (a, b) { return a + b; }) / n, my = ys.reduce(function (a, b) { return a + b; }) / n, num = 0, den = 0;
+    for (var i = 0; i < n; i++) { num += (xs[i] - mx) * (ys[i] - my); den += (xs[i] - mx) * (xs[i] - mx); }
+    var slope = den ? num / den : 0, cur = sw[sw.length - 1].lbs, perWeek = round1(slope * 7);
+    if (cur <= goal) return { reached: true, perWeek: perWeek };
+    if (slope >= -0.01) return { perWeek: perWeek, date: null };
+    var days = Math.ceil((cur - goal) / -slope);
+    return { perWeek: perWeek, days: days, date: addDays(todayIso || lastD, days) };
   }
   function totalMiles(runs) { return round1(runs.reduce(function (s, r) { return s + (r.miles || 0); }, 0)); }
 
@@ -582,7 +688,7 @@ nav.tabs svg { width: 24px; height: 24px; }
     var sorted = weights.slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; });
     var cur = latestWeight(weights);
     return {
-      startWeight: profile.startWeight || null, startDate: profile.startDate || (sorted[0] && sorted[0].date) || null,
+      startWeight: startInfo(profile, weights) ? startInfo(profile, weights).lbs : null, startDate: startInfo(profile, weights) ? startInfo(profile, weights).date : null,
       currentWeight: cur, currentDate: sorted.length ? sorted[sorted.length - 1].date : null,
       lost: lbsLost(profile, weights), milestone: weightMilestone(lbsLost(profile, weights)),
       nextMilestone: weightMilestone(lbsLost(profile, weights)) + MILESTONE_STEP
@@ -805,16 +911,30 @@ nav.tabs svg { width: 24px; height: 24px; }
     return ts[0] || null;
   }
 
-  // ---------- drinks ----------
-  function drinksFor(state, date) { return (state.drinks && state.drinks[date]) || { water: 0, coke: 0 }; }
+  // ---------- water (ounces) ----------
+  var WATER_QUICK = [8, 16.9, 20, 32];
+  function waterFor(state, date) {
+    var e = (state.water && Array.isArray(state.water[date]) ? state.water[date] : []).filter(function (x) { return x && x.oz > 0; });
+    return { entries: e, oz: Math.round(e.reduce(function (s, x) { return s + x.oz; }, 0) * 10) / 10 };
+  }
+  // old "Water vs Diet Coke" tap counts: each water tap today = 8 oz; Diet Coke and past days are ignored
+  function migrateWater(state, todayIso, mkId) {
+    if (!state.water || typeof state.water !== 'object' || Array.isArray(state.water)) state.water = {};
+    var old = state.drinks && state.drinks[todayIso], n = old ? Math.max(0, Math.floor(+old.water || 0)) : 0;
+    if (n && !state.water[todayIso] && !(state.waterMigrated || {})[todayIso]) {
+      state.water[todayIso] = []; for (var i = 0; i < n; i++) state.water[todayIso].push({ id: mkId(), oz: 8, t: null, migrated: true });
+    }
+    state.waterMigrated = {}; state.waterMigrated[todayIso] = true;   // only once
+    return state;
+  }
 
   var api = {
     pad: pad, toISO: toISO, parseISO: parseISO, addDays: addDays, dayDiff: dayDiff, weekStart: weekStart, fmtShort: fmtShort,
     parseDuration: parseDuration, fmtPace: fmtPace, fmtDuration: fmtDuration, pace: pace, round1: round1,
     streakSegments: streakSegments, longestStreak: longestStreak, currentStreak: currentStreak, weeklyMiles: weeklyMiles,
-    topEfforts: topEfforts, highScores: topEfforts, latestWeight: latestWeight, lbsLost: lbsLost, totalMiles: totalMiles, achievements: achievements,
+    topEfforts: topEfforts, highScores: topEfforts, latestWeight: latestWeight, lbsLost: lbsLost, startInfo: startInfo, migrateWeights: migrateWeights, weightProjection: weightProjection, totalMiles: totalMiles, achievements: achievements,
     shoeMiles: shoeMiles, shoeStatus: shoeStatus,
-    weeklyRecap: weeklyRecap, todayGoal: todayGoal, drinksFor: drinksFor,
+    weeklyRecap: weeklyRecap, todayGoal: todayGoal, WATER_QUICK: WATER_QUICK, waterFor: waterFor, migrateWater: migrateWater,
     RACE_DISTANCES: RACE_DISTANCES, raceInfo: raceInfo, MILESTONE_STEP: MILESTONE_STEP, weightMilestone: weightMilestone,
     crossedMilestone: crossedMilestone, beforeAfter: beforeAfter,
     SURFACES: SURFACES, migrateRoutes: migrateRoutes, routeStats: routeStats, routeRuns: routeRuns, routeNames: routeNames, ghostFor: ghostFor, ghostCompare: ghostCompare,
@@ -1207,8 +1327,8 @@ nav.tabs svg { width: 24px; height: 24px; }
 
   // ---------- state ----------
   function blank() {
-    return { v: 1, profile: { name: '', initials: 'JON', startWeight: null, startDate: null, goalWeight: null, dailyGoal: 3, weeklyGoal: 15, waterGoal: 8 },
-      weights: [], runs: [], routes: [], shoes: [], activeShoe: null, drinks: {}, race: null,
+    return { v: 1, profile: { name: '', initials: 'JON', startWeight: null, startDate: null, goalWeight: null, dailyGoal: 3, weeklyGoal: 15, waterOz: 64 },
+      weights: [], runs: [], routes: [], shoes: [], activeShoe: null, water: {}, race: null,
       celebrated: { milestone: 0, badges: [], ach: [] }, ui: { tab: 'home' },
       weather: { loc: { name: 'Murfreesboro, TN', lat: 35.8456, lon: -86.3903 }, cache: null } };
   }
@@ -1223,8 +1343,10 @@ nav.tabs svg { width: 24px; height: 24px; }
     s.profile = Object.assign({}, b.profile, s.profile || {});
     ['runs', 'weights', 'shoes'].forEach(function (k) { if (!Array.isArray(s[k])) s[k] = []; });
     s.runs = s.runs.filter(function (r) { return r && r.date && r.miles > 0 && r.minutes > 0; });
-    s.weights = s.weights.filter(function (w) { return w && w.date && w.lbs > 0; });
-    if (!s.drinks || typeof s.drinks !== 'object') s.drinks = {};
+    // one weight log: normalize entries and fold a separately stored start weight into it (see F.migrateWeights)
+    s.weights = F.migrateWeights(s.profile, s.weights, uid, today()).weights;
+    // Water vs Diet Coke counter was replaced by an ounce-based water log: today's old water taps become 8 oz entries; Diet Coke is ignored
+    F.migrateWater(s, today(), uid); if (!(s.profile.waterOz > 0)) s.profile.waterOz = 64;
     s.ui = Object.assign({}, b.ui, s.ui || {});
     if (s.ui.tab === 'map') s.ui.tab = 'routes'; // Journeys tab was replaced by Routes
     if (TABS.indexOf(s.ui.tab) === -1) s.ui.tab = 'home';
@@ -1359,7 +1481,7 @@ nav.tabs svg { width: 24px; height: 24px; }
       var sm = F.shoeMiles(shoe, state.runs), st = F.shoeStatus(sm);
       if (st.level !== 'ok') h += '<div class="alert ' + st.level + '" data-testid="shoe-alert">' + ico('shoe') + '<div><b>' + esc(shoe.name) + ' · ' + sm.toFixed(0) + ' mi</b><span>' + esc(st.msg) + '</span></div></div>';
     }
-    h += recapCard(t) + raceCard(t) + weatherCard() + drinksCard(t);
+    h += recapCard(t) + raceCard(t) + weatherCard() + waterCard(t);
     var qt = Q.quoteFor(t);
     h += '<section class="quote-card" data-testid="daily-quote"><div class="eyebrow">Daily reflection</div>' +
       '<blockquote>“' + esc(qt.text) + '”</blockquote><div class="q-attr">— ' + esc(qt.author) + (qt.source ? '<span>' + esc(qt.source) + '</span>' : '') + '</div></section>';
@@ -1414,14 +1536,29 @@ nav.tabs svg { width: 24px; height: 24px; }
     }
     return card('', 'race-card', hd(esc(r.name), esc(r.distance) + ' · ' + F.fmtShort(r.date)), b);
   }
-  function drinksCard(t) {
-    var dr = F.drinksFor(state, t), tot = dr.water + dr.coke;
-    return card('', 'versus', hd('Water vs Diet Coke', 'Goal ' + state.profile.waterGoal + ' waters today'),
-      '<div class="versus"><button class="tapper water" data-action="drink" data-kind="water" aria-label="Add water">' + ico('drop') + '<b data-testid="water-count">' + dr.water + '</b><span>Water</span></button>' +
-      '<button class="tapper coke" data-action="drink" data-kind="coke" aria-label="Add Diet Coke">' + ico('can') + '<b data-testid="coke-count">' + dr.coke + '</b><span>Diet Coke</span></button></div>' +
-      '<div class="vsbar" aria-hidden="true"><i class="w" style="flex:' + (tot ? dr.water : 1) + '"></i><i class="c" style="flex:' + (tot ? dr.coke : 1) + '"></i></div>' +
-      '<div class="minus-row"><button data-action="undrink" data-kind="water">− Water</button><span class="muted small">' + (tot ? (dr.water >= dr.coke ? 'Water is ahead' : 'Diet Coke leads — hydrate') : 'Tap to count') + '</span><button data-action="undrink" data-kind="coke">− Coke</button></div>');
+  function fmtOz(n) { return (Math.round(n * 10) / 10).toString(); }
+  function fmtClock(t) { if (!t) return 'Earlier'; var h = +t.slice(0, 2), m = t.slice(3, 5); return (h % 12 || 12) + ':' + m + (h < 12 ? ' AM' : ' PM'); }
+  function waterCard(t) {
+    var w = F.waterFor(state, t), goal = +state.profile.waterOz || 64, pct = Math.min(100, w.oz / goal * 100), left = Math.max(0, goal - w.oz), done = w.oz >= goal;
+    var inner = '<b data-testid="water-oz">' + fmtOz(w.oz) + '</b><span>of ' + goal + ' oz</span>';
+    var h = '<div class="wt-top">' + ring(pct, 132, inner).replace('class="ring"', 'class="ring water-ring' + (done ? ' done' : '') + '"') +
+      '<div class="wt-side"><div class="hero-status' + (done ? ' done' : '') + '" data-testid="water-status">' + (done ? ico('check') + 'Goal hit' : fmtOz(left) + ' oz to go') + '</div>' +
+      '<div class="muted small">' + (w.entries.length ? w.entries.length + (w.entries.length === 1 ? ' drink' : ' drinks') + ' today · ' + Math.round(pct) + '%' : 'Start with a glass.') + '</div>' +
+      (w.entries.length ? '<button class="link" data-action="water-undo">' + ico('x', 'inline') + 'Undo last</button>' : '') + '</div></div>';
+    h += '<div class="wt-quick">' + F.WATER_QUICK.map(function (oz) { return '<button class="wt-q" data-action="water-add" data-oz="' + oz + '" aria-label="Add ' + oz + ' ounces"><b>+' + oz + '</b><span>' + (oz === 8 ? 'glass' : oz === 16.9 ? 'bottle' : 'oz') + '</span></button>'; }).join('') + '</div>';
+    h += '<form id="water-form" class="wt-custom"><input id="water-custom" name="oz" type="number" inputmode="decimal" step="0.1" min="0.1" max="200" placeholder="Custom oz" aria-label="Custom ounces"><button class="btn secondary sm">Add</button></form>';
+    if (w.entries.length) h += '<details class="wt-log"><summary>Today’s log (' + w.entries.length + ')</summary><ul class="list" data-testid="water-log">' + w.entries.slice().reverse().map(function (e) {
+      return '<li><div class="name">' + fmtOz(e.oz) + ' oz<span class="s">' + (e.migrated ? 'Carried over (8 oz per old tap)' : fmtClock(e.t)) + '</span></div><button class="del" data-action="water-del" data-id="' + e.id + '" aria-label="Remove ' + fmtOz(e.oz) + ' oz">' + ico('x') + '</button></li>'; }).join('') + '</ul></details>';
+    return card('water-card', 'water', hd('Water', 'Daily goal ' + goal + ' oz'), h);
   }
+  function addWater(oz) {
+    oz = Math.round(oz * 10) / 10; if (!(oz > 0 && oz <= 200)) { toast('Enter ounces between 0.1 and 200'); return; }
+    var t = today(), n = new Date(), list = state.water[t] = (state.water[t] || []), before = F.waterFor(state, t).oz, goal = +state.profile.waterOz || 64;
+    list.push({ id: uid(), oz: oz, t: F.pad(n.getHours()) + ':' + F.pad(n.getMinutes()) }); save(); refreshWater();
+    toast(before < goal && before + oz >= goal ? 'Water goal hit · ' + fmtOz(before + oz) + ' oz' : '+' + fmtOz(oz) + ' oz');
+  }
+  function refreshWater() { var el = $('[data-testid=water]'), open = el && el.querySelector('details[open]'); if (el) { el.outerHTML = waterCard(today()); if (open) $('[data-testid=water] details').open = true; } else render(); }
+
 
   // ---------- WEATHER ----------
   var wxLoading = false, wxError = null;
@@ -1620,42 +1757,79 @@ nav.tabs svg { width: 24px; height: 24px; }
     s += '<text x="' + L + '" y="' + (H - 6) + '" fill="#6b7175" font-size="10">' + esc(points[0].x) + '</text><text x="' + (W - R) + '" y="' + (H - 6) + '" fill="#6b7175" font-size="10" text-anchor="end">' + esc(lp.x) + '</text></svg>';
     return s + (base ? '' : '');
   }
-  function weekBars() {
-    var t = today(), weeks = [], wm = {};
-    F.weeklyMiles(state.runs).forEach(function (w) { wm[w.week] = w.miles; });
-    for (var i = 7; i >= 0; i--) { var w = F.weekStart(F.addDays(t, -7 * i)); weeks.push({ w: w, m: wm[w] || 0 }); }
-    var max = Math.max.apply(null, weeks.map(function (x) { return x.m; }).concat([1]));
-    return '<div class="bars8">' + weeks.map(function (x, k) { return '<div class="b' + (k === 7 ? ' today' : '') + '"><em>' + x.m.toFixed(0) + '</em><i style="height:' + Math.max(3, x.m / max * 100) + '%"></i><span>' + F.fmtShort(x.w).split(' ')[1] + '</span></div>'; }).join('') + '</div>';
+  function periodBars(mode) {
+    var t = today(), items = [], i;
+    if (mode === 'month') {
+      var mm = {}; state.runs.forEach(function (r) { var k = r.date.slice(0, 7); mm[k] = (mm[k] || 0) + r.miles; });
+      var d = F.parseISO(t);
+      for (i = 5; i >= 0; i--) { var dd = new Date(d.getFullYear(), d.getMonth() - i, 1), k = dd.getFullYear() + '-' + F.pad(dd.getMonth() + 1); items.push({ m: mm[k] || 0, l: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][dd.getMonth()] }); }
+    } else {
+      var wm = {}; F.weeklyMiles(state.runs).forEach(function (w) { wm[w.week] = w.miles; });
+      for (i = 7; i >= 0; i--) { var w = F.weekStart(F.addDays(t, -7 * i)); items.push({ m: wm[w] || 0, l: F.fmtShort(w).split(' ')[1] }); }
+    }
+    var max = Math.max.apply(null, items.map(function (x) { return x.m; }).concat([1])), best = Math.max.apply(null, items.map(function (x) { return x.m; }));
+    return '<div class="bars8" data-testid="miles-bars">' + items.map(function (x, k) { return '<div class="b' + (k === items.length - 1 ? ' today' : '') + (x.m && x.m === best ? ' top' : '') + '"><em>' + x.m.toFixed(0) + '</em><i style="height:' + Math.max(3, x.m / max * 100) + '%"></i><span>' + x.l + '</span></div>'; }).join('') + '</div>';
   }
   function beforeAfterHtml() {
-    var ba = F.beforeAfter(state.profile, state.weights), ph = photos();
+    var ba = F.beforeAfter(state.profile, state.weights), ph = photos(), diff = ba.startWeight && ba.currentWeight != null ? F.round1(ba.currentWeight - ba.startWeight) : null;
     function pane(kind, w, d, label) {
-      return '<div class="pane ' + kind + '"><div class="eyebrow">' + label + '</div><div class="photo">' + (ph[kind] ? '<img alt="' + label + ' photo" src="' + ph[kind] + '">' : ico('camera')) + '</div>' +
-        '<div class="w" data-testid="ba-' + kind + '">' + (w != null ? w : '–') + '</div><div class="muted small">' + (d ? F.fmtShort(d) : '') + '</div>' +
-        '<div class="row" style="justify-content:center;margin-top:8px"><label class="btn secondary sm">' + (ph[kind] ? 'Change' : 'Add photo') + '<input type="file" accept="image/*" class="sr" data-photo="' + kind + '"></label>' +
-        (ph[kind] ? '<button class="del" data-action="photo-del" data-kind="' + kind + '" aria-label="Remove ' + kind + ' photo">' + ico('x') + '</button>' : '') + '</div></div>';
+      return '<div class="pane ' + kind + '"><div class="photo">' + (ph[kind] ? '<img alt="' + label + ' photo" src="' + ph[kind] + '">' : '<div class="ph-empty">' + ico('camera') + '<span>Add photo</span></div>') +
+        '<label class="ph-pick" aria-label="' + (ph[kind] ? 'Change ' : 'Add ') + label + ' photo"><input type="file" accept="image/*" class="sr" data-photo="' + kind + '"></label>' +
+        '<div class="ph-cap"><span class="eyebrow">' + label + '</span><b data-testid="ba-' + kind + '">' + (w != null ? w : '–') + '</b><span>' + (d ? F.fmtShort(d) : '') + '</span></div></div>' +
+        (ph[kind] ? '<button class="link small" data-action="photo-del" data-kind="' + kind + '">Remove photo</button>' : '') + '</div>';
     }
-    return '<div class="ba">' + pane('before', ba.startWeight, ba.startDate, 'Before') + pane('after', ba.currentWeight, ba.currentDate, 'Now') + '</div>' +
-      '<p class="small" style="text-align:center;margin-top:12px"><b class="accent">−' + ba.lost + ' lbs</b> so far · next milestone at ' + ba.nextMilestone + ' lbs</p><p class="fine" style="text-align:center">Photos stay on this device.</p>';
+    var badge = diff == null ? '' : '<div class="ba-badge' + (diff < 0 ? '' : ' flat') + '" data-testid="ba-diff">' + (diff < 0 ? '−' + Math.abs(diff) : diff > 0 ? '+' + diff : '0') + '<span>lbs</span></div>';
+    return '<div class="ba">' + pane('before', ba.startWeight, ba.startDate, 'Before') + badge + pane('after', ba.currentWeight, ba.currentDate, 'Now') + '</div><p class="fine" style="text-align:center">Photos stay on this device.</p>';
+  }
+  function heroWeight() {
+    var ws = state.weights, p = state.profile, st = F.startInfo(p, ws), cur = F.latestWeight(ws), goal = +p.goalWeight || null, t = today();
+    var form = '<form id="weight-form" class="qw"><div class="qw-in"><input name="lbs" id="qw-lbs" type="number" inputmode="decimal" step="0.1" min="50" max="700" placeholder="' + (cur != null ? cur : 'Weight') + '" required aria-label="Weight in pounds"><span>lbs</span></div>' +
+      '<button class="btn primary">Log</button><details class="qw-date"><summary>' + ico('edit', 'inline') + 'Date</summary><input name="date" type="date" value="' + t + '" max="' + t + '" aria-label="Weigh-in date"></details></form>';
+    if (cur == null) return '<section class="card tf-hero" data-testid="tf-hero"><div class="eyebrow">Transformation</div><h2 class="tf-empty">Step on the scale.</h2><p class="muted">Your first weigh-in is your starting line. Every 5 lbs after that is a milestone.</p>' + form + '</section>';
+    var lost = F.lbsLost(p, ws), toGo = goal ? F.round1(Math.max(0, cur - goal)) : null, span = goal && st.lbs > goal ? st.lbs - goal : null;
+    var pct = span ? Math.max(0, Math.min(100, (st.lbs - cur) / span * 100)) : null, h = '<section class="card tf-hero" data-testid="tf-hero"><div class="eyebrow">Transformation</div>';
+    h += '<div class="tf-row"><div><div class="tf-cur"><b data-testid="tf-current">' + cur + '</b><span>lbs now</span></div></div>' +
+      '<div class="tf-lost"><b class="goldtxt" data-testid="tf-lost">' + (lost ? '−' + lost : '0') + '</b><span>lbs lost' + (st ? ' since ' + F.fmtShort(st.date) : '') + '</span></div></div>';
+    if (ws.length < 2 && !st.explicit) h += '<p class="tf-note" data-testid="tf-start-note">' + ico('flag', 'inline') + 'Starting point set: <b>' + st.lbs + ' lbs</b> on ' + F.fmtShort(st.date) + '. Your next weigh-in starts the trend.</p>';
+    if (span) {
+      var ticks = []; for (var m = 5; m < span; m += 5) ticks.push(m);
+      h += '<div class="tf-track" aria-label="Progress to goal"><div class="tf-fill" style="width:' + pct.toFixed(1) + '%"></div>' +
+        ticks.map(function (m) { return '<i class="tf-tick' + (lost >= m ? ' hit' : '') + '" style="left:' + (m / span * 100).toFixed(1) + '%"></i>'; }).join('') +
+        '<span class="tf-dot" style="left:' + pct.toFixed(1) + '%"></span></div>' +
+        '<div class="tf-ends"><span>' + st.lbs + ' start</span><span data-testid="tf-goal">' + (toGo ? toGo + ' lbs to goal · ' : 'Goal reached · ') + '<b>' + goal + '</b></span></div>';
+      var pr = F.weightProjection(ws, goal, t);
+      h += '<p class="tf-proj" data-testid="tf-proj">' + (pr && pr.reached ? ico('check', 'inline') + 'You hit your goal. Set a new one in Settings.' :
+        pr && pr.date ? ico('bolt', 'inline') + 'At your current rate (' + pr.perWeek + ' lbs/wk) you’ll reach ' + goal + ' around <b>' + F.fmtShort(pr.date) + (pr.date.slice(0, 4) !== t.slice(0, 4) ? ' ' + pr.date.slice(0, 4) : '') + '</b>.' :
+        pr ? 'Trend is flat lately (' + (pr.perWeek > 0 ? '+' : '') + pr.perWeek + ' lbs/wk). Keep logging and running.' : 'Log a few more weigh-ins over 2+ weeks to see your projected goal date.') + '</p>';
+    } else {
+      var ba = F.beforeAfter(p, ws);
+      h += '<div class="ms-row"><div class="row spread small"><span>Next milestone <b data-testid="milestone-next">' + ba.nextMilestone + ' lbs</b></span><span class="muted">' + F.round1(ba.nextMilestone - ba.lost) + ' lbs to go</span></div>' + bar((ba.lost - ba.milestone) / F.MILESTONE_STEP * 100) + '</div>' +
+        (goal ? '' : '<p class="fine">Set a goal weight in Settings to see your progress to goal.</p>');
+    }
+    return h + form + '</section>';
+  }
+  function weighList() {
+    var sw = state.weights.slice().sort(function (x, y) { return x.date < y.date ? -1 : 1; }), rows = sw.map(function (w, i) { return { w: w, d: i ? F.round1(w.lbs - sw[i - 1].lbs) : null }; }).reverse().slice(0, 12);
+    if (!rows.length) return '<p class="muted" data-testid="weigh-empty">No weigh-ins yet. Log one above.</p>';
+    return '<ul class="list wlist" data-testid="weigh-list">' + rows.map(function (r) {
+      var c = r.d == null ? '<span class="wchg start">Start</span>' : r.d < 0 ? '<span class="wchg down">' + ico('down', 'inline') + Math.abs(r.d) + '</span>' : r.d > 0 ? '<span class="wchg up">' + ico('up', 'inline') + r.d + '</span>' : '<span class="wchg">±0</span>';
+      return '<li><div class="name">' + F.fmtShort(r.w.date) + '</div><b>' + r.w.lbs + ' lbs</b>' + c + '<button class="del" data-action="del-weight" data-id="' + r.w.id + '" aria-label="Delete weigh-in">' + ico('x') + '</button></li>'; }).join('') + '</ul>';
   }
   function renderProgress() {
-    var a = ach(), t = today(), h = title('Progress', 'Trends over time. Small gains add up.');
-    h += card('', null, hd('Weigh in'), '<form id="weight-form" class="wform"><input name="lbs" type="number" inputmode="decimal" step="0.1" min="50" max="700" placeholder="Weight (lbs)" class="grow" required aria-label="Weight in pounds"><input name="date" type="date" value="' + t + '" max="' + t + '" aria-label="Date"><button class="btn primary sm" aria-label="Save weight">Save</button></form>' +
-      (!state.profile.startWeight ? '<p class="fine">Your first weigh-in becomes your starting weight (change it in Settings).</p>' : ''));
-    var ba = F.beforeAfter(state.profile, state.weights);
-    h += card('', 'weight-stats', null, '<div class="stats"><div class="stat"><b data-testid="lbs-lost">' + a.lbsLost + '</b><span>lbs lost</span></div><div class="stat"><b>' + a.totalMiles.toFixed(0) + '</b><span>total miles</span></div><div class="stat"><b>' + F.longestStreak(state.runs) + '</b><span>best streak</span></div></div>' +
-      (ba.startWeight ? '<div class="ms-row"><div class="row spread small"><span>Next milestone <b data-testid="milestone-next">' + ba.nextMilestone + ' lbs</b></span><span class="muted">' + F.round1(ba.nextMilestone - ba.lost) + ' lbs to go</span></div>' + bar((ba.lost - ba.milestone) / F.MILESTONE_STEP * 100) + '</div>' : ''));
+    var a = ach(), h = title('Progress', 'Every pound and every mile counts.'), mode = state.ui.milesView === 'month' ? 'month' : 'week';
+    h += heroWeight();
+    h += '<div class="kpis tf-kpis"><div class="kpi"><span class="k-l">Total miles</span><b>' + a.totalMiles.toFixed(0) + '</b></div><div class="kpi"><span class="k-l">Runs</span><b>' + state.runs.length + '</b></div><div class="kpi"><span class="k-l">Best streak</span><b>' + F.longestStreak(state.runs) + '</b></div></div>';
     var ws = state.weights.slice().sort(function (x, y) { return x.date < y.date ? -1 : 1; });
-    h += card('', 'weight-chart', hd('Weight', state.profile.goalWeight ? 'Goal ' + state.profile.goalWeight + ' lbs' : ''), lineChart(ws.map(function (w) { return { x: F.fmtShort(w.date), y: w.lbs }; }), { label: 'Weight chart', fmt: function (v) { return Math.round(v); }, goal: state.profile.goalWeight, empty: 'Log at least 2 weigh-ins to see the trend.' }));
-    var wp = F.weeklyPace(state.runs).slice(-10);
-    h += card('', 'pace-trend', hd('Pace trend', 'Weekly average · higher on the chart is faster'), lineChart(wp.map(function (w) { return { x: F.fmtShort(w.week), y: w.pace }; }), { label: 'Weekly average pace', invert: true, fmt: function (v) { return F.fmtPace(v); }, empty: 'Log runs in two different weeks to see your pace trend.' }));
-    h += card('', null, hd('Miles per week', 'Last 8 weeks (Mon–Sun)'), weekBars());
+    h += card('', 'weight-chart', hd('Weight trend', state.profile.goalWeight ? 'Goal ' + state.profile.goalWeight + ' lbs' : ''), lineChart(ws.map(function (w) { return { x: F.fmtShort(w.date), y: w.lbs }; }), { label: 'Weight chart', fmt: function (v) { return Math.round(v); }, goal: +state.profile.goalWeight || null, empty: ws.length ? 'One weigh-in so far. Your trend line starts with the next one.' : 'Your weight trend appears here after two weigh-ins.' }));
     h += card('', 'before-after', hd('Before & after'), beforeAfterHtml());
+    h += card('', 'miles-chart', hd('Miles', mode === 'month' ? 'Last 6 months' : 'Last 8 weeks (Mon–Sun)', '<div class="seg mini"><button data-action="miles-view" data-id="week" aria-pressed="' + (mode === 'week') + '">Week</button><button data-action="miles-view" data-id="month" aria-pressed="' + (mode === 'month') + '">Month</button></div>'), periodBars(mode));
+    var wp = F.weeklyPace(state.runs).slice(-10);
+    h += card('', 'pace-trend', hd('Pace trend', 'Weekly average · higher is faster'), lineChart(wp.map(function (w) { return { x: F.fmtShort(w.week), y: w.pace }; }), { label: 'Weekly average pace', invert: true, fmt: function (v) { return F.fmtPace(v); }, empty: 'Log runs in two different weeks to see your pace trend.' }));
     h += journalHtml();
-    var wl = state.weights.slice().sort(function (x, y) { return x.date < y.date ? 1 : -1; }).slice(0, 8);
-    h += card('', null, hd('Weigh-ins'), wl.length ? '<ul class="list">' + wl.map(function (w) { return '<li><div class="name">' + F.fmtShort(w.date) + '</div><b>' + w.lbs + ' lbs</b><button class="del" data-action="del-weight" data-id="' + w.id + '" aria-label="Delete weigh-in">' + ico('x') + '</button></li>'; }).join('') + '</ul>' : '<p class="muted">No weigh-ins yet.</p>');
+    h += card('', 'weigh-ins', hd('Weigh-ins', state.weights.length ? state.weights.length + (state.weights.length === 1 ? ' entry' : ' entries') : ''), weighList());
     return h;
   }
+
 
   // ---------- RECORDS ----------
   function effortList(rows, testid) {
@@ -1705,8 +1879,8 @@ nav.tabs svg { width: 24px; height: 24px; }
     var p = state.profile;
     overlay('<div class="sheet" role="dialog" aria-label="Settings"><h2>Settings</h2><form id="settings-form">' +
       '<div class="grid2"><div class="field"><label>Name</label><input name="name" value="' + esc(p.name || firstName()) + '" placeholder="First name"></div><div class="field"><label>Daily goal (mi)</label><input name="dailyGoal" type="number" step="0.1" min="0.1" value="' + esc(p.dailyGoal) + '"></div>' +
-      '<div class="field"><label>Weekly goal (mi)</label><input name="weeklyGoal" type="number" step="0.5" min="1" value="' + esc(p.weeklyGoal) + '"></div><div class="field"><label>Water goal (glasses)</label><input name="waterGoal" type="number" value="' + esc(p.waterGoal) + '"></div>' +
-      '<div class="field"><label>Starting weight</label><input name="startWeight" type="number" step="0.1" value="' + esc(p.startWeight || '') + '"></div><div class="field"><label>Start date</label><input name="startDate" type="date" value="' + esc(p.startDate || '') + '"></div>' +
+      '<div class="field"><label>Weekly goal (mi)</label><input name="weeklyGoal" type="number" step="0.5" min="1" value="' + esc(p.weeklyGoal) + '"></div><div class="field"><label>Water goal (oz/day)</label><input name="waterOz" type="number" inputmode="decimal" min="8" max="300" value="' + esc(p.waterOz || 64) + '"></div>' +
+      '<div class="field"><label>Starting weight (optional — blank uses your first weigh-in)</label><input name="startWeight" type="number" step="0.1" value="' + esc(p.startWeight || '') + '"></div><div class="field"><label>Start date</label><input name="startDate" type="date" value="' + esc(p.startDate || '') + '"></div>' +
       '<div class="field"><label>Goal weight</label><input name="goalWeight" type="number" step="0.1" value="' + esc(p.goalWeight || '') + '"></div></div>' +
       '<button class="btn primary block">Save</button></form>' +
       '<div class="eyebrow" style="margin:22px 0 10px">Your data</div><div class="row wrap"><button class="btn secondary sm" data-action="export">Export</button><label class="btn secondary sm">Import<input type="file" accept="application/json,.json" class="sr" id="import-file"></label><button class="btn secondary sm" data-action="demo">Load demo</button><button class="btn danger sm" data-action="reset">Erase all</button></div>' +
@@ -1736,7 +1910,7 @@ nav.tabs svg { width: 24px; height: 24px; }
   function demo() {
     var t = today(), s = blank(), rnd = 7;
     function rand() { rnd = (rnd * 9301 + 49297) % 233280; return rnd / 233280; }
-    s.profile = { name: 'Jon', initials: 'JON', startWeight: 248, startDate: F.addDays(t, -120), goalWeight: 215, dailyGoal: 4, weeklyGoal: 25, waterGoal: 8 };
+    s.profile = { name: 'Jon', initials: 'JON', startWeight: null, startDate: null, goalWeight: 215, dailyGoal: 4, weeklyGoal: 25, waterOz: 64 };
     s.shoes = [{ id: 'sh1', name: 'Brooks Ghost 15', startMiles: 120, retired: true }, { id: 'sh2', name: 'Nike Pegasus 41', startMiles: 150 }];
     s.activeShoe = 'sh2';
     for (var i = 120; i >= 0; i--) {
@@ -1755,7 +1929,7 @@ nav.tabs svg { width: 24px; height: 24px; }
       if (i % 4 === 0) s.weights.push({ id: 'w' + i, date: d, lbs: F.round1(248 - (120 - i) * 0.165 + (rand() - 0.5) * 1.2) });
     }
     s.weights[0].lbs = 248;
-    s.drinks[t] = { water: 5, coke: 2 };
+    s.water[t] = [{ id: 'd1', oz: 16.9, t: '07:10' }, { id: 'd2', oz: 8, t: '09:45' }, { id: 'd3', oz: 20, t: '12:20' }];
     s.routes = F.migrateRoutes([], s.runs, uid).routes;
     s.routes.forEach(function (r) { if (/Greenway/.test(r.name)) { r.surface = 'Paved'; r.location = 'Murfreesboro, TN'; r.notes = 'Start at Thompson Lane trailhead. Flat and shaded.'; } else { r.surface = 'Mixed'; r.location = 'Barfield Crescent Park'; } });
     s.routes.push({ id: uid(), name: 'Old Fort trail', miles: 5, surface: 'Trail', location: 'Old Fort Park', notes: 'Rooty in the woods section' });
@@ -1804,12 +1978,12 @@ nav.tabs svg { width: 24px; height: 24px; }
     var a = e.target.closest('[data-action]'); if (!a) { if (e.target.id === 'overlay') closeOverlay(); return; }
     var act = a.dataset.action, id = a.dataset.id, t = today();
     switch (act) {
-      case 'drink': case 'undrink':
-        var dr = state.drinks[t] = Object.assign({ water: 0, coke: 0 }, state.drinks[t]);
-        dr[a.dataset.kind] = Math.max(0, dr[a.dataset.kind] + (act === 'drink' ? 1 : -1)); save();
-        var vs = $('[data-testid=versus]'); if (vs) vs.outerHTML = drinksCard(t); else render(); break;
+      case 'water-add': addWater(parseFloat(a.dataset.oz)); break;
+      case 'water-del': state.water[t] = (state.water[t] || []).filter(function (x) { return x.id !== id; }); save(); refreshWater(); break;
+      case 'water-undo': var wl = state.water[t] || []; if (wl.length) { var gone = wl.pop(); save(); refreshWater(); toast('Removed ' + fmtOz(gone.oz) + ' oz'); } break;
       case 'edit-run': editRun(id); break;
       case 'del-run': state.runs = state.runs.filter(function (r) { return r.id !== id; }); save(); render(); break;
+      case 'miles-view': state.ui.milesView = id; save(); render(); break;
       case 'del-weight': state.weights = state.weights.filter(function (w) { return w.id !== id; }); save(); render(); break;
       case 'shoe-active': state.activeShoe = id; save(); render(); break;
       case 'shoe-retire': state.shoes.forEach(function (s) { if (s.id === id) s.retired = true; }); if (state.activeShoe === id) { var nx = state.shoes.filter(function (s) { return !s.retired; })[0]; state.activeShoe = nx ? nx.id : null; } save(); render(); break;
@@ -1884,6 +2058,7 @@ nav.tabs svg { width: 24px; height: 24px; }
       er.miles = Math.round(emi * 100) / 100; er.minutes = emin; er.date = fd.get('date') || er.date; er.route = ert ? ert.name : null; er.routeId = ert ? ert.id : null;
       save(); closeOverlay(); render(); toast('Run updated'); return;
     }
+    if (f.id === 'water-form') { var cz = parseFloat(fd.get('oz')); if (cz > 0) { addWater(cz); } else toast('Enter ounces'); return; }
     if (f.id === 'route-form') {
       var rid = f.dataset.id, nm = (fd.get('name') || '').trim().replace(/\s+/g, ' '), dup = routeByName(nm), rmi = parseFloat(fd.get('miles'));
       if (!nm) return; if (dup && dup.id !== rid) { toast('You already have a route called ' + dup.name); return; }
@@ -1899,9 +2074,8 @@ nav.tabs svg { width: 24px; height: 24px; }
     if (f.id === 'weight-form') {
       var lbs = parseFloat(fd.get('lbs')), d = fd.get('date') || today(); if (!(lbs > 0)) return;
       var beforeLost = F.lbsLost(state.profile, state.weights);
-      if (!state.profile.startWeight) { state.profile.startWeight = lbs; state.profile.startDate = d; }
       state.weights = state.weights.filter(function (w) { return w.date !== d; });
-      state.weights.push({ id: uid(), date: d, lbs: lbs }); save(); render(); toast('Weigh-in saved · ' + lbs + ' lbs'); afterWeigh(beforeLost);
+      state.weights.push({ id: uid(), date: d, lbs: Math.round(lbs * 10) / 10 }); save(); render(); toast('Weigh-in saved · ' + lbs + ' lbs'); afterWeigh(beforeLost);
     }
     if (f.id === 'race-form') {
       var tm = readTime(f, 'target'), anyT = ['h', 'm', 's'].some(function (p) { return (fd.get('target-' + p) || '').trim(); });
@@ -1926,8 +2100,8 @@ nav.tabs svg { width: 24px; height: 24px; }
     if (f.id === 'settings-form') {
       var p = state.profile;
       p.name = (fd.get('name') || '').trim(); p.dailyGoal = parseFloat(fd.get('dailyGoal')) || 3; p.weeklyGoal = parseFloat(fd.get('weeklyGoal')) || 15;
-      p.startWeight = parseFloat(fd.get('startWeight')) || null; p.startDate = fd.get('startDate') || null;
-      p.goalWeight = parseFloat(fd.get('goalWeight')) || null; p.waterGoal = +fd.get('waterGoal') || 8;
+      p.startWeight = parseFloat(fd.get('startWeight')) || null; p.startDate = fd.get('startDate') || null; state.weights = F.migrateWeights(p, state.weights, uid, today()).weights;
+      p.goalWeight = parseFloat(fd.get('goalWeight')) || null; p.waterOz = Math.round(parseFloat(fd.get('waterOz')) * 10) / 10 || 64;
       save(); closeOverlay(); render(); toast('Settings saved');
     }
   });
