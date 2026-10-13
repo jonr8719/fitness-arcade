@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<!-- Grit standalone build 2026-10-13T20:20:39.017Z · Fonts: Inter (SIL OFL 1.1) -->
+<!-- Grit standalone build 2026-10-13T20:28:56.028Z · Fonts: Inter (SIL OFL 1.1) -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#000000">
@@ -336,6 +336,24 @@ nav.tabs svg { width: 24px; height: 24px; }
 .celebrate.gold .cel-list span { color: #d9c27e; }
 .ach.earned { border-color: rgba(212,175,55,.45); background: rgba(212,175,55,.1); color: var(--gold-hi); box-shadow: 0 4px 14px -8px rgba(212,175,55,.5); }
 .ach.earned svg { color: var(--gold); }
+
+/* ghost runner hero card */
+.ghost-card { position: relative; overflow: hidden; border-color: rgba(190,210,230,.16); background: linear-gradient(160deg, #0f1a26 0%, #0c0f13 45%, var(--card) 100%); }
+.gc-glow { position: absolute; width: 260px; height: 260px; right: -80px; top: -110px; border-radius: 50%; background: radial-gradient(circle, rgba(200,225,255,.16), rgba(200,225,255,0) 70%); pointer-events: none; animation: gcfloat 6s ease-in-out infinite alternate; }
+@keyframes gcfloat { to { transform: translate(-18px, 14px); } }
+.gc-top { position: relative; display: flex; gap: 14px; align-items: center; margin-bottom: 14px; }
+.gc-top h3 { font-size: 19px; font-weight: 800; }
+.gc-icon { width: 52px; height: 52px; flex: none; border-radius: 16px; display: grid; place-items: center; background: rgba(220,235,255,.07); border: 1px solid rgba(220,235,255,.14); color: #e6eef8; box-shadow: 0 0 24px rgba(200,225,255,.12); }
+.gc-icon svg { width: 30px; height: 30px; opacity: .92; }
+.ghost-card select { position: relative; }
+.gc-hero { position: relative; margin: 14px 0 6px; padding: 16px; border-radius: var(--r-sm); background: rgba(255,255,255,.035); border: 1px solid rgba(220,235,255,.1); }
+.gc-time { font-size: 46px; font-weight: 800; letter-spacing: -.04em; line-height: 1.05; margin-top: 4px; color: #f2f6fa; text-shadow: 0 0 22px rgba(200,225,255,.25); }
+.gc-meta { color: var(--muted); font-size: 14px; margin-top: 4px; } .gc-meta b { color: var(--text); }
+.gc-crown { margin: 10px 0 0; font-size: 13px; color: #d9c27e; } .gc-crown svg { color: var(--gold); }
+.gtbl { font-size: 13px; } .gtbl th, .gtbl td { padding-left: 3px; padding-right: 3px; white-space: nowrap; }
+.gtbl td:first-child { width: 26px; }
+.latest-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--green); margin-left: 6px; vertical-align: 2px; }
+.gh-miles { color: var(--text); font-weight: 700; }
 
 </style>
 <link rel="manifest" href="manifest.webmanifest">
@@ -1260,7 +1278,7 @@ nav.tabs svg { width: 24px; height: 24px; }
     recs.forEach(function (p) { var l = recLine(p); items.push({ icon: 'bolt', title: l.title, delta: l.delta }); });
     if (gc && gc.ready) {
       ghostItem = { icon: 'ghost', title: gc.ahead ? 'Beat your ghost by ' + fmtGap(gc.deltaSec) : gc.tie ? 'Dead even with your ghost' : fmtGap(gc.deltaSec) + ' behind your ghost',
-        delta: (gc.ghost.mode === 'route' ? 'Best on ' + gc.ghost.run.route : 'Best at ~' + gc.ghost.run.miles + ' mi') + ' · ' + Math.abs(gc.paceDeltaSec) + ' sec/mi ' + (gc.paceDeltaSec <= 0 ? 'faster' : 'slower') };
+        delta: 'Ghost: ' + gc.ghost.run.miles + ' mi in ' + F.fmtDuration(gc.ghost.run.minutes) + (gc.ghost.mode === 'route' ? ' on ' + gc.ghost.run.route : '') + ' · ' + Math.abs(gc.paceDeltaSec) + ' sec/mi ' + (gc.paceDeltaSec <= 0 ? 'faster' : 'slower') };
       items.push(ghostItem);
     }
     achs.forEach(function (a) { items.push({ icon: 'flag', title: a.label, delta: 'Achievement unlocked' }); });
@@ -1516,7 +1534,7 @@ nav.tabs svg { width: 24px; height: 24px; }
     if (!cmp) return '';
     var g = cmp.ghost, gr = g.run, label = g.mode === 'route' ? esc(gr.route) : 'similar distance (' + gr.miles + ' mi)';
     var h = '<div class="ghost' + (cmp.ready ? (cmp.ahead ? ' ahead' : cmp.tie ? '' : ' behind') : '') + '" data-testid="ghost"><div class="gh-head">' + ico('ghost') + '<span>Ghost runner</span></div>' +
-      '<div class="small muted">Your best on ' + label + ': ' + F.fmtDuration(gr.minutes) + ' (' + F.fmtPace(g.pace) + '/mi), ' + F.fmtShort(gr.date) + ' · ' + plural(g.tries, 'attempt') + '</div>';
+      '<div class="small muted">Your best on ' + label + ': <b class="gh-miles">' + gr.miles + ' mi</b> in ' + F.fmtDuration(gr.minutes) + ' (' + F.fmtPace(g.pace) + '/mi), ' + F.fmtShort(gr.date) + ' · ' + plural(g.tries, 'attempt') + '</div>';
     if (cmp.ready) {
       h += '<div class="gh-result" data-testid="ghost-result">' + (cmp.tie ? 'Dead even' : (cmp.ahead ? 'Ahead by ' : 'Behind by ') + fmtGap(cmp.deltaSec)) + '</div>' +
         '<div class="small muted">' + (cmp.tie ? 'Exactly your best.' : Math.abs(cmp.paceDeltaSec) + ' sec/mi ' + (cmp.paceDeltaSec <= 0 ? 'faster' : 'slower') + (cmp.gapMiles ? ' · ' + cmp.gapMiles + ' mi gap at the finish' : '')) + '</div>';
@@ -1660,9 +1678,17 @@ nav.tabs svg { width: 24px; height: 24px; }
       var sel = state.ui.ghostRoute && rn.indexOf(state.ui.ghostRoute) !== -1 ? state.ui.ghostRoute : rn[0];
       var tries = state.runs.filter(function (r) { return (r.route || '').trim().toLowerCase() === sel.toLowerCase(); }).sort(function (x, y) { return F.pace(x) - F.pace(y); });
       var latest = tries.slice().sort(function (x, y) { return x.date < y.date ? 1 : -1; })[0];
-      h += card('', 'ghost-board', hd('Ghost runner', 'Your best effort on each route is the ghost to beat'),
+      var gb = tries[0], gap = latest && latest !== gb ? Math.round((latest.minutes - F.pace(gb) * latest.miles) * 60) : 0;
+      var crown = latest === gb ? 'Your latest run is the ghost. Next time, beat yourself.' : gap > 0 ? 'Your last try (' + latest.miles + ' mi, ' + F.fmtShort(latest.date) + ') was ' + fmtGap(gap) + ' behind. Beat it by ' + fmtGap(gap + 1) + ' at that distance to take the crown.' : 'Even with the ghost last time. One second faster takes the crown.';
+      h += '<section class="card ghost-card" data-testid="ghost-board"><div class="gc-glow" aria-hidden="true"></div>' +
+        '<div class="gc-top"><div class="gc-icon">' + ico('ghost') + '</div><div class="grow"><h3>Ghost runner</h3><div class="sub">Your best effort on each route is the ghost to beat</div></div></div>' +
         '<select data-action="ghost-route" aria-label="Route">' + rn.map(function (n) { return '<option' + (n === sel ? ' selected' : '') + '>' + esc(n) + '</option>'; }).join('') + '</select>' +
-        '<table class="tbl"><tr><th>#</th><th>Time</th><th>Pace</th><th>Date</th></tr>' + tries.slice(0, 5).map(function (r, i) { return '<tr' + (i === 0 ? ' class="best"' : '') + '><td>' + (i ? i + 1 : ico('ghost', 'inline')) + '</td><td>' + F.fmtDuration(r.minutes) + '</td><td>' + F.fmtPace(F.pace(r)) + '</td><td class="muted">' + F.fmtShort(r.date) + (r === latest && i ? ' · latest' : '') + '</td></tr>'; }).join('') + '</table>');
+        '<div class="gc-hero"><div class="eyebrow">Ghost to beat</div><div class="gc-time" data-testid="ghost-best">' + F.fmtDuration(gb.minutes) + '</div>' +
+        '<div class="gc-meta" data-testid="ghost-best-meta"><b>' + gb.miles + ' mi</b> · ' + F.fmtPace(F.pace(gb)) + '/mi · ' + F.fmtShort(gb.date) + ' · ' + plural(tries.length, 'attempt') + '</div>' +
+        '<p class="gc-crown" data-testid="ghost-crown">' + ico('scores', 'inline') + crown + '</p></div>' +
+        '<table class="tbl gtbl"><tr><th>#</th><th>Miles</th><th>Time</th><th>Pace</th><th>Date</th></tr>' + tries.slice(0, 5).map(function (r, i) {
+          return '<tr' + (i === 0 ? ' class="best"' : '') + '><td>' + (i ? i + 1 : ico('ghost', 'inline')) + '</td><td>' + r.miles.toFixed(r.miles % 1 ? (Math.round(r.miles * 100) % 10 ? 2 : 1) : 1) + '</td><td>' + F.fmtDuration(r.minutes) + '</td><td>' + F.fmtPace(F.pace(r)) + '</td><td class="muted">' + F.fmtShort(r.date) + (r === latest && i ? '<i class="latest-dot" title="latest"></i>' : '') + '</td></tr>'; }).join('') + '</table>' +
+        (tries.length > 1 && latest !== gb ? '<p class="fine" style="margin-bottom:0"><i class="latest-dot"></i> latest attempt</p>' : '') + '</section>';
     } else h += card('', 'ghost-board', hd('Ghost runner'), '<p class="muted">Name a route when you log a run. Next time on that route, you’ll race your best effort.</p>');
     h += card('', 'efforts', hd('Top efforts'), '<div class="eyebrow">Fastest runs (1 mi+)</div>' + effortList(te.pace, 'board-pace') +
       '<div class="eyebrow" style="margin-top:18px">Biggest weeks</div>' + effortList(te.weekly, 'board-weekly') +
