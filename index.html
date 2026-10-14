@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<!-- Grit standalone build 2026-10-14T01:57:50.373Z · Fonts: Inter (SIL OFL 1.1) -->
+<!-- Grit standalone build 2026-10-14T04:31:04.925Z · Fonts: Inter (SIL OFL 1.1) -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#000000">
@@ -427,6 +427,55 @@ nav.tabs svg { width: 24px; height: 24px; }
 .body-metrics { padding: 14px 14px 2px; border-radius: var(--r-sm); background: var(--bg1); border: 1px solid var(--line); margin-bottom: 14px; }
 .section-t { font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 26px 2px 12px; }
 
+/* race results tile */
+.race-tile { border-color: rgba(212,175,55,.42); background: linear-gradient(155deg, #1f1a08 0%, #111008 45%, var(--card) 100%); box-shadow: 0 0 0 1px rgba(212,175,55,.06) inset, 0 10px 32px -14px rgba(212,175,55,.5); }
+.race-tile h3 { font-size: 22px; font-weight: 800; letter-spacing: -.01em; }
+.race-tile h3 svg { color: var(--gold); vertical-align: -2px; }
+.race-tile .eyebrow { color: #cdb46a; margin: 16px 0 8px; }
+.rr-up, .rr-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.rr-up li { display: flex; gap: 12px; align-items: center; padding: 12px; border-radius: 14px; border: 1px dashed rgba(212,175,55,.45); background: rgba(212,175,55,.06); }
+.rr-cal { width: 46px; text-align: center; border-radius: 10px; background: var(--gold-a); padding: 6px 0; flex: none; }
+.rr-cal span { display: block; font-size: 11px; text-transform: uppercase; color: #d9c27e; font-weight: 700; } .rr-cal b { font-size: 20px; color: var(--gold-hi); }
+.rr-up .s, .rr-list .s { display: block; font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+.rr-days { text-align: center; flex: none; } .rr-days b { display: block; font-size: 24px; color: var(--gold-hi); line-height: 1; } .rr-days span { font-size: 11px; color: var(--muted); }
+.rr-prs { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; }
+.rr-pr { padding: 12px; border-radius: 14px; border: 1px solid rgba(212,175,55,.35); background: rgba(212,175,55,.07); }
+.rr-pr span { font-size: 12px; font-weight: 700; color: #d9c27e; letter-spacing: .04em; } .rr-pr b { display: block; font-size: 28px; font-weight: 800; line-height: 1.1; } .rr-pr small { color: var(--muted); font-size: 11.5px; }
+.rr-list li { display: flex; gap: 8px; align-items: flex-start; padding: 12px; border-radius: 14px; background: rgba(255,255,255,.03); border: 1px solid rgba(212,175,55,.2); }
+.rr-name { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; } .rr-name b { font-size: 16px; }
+.rr-time { display: flex; align-items: baseline; gap: 10px; margin-top: 6px; } .rr-time b { font-size: 26px; font-weight: 800; } .rr-time span { color: var(--muted); font-size: 13px; }
+.rr-place { display: flex; flex-wrap: wrap; gap: 12px; font-size: 13px; margin-top: 4px; color: var(--muted); } .rr-place b { color: var(--text, #fff); }
+.rr-empty { margin: 8px 0 14px; } .rr-empty b { font-size: 17px; color: var(--gold-hi); } .rr-empty p { margin: 6px 0 0; }
+.race-tile > .btn { margin-top: 14px; }
+.race-toggle { margin: 4px 0 14px; } .race-toggle .check { display: flex; gap: 10px; align-items: center; font-weight: 600; min-height: 44px; }
+.race-toggle .check input { width: 22px; height: 22px; accent-color: var(--gold); }
+.race-fields { display: none; padding: 12px; border-radius: 14px; border: 1px solid rgba(212,175,55,.3); background: rgba(212,175,55,.05); margin-top: 6px; }
+.race-toggle.on .race-fields, .race-toggle:has(input:checked) .race-fields { display: block; }
+
+/* miles chart: best, so-far + projection, average */
+.mc-sum { margin: 4px 0 0; font-size: 13.5px; color: var(--muted); } .mc-sum b { color: var(--text, #fff); }
+.mbars { position: relative; display: flex; gap: 8px; height: 150px; margin: 26px 0 10px; }
+.mbars .b { flex: 1; height: 100%; display: flex; flex-direction: column; align-items: center; min-width: 0; }
+.mbars .col { position: relative; flex: 1; width: 100%; max-width: 30px; }
+.mbars .col i { position: absolute; left: 0; right: 0; bottom: 0; border-radius: 6px 6px 3px 3px; display: block; }
+.mbars .act { background: var(--navy2); transform-origin: bottom; animation: grow .7s var(--ease) both; }
+.mbars .cur .act { background: var(--green); }
+.mbars .proj { border: 1.5px dashed rgba(105,190,40,.7); background: rgba(105,190,40,.08); }
+.mbars .best .act { background: linear-gradient(180deg, var(--gold-hi), var(--gold) 55%, var(--gold-lo)); box-shadow: 0 0 12px rgba(212,175,55,.35); }
+.mbars .cur.best .act { background: var(--green); box-shadow: 0 0 0 2px var(--gold); }
+.mbars em { position: absolute; left: -14px; right: -14px; text-align: center; font-style: normal; font-size: 11px; color: var(--muted); line-height: 1.15; }
+.mbars em small { display: block; font-size: 9.5px; color: var(--green); font-weight: 700; }
+.mbars .cur em { color: var(--green); font-weight: 700; }
+.mbars .best em { color: var(--gold-hi); font-weight: 700; }
+.best-tag { display: block; font-size: 9.5px; letter-spacing: .04em; text-transform: uppercase; color: var(--gold); } .best-tag svg { width: 10px; height: 10px; vertical-align: -1px; margin-right: 1px; }
+.mbars > .b > span { height: 20px; line-height: 20px; font-size: 11px; color: var(--dim); } .mbars .cur > span { color: var(--text, #fff); font-weight: 700; }
+.avgl { position: absolute; left: 0; right: 0; border-top: 1.5px dashed rgba(255,255,255,.32); z-index: 1; pointer-events: none; }
+.avgl span { position: absolute; left: 0; top: -16px; font-size: 10px; color: var(--muted); background: var(--card); padding: 0 4px; border-radius: 4px; }
+.mc-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 11px; color: var(--muted); }
+.mc-legend span { display: inline-flex; align-items: center; gap: 5px; }
+.mc-legend .sw { flex: none; width: 12px; height: 10px; border-radius: 3px; display: inline-block; box-sizing: border-box; } .sw-navy { background: var(--navy2); } .sw-green { background: var(--green); } .sw-gold { background: var(--gold); }
+.sw-proj { border: 1.5px dashed rgba(105,190,40,.8); } .mc-legend .sw-dash { height: 0; border-top: 1.5px dashed rgba(255,255,255,.5); border-radius: 0; }
+
 </style>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
@@ -615,6 +664,31 @@ nav.tabs svg { width: 24px; height: 24px; }
 
   // ---------- race countdown ----------
   var RACE_DISTANCES = { '5K': 3.10686, '10K': 6.21371, '15K': 9.32057, 'Half Marathon': 13.1094, 'Marathon': 26.2188 };
+  // ---------- race results ----------
+  var KNOWN_RACES = [{ date: '2026-04-04', miles: 3.11, name: 'FCA Run the Cedars 5K' }, { date: '2026-05-02', miles: 3.26, name: 'Honor the Fallen 5K' }];
+  function tagKnownRaces(runs) {
+    var n = 0;
+    (runs || []).forEach(function (r) { KNOWN_RACES.forEach(function (k) { if (r && !r.race && r.date === k.date && Math.abs(r.miles - k.miles) <= 0.1) { r.race = { name: k.name }; n++; } }); });
+    return n;
+  }
+  function raceLabel(miles) {
+    var best = null;
+    Object.keys(RACE_DISTANCES).forEach(function (k) { var d = RACE_DISTANCES[k]; if (Math.abs(miles - d) / d <= 0.06 && (!best || Math.abs(miles - d) < Math.abs(miles - RACE_DISTANCES[best]))) best = k; });
+    return best || (Math.round(miles * 100) / 100) + ' mi';
+  }
+  function raceResults(runs) {
+    var list = (runs || []).filter(function (r) { return r && r.race && r.miles > 0 && r.minutes > 0; }).map(function (r) {
+      var x = r.race;
+      return { id: r.id, name: x.name || 'Race', date: r.date, miles: r.miles, minutes: r.minutes, pace: r.minutes / r.miles, dist: raceLabel(r.miles),
+        place: x.place || null, field: x.field || null, agePlace: x.agePlace || null, ageField: x.ageField || null, ageGroup: x.ageGroup || '' };
+    }).sort(function (a, b) { return a.date < b.date ? 1 : a.date > b.date ? -1 : 0; });
+    var best = {};
+    list.forEach(function (x) { if (!best[x.dist] || x.minutes < best[x.dist].minutes) best[x.dist] = x; });
+    list.forEach(function (x) { x.pr = best[x.dist] === x; x.medal = (x.place && x.place <= 3) ? 'overall' : (x.agePlace && x.agePlace <= 3) ? 'age' : null; });
+    var order = Object.keys(RACE_DISTANCES);
+    var prs = Object.keys(best).map(function (k) { return best[k]; }).sort(function (a, b) { var ia = order.indexOf(a.dist), ib = order.indexOf(b.dist); return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib) || a.miles - b.miles; });
+    return { list: list, prs: prs };
+  }
   function raceInfo(race, today, runs) {
     if (!race || !race.date) return null;
     var miles = race.miles || RACE_DISTANCES[race.distance] || 0;
@@ -904,7 +978,7 @@ nav.tabs svg { width: 24px; height: 24px; }
     topEfforts: topEfforts, highScores: topEfforts, latestWeight: latestWeight, normalizeRun: normalizeRun, mergeRuns: mergeRuns, isDuplicateRun: isDuplicateRun, runCalories: runCalories, totalMiles: totalMiles, achievements: achievements,
     shoeMiles: shoeMiles, shoeStatus: shoeStatus,
     weeklyRecap: weeklyRecap, todayGoal: todayGoal, WATER_QUICK: WATER_QUICK, waterFor: waterFor, migrateWater: migrateWater,
-    RACE_DISTANCES: RACE_DISTANCES, raceInfo: raceInfo, 
+    RACE_DISTANCES: RACE_DISTANCES, raceInfo: raceInfo, KNOWN_RACES: KNOWN_RACES, tagKnownRaces: tagKnownRaces, raceLabel: raceLabel, raceResults: raceResults, 
 
     SURFACES: SURFACES, migrateRoutes: migrateRoutes, routeStats: routeStats, routeRuns: routeRuns, routeNames: routeNames, ghostFor: ghostFor, ghostCompare: ghostCompare,
     WMO: WMO, weatherTips: weatherTips, weatherUrl: weatherUrl, geocodeUrl: geocodeUrl, fmtHour: fmtHour, MOODS: MOODS, journalPatterns: journalPatterns,
@@ -1297,7 +1371,7 @@ nav.tabs svg { width: 24px; height: 24px; }
   // ---------- state ----------
   function blank() {
     return { v: 1, profile: { name: '', initials: 'JON', bodyLbs: null, heightIn: null, dailyGoal: 3, weeklyGoal: 15, waterOz: 64 },
-      weights: [], runs: [], routes: [], shoes: [], activeShoe: null, water: {}, race: null,
+      weights: [], runs: [], routes: [], shoes: [], activeShoe: null, water: {}, race: null, upcoming: [],
       celebrated: { milestone: 0, badges: [], ach: [] }, ui: { tab: 'home' }, flags: {},
       weather: { loc: { name: 'Murfreesboro, TN', lat: 35.8456, lon: -86.3903 }, cache: null } };
   }
@@ -1307,6 +1381,7 @@ nav.tabs svg { width: 24px; height: 24px; }
   }
   // Older saves (Fitness Arcade) may contain fields this app no longer uses: food[], calGoal, usdaKey, theme, ui.chip (music player),
   // ui.push, celebrated.badges (levels), journey (virtual journeys). They are left as-is in storage and simply ignored here.
+  var FRAMILY = { name: 'FRAMILY 5K', date: '2026-10-31', time: '9:00 AM', distance: '5K', location: 'Mill Ridge Park, Antioch, TN', terrain: 'Trail' };
   function migrate(s) {
     var b = blank();
     s.profile = Object.assign({}, b.profile, s.profile || {});
@@ -1315,6 +1390,15 @@ nav.tabs svg { width: 24px; height: 24px; }
     // Weight tracking was removed: old weigh-ins/photos stay in storage untouched but unused. The latest weigh-in prefills body weight once.
     if (!(s.profile.bodyLbs > 0)) { var lw = F.latestWeight(s.weights.filter(function (w) { return w && parseFloat(w.lbs) > 0 && typeof w.date === 'string'; }).map(function (w) { return { date: w.date, lbs: parseFloat(w.lbs) }; })); s.profile.bodyLbs = lw || +s.profile.startWeight || null; }
     if (!s.flags || typeof s.flags !== 'object') s.flags = {};
+    if (!Array.isArray(s.upcoming)) s.upcoming = [];
+    // Nike-imported races (4/4 FCA Run the Cedars 5K, 5/2 Honor the Fallen 5K) get flagged as races once; Jon can untag/edit after
+    if (!s.flags.racesTagged) { F.tagKnownRaces(s.runs); s.flags.racesTagged = true; }
+    // Jon's FRAMILY 5K: added to Upcoming once; becomes the race goal only if he has no current goal of his own
+    if (!s.flags.framily) {
+      s.flags.framily = true;
+      if (!s.upcoming.some(function (u) { return u.name === FRAMILY.name; })) s.upcoming.push(Object.assign({ id: 'framily-5k' }, FRAMILY));
+      if (!(s.race && s.race.date && s.race.date >= today())) s.race = { name: FRAMILY.name, distance: '5K', date: FRAMILY.date, targetTime: '' };
+    }
     // Water vs Diet Coke counter was replaced by an ounce-based water log: today's old water taps become 8 oz entries; Diet Coke is ignored
     F.migrateWater(s, today(), uid); if (!(s.profile.waterOz > 0)) s.profile.waterOz = 64;
     s.ui = Object.assign({}, b.ui, s.ui || {});
@@ -1645,6 +1729,46 @@ nav.tabs svg { width: 24px; height: 24px; }
   }
 
   // ---------- JOURNAL ----------
+  function raceResultsHtml() {
+    var t = today(), rr = F.raceResults(state.runs), b = '';
+    var up = (state.upcoming || []).filter(function (u) { return u.date >= t; }).sort(function (a, c) { return a.date < c.date ? -1 : 1; });
+    if (up.length) b += '<div class="eyebrow">Upcoming</div><ul class="rr-up" data-testid="race-upcoming">' + up.map(function (u) {
+      var d = F.raceInfo({ date: u.date, distance: u.distance }, t, []).days, mo = F.fmtShort(u.date).split(' ');
+      return '<li><div class="rr-cal"><span>' + esc(mo[0]) + '</span><b>' + esc(mo[1] || '') + '</b></div><div class="grow"><b>' + esc(u.name) + '</b><span class="s">' + [u.time, (u.terrain ? u.terrain + ' ' : '') + (u.distance || ''), u.location].filter(Boolean).map(esc).join(' · ') + '</span></div>' +
+        '<div class="rr-days"><b data-testid="upcoming-days">' + (d === 0 ? 'Today' : d) + '</b><span>' + (d === 0 ? 'race day' : d === 1 ? 'day' : 'days') + '</span></div></li>';
+    }).join('') + '</ul>';
+    if (rr.prs.length) b += '<div class="eyebrow">Race PRs</div><div class="rr-prs" data-testid="race-prs">' + rr.prs.map(function (x) {
+      return '<div class="rr-pr"><span>' + esc(x.dist) + '</span><b class="goldtxt">' + F.fmtDuration(x.minutes) + '</b><small>' + F.fmtPace(x.pace) + '/mi · ' + esc(x.name) + '</small></div>'; }).join('') + '</div>';
+    if (rr.list.length) b += '<div class="eyebrow">Results</div><ul class="rr-list" data-testid="race-list">' + rr.list.map(function (x) {
+      var pl = (x.place ? '<span>Overall <b>' + x.place + (x.field ? '/' + x.field : '') + '</b></span>' : '') + (x.agePlace ? '<span>Age group <b>' + x.agePlace + (x.ageField ? '/' + x.ageField : '') + '</b>' + (x.ageGroup ? ' ' + esc(x.ageGroup) : '') + '</span>' : '');
+      var badges = (x.medal ? '<span class="tag gold" data-testid="race-medal">' + ico('scores', 'inline') + (x.medal === 'overall' ? ' Podium' : ' AG medal') + '</span>' : '') + (x.pr ? '<span class="tag gold" data-testid="race-pr">' + esc(x.dist) + ' PR</span>' : '');
+      return '<li data-race="' + x.id + '"><div class="grow"><div class="rr-name"><b>' + esc(x.name) + '</b>' + badges + '</div><span class="s">' + F.fmtShort(x.date) + ', ' + x.date.slice(0, 4) + ' · ' + esc(x.dist) + ' · ' + x.miles.toFixed(2) + ' mi</span>' +
+        '<div class="rr-time"><b class="goldtxt">' + F.fmtDuration(x.minutes) + '</b><span>' + F.fmtPace(x.pace) + '/mi</span></div>' + (pl ? '<div class="rr-place">' + pl + '</div>' : '<div class="rr-place muted">Place unknown · tap edit to add it</div>') + '</div>' +
+        '<button class="del" data-action="edit-run" data-id="' + x.id + '" aria-label="Edit race result">' + ico('edit') + '</button></li>'; }).join('') + '</ul>';
+    else b += '<div class="rr-empty" data-testid="race-empty"><b>Your first finish line is waiting.</b><p class="muted">Pin on a bib and every race lands here in gold: finish time, place and your PRs. Training runs count. Race days are where they pay off.</p></div>';
+    b += '<button class="btn secondary sm" data-action="past-race">Add past race result</button>';
+    return '<section class="card race-tile" data-testid="race-results"><div class="card-head"><div><h3 class="goldtxt">' + ico('scores', 'inline') + ' Race Results</h3><div class="sub">' + (rr.list.length ? plural(rr.list.length, 'race') + ' finished' : 'Every bib tells a story') + '</div></div></div>' + b + '</section>';
+  }
+  function raceFields(p, r) {
+    var x = (r && r.race) || {}, on = !!(r && r.race);
+    function num(n, id, lbl, ph) { return '<div class="field"><label for="' + p + '-' + id + '">' + lbl + '</label><input id="' + p + '-' + id + '" name="' + n + '" type="number" inputmode="numeric" min="1" max="99999" placeholder="' + ph + '" value="' + (x[n] || '') + '"></div>'; }
+    return '<div class="race-toggle" data-testid="' + p + '-race-toggle"><label class="check"><input type="checkbox" id="' + p + '-is-race" name="isRace" value="1"' + (on ? ' checked' : '') + '><span>This was a race</span></label><div class="race-fields">' +
+      '<div class="field"><label for="' + p + '-race-name">Race name</label><input id="' + p + '-race-name" name="raceName" maxlength="80" value="' + esc(x.name || '') + '" placeholder="Turkey Trot 5K"></div>' +
+      '<div class="grid2">' + num('place', 'place', 'Overall place', '12') + num('field', 'field', 'Field size', '140') + num('agePlace', 'ageplace', 'Age group place', '3') + num('ageField', 'agefield', 'Age group size', '18') + '</div>' +
+      '<div class="field"><label for="' + p + '-agegroup">Age group</label><input id="' + p + '-agegroup" name="ageGroup" maxlength="20" value="' + esc(x.ageGroup || '') + '" placeholder="M35-39 (optional)"></div></div></div>';
+  }
+  function readRace(fd) {
+    if (!fd.get('isRace')) return null;
+    function n(k) { var v = parseInt(fd.get(k), 10); return v > 0 ? v : null; }
+    return { name: (fd.get('raceName') || '').trim() || 'Race', place: n('place'), field: n('field'), agePlace: n('agePlace'), ageField: n('ageField'), ageGroup: (fd.get('ageGroup') || '').trim() };
+  }
+  function pastRaceForm() {
+    overlay('<div class="sheet" role="dialog" aria-label="Add past race"><h2>Add past race result</h2><form id="past-race-form"><div class="grid2">' +
+      '<div class="field"><label for="pr-miles">Distance (mi)</label><input id="pr-miles" name="miles" type="number" inputmode="decimal" step="0.01" min="0.1" max="100" placeholder="3.11" required></div>' +
+      '<div class="field"><label for="pr-date">Date</label><input id="pr-date" name="date" type="date" max="' + today() + '" required></div></div>' +
+      timeField('ptime', 'Finish time', null, true) + raceFields('past', { race: {} }) +
+      '<button class="btn primary block">Save race result</button></form><div class="sheet-actions"><button class="btn ghost block" data-action="close-overlay">Cancel</button></div></div>');
+  }
   function journalHtml() {
     var jp = F.journalPatterns(state.runs), b = '<ul class="tips" data-testid="journal-insights">' + jp.insights.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>';
     if (jp.entries) {
@@ -1675,7 +1799,7 @@ nav.tabs svg { width: 24px; height: 24px; }
       '<div id="ghost-preview"></div>' +
       '<div class="field"><label>How did it feel?</label>' + seg('mood', [1, 2, 3, 4, 5].map(function (n) { return [n, F.MOODS[n]]; }), 'Mood') + '</div>' +
       '<div class="field"><label>Energy</label>' + seg('energy', [1, 2, 3, 4, 5].map(function (n) { return [n, String(n)]; }), 'Energy') + '</div>' +
-      '<div class="field"><label for="run-note">Note</label><input id="run-note" name="note" maxlength="200" placeholder="Legs, sleep, weather…"></div>' +
+      '<div class="field"><label for="run-note">Note</label><input id="run-note" name="note" maxlength="200" placeholder="Legs, sleep, weather…"></div>' + raceFields('run', null) +
       '<button type="submit" class="btn primary block">Save run</button></form>');
     var r = F.raceInfo(state.race, t, state.runs);
     h += card('', 'race-mini', hd('Race goal'), (r ? '<p><b>' + esc(r.name) + '</b> · ' + esc(r.distance) + ' · ' + F.fmtShort(r.date) + ' · ' + (r.past ? 'done' : plural(r.days, 'day')) + (r.requiredPace ? ' · ' + F.fmtPace(r.requiredPace) + '/mi goal pace' : '') + '</p>' : '<p class="muted">No race set.</p>') +
@@ -1694,7 +1818,7 @@ nav.tabs svg { width: 24px; height: 24px; }
     var keys = prRunKeys(), runs = state.runs.slice().sort(function (a, b) { return a.date < b.date ? 1 : a.date > b.date ? -1 : 0; }).slice(0, 20);
     h += card('', 'history', hd('History', plural(state.runs.length, 'run') + ' · ' + F.totalMiles(state.runs).toFixed(1) + ' mi'), runs.length ? '<ul class="list runs" data-testid="run-list">' + runs.map(function (x) {
       var sh = state.shoes.filter(function (s) { return s.id === x.shoeId; })[0], pr = keys[x.date + '|' + F.pace(x).toFixed(6)];
-      return '<li><div class="name"><b>' + x.miles.toFixed(2) + ' mi · ' + F.fmtDuration(x.minutes) + ' · ' + F.fmtPace(F.pace(x)) + '/mi</b>' + (pr ? ' <span class="tag gold" data-testid="pr-tag">PR</span>' : '') +
+      return '<li><div class="name"><b>' + x.miles.toFixed(2) + ' mi · ' + F.fmtDuration(x.minutes) + ' · ' + F.fmtPace(F.pace(x)) + '/mi</b>' + (pr ? ' <span class="tag gold" data-testid="pr-tag">PR</span>' : '') + (x.race ? ' <span class="tag gold" data-testid="race-tag">Race</span>' : '') +
         '<span class="s">' + F.fmtShort(x.date) + (x.route ? ' · ' + esc(x.route) : '') + (x.cadence ? ' · ' + x.cadence + ' spm' : '') + (x.hr ? ' · ' + x.hr + ' bpm' : '') + (sh ? ' · ' + esc(sh.name) : '') + (x.mood ? ' · ' + F.MOODS[x.mood] : '') + (kcal(x) ? ' · <span data-testid="run-kcal">' + kcal(x) + ' cal</span>' : '') + (x.source ? ' · ' + esc(x.source) : '') + '</span></div>' +
         '<button class="del" data-action="edit-run" data-id="' + x.id + '" aria-label="Edit run">' + ico('edit') + '</button><button class="del" data-action="del-run" data-id="' + x.id + '" aria-label="Delete run">' + ico('x') + '</button></li>'; }).join('') + '</ul>' : '<p class="muted">No runs yet.</p>');
     return h;
@@ -1728,8 +1852,27 @@ nav.tabs svg { width: 24px; height: 24px; }
       var wm = {}; F.weeklyMiles(state.runs).forEach(function (w) { wm[w.week] = w.miles; });
       for (i = 7; i >= 0; i--) { var w = F.weekStart(F.addDays(t, -7 * i)); items.push({ m: wm[w] || 0, l: F.fmtShort(w).split(' ')[1] }); }
     }
-    var max = Math.max.apply(null, items.map(function (x) { return x.m; }).concat([1])), best = Math.max.apply(null, items.map(function (x) { return x.m; }));
-    return '<div class="bars8" data-testid="miles-bars">' + items.map(function (x, k) { return '<div class="b' + (k === items.length - 1 ? ' today' : '') + (x.m && x.m === best ? ' top' : '') + '"><em>' + x.m.toFixed(0) + '</em><i style="height:' + Math.max(3, x.m / max * 100) + '%"></i><span>' + x.l + '</span></div>'; }).join('') + '</div>';
+    var cur = items[items.length - 1], done = items.slice(0, -1), td = F.parseISO(t), frac;
+    if (mode === 'month') frac = td.getDate() / new Date(td.getFullYear(), td.getMonth() + 1, 0).getDate();
+    else frac = (F.dayDiff(F.weekStart(t), t) + 1) / 7;
+    var proj = frac < 1 && cur.m > 0 ? cur.m / frac : null;
+    var avg = done.length ? done.reduce(function (a, x) { return a + x.m; }, 0) / done.length : 0;
+    var best = Math.max.apply(null, items.map(function (x) { return x.m; })), bestK = best > 0 ? items.map(function (x) { return x.m; }).indexOf(best) : -1;
+    var max = Math.max.apply(null, items.map(function (x) { return x.m; }).concat([proj || 0, avg, 1])) * 1.15;
+    function pct(v) { return (v / max * 100).toFixed(1); }
+    function n0(v) { return v >= 10 ? Math.round(v) : Math.round(v * 10) / 10; }
+    var unit = mode === 'month' ? 'mo' : 'wk', curName = mode === 'month' ? cur.l : 'This week';
+    var sum = '<p class="mc-sum" data-testid="miles-summary"><b>' + curName + ': ' + n0(cur.m) + ' mi so far</b>' + (proj ? ' · on pace for ~' + Math.round(proj) : '') + ' · avg ' + Math.round(avg) + '/' + unit + '</p>';
+    var bars = items.map(function (x, k) {
+      var isCur = k === items.length - 1, isBest = k === bestK, h = Math.max(x.m > 0 ? 2 : 0.8, +pct(x.m));
+      return '<div class="b' + (isCur ? ' cur' : '') + (isBest ? ' best' : '') + '"><div class="col">' +
+        (isCur && proj ? '<i class="proj" style="height:' + pct(proj) + '%" title="On pace for ' + Math.round(proj) + ' mi"></i>' : '') +
+        '<i class="act" style="height:' + h + '%"></i>' +
+        '<em style="bottom:calc(' + Math.max(h, isCur && proj ? +pct(proj) : 0) + '% + 3px)">' + (isBest ? '<b class="best-tag">' + ico('scores', 'inline') + 'Best</b>' : '') + n0(x.m) + (isCur ? '<small>so far</small>' : '') + '</em></div><span>' + x.l + '</span></div>';
+    }).join('');
+    var avgLine = avg > 0 ? '<div class="avgl" data-testid="miles-avg" style="bottom:calc(20px + (100% - 20px) * ' + (avg / max).toFixed(3) + ')"><span>avg ' + Math.round(avg) + '</span></div>' : '';
+    var legend = '<div class="mc-legend" data-testid="miles-legend"><span><i class="sw sw-navy"></i>Miles</span><span><i class="sw sw-green"></i>So far</span>' + (proj ? '<span><i class="sw sw-proj"></i>On pace</span>' : '') + '<span><i class="sw sw-gold"></i>Best</span><span><i class="sw sw-dash"></i>Avg (past ' + done.length + ')</span></div>';
+    return sum + '<div class="mbars" data-testid="miles-bars">' + avgLine + bars + '</div>' + legend;
   }
   // ---------- RECORDS ----------
   function effortList(rows, testid) {
@@ -1771,7 +1914,7 @@ nav.tabs svg { width: 24px; height: 24px; }
     h += '<div class="section-t">Training</div>';
     h += card('', 'miles-chart', hd('Miles', mode === 'month' ? 'Last 6 months' : 'Last 8 weeks (Mon–Sun)', '<div class="seg mini"><button data-action="miles-view" data-id="week" aria-pressed="' + (mode === 'week') + '">Week</button><button data-action="miles-view" data-id="month" aria-pressed="' + (mode === 'month') + '">Month</button></div>'), periodBars(mode));
     h += card('', 'pace-trend', hd('Pace trend', 'Weekly average · higher is faster'), lineChart(wp.map(function (w) { return { x: F.fmtShort(w.week), y: w.pace }; }), { label: 'Weekly average pace', invert: true, fmt: function (v) { return F.fmtPace(v); }, empty: 'Log runs in two different weeks to see your pace trend.' }));
-    h += journalHtml();
+    h += raceResultsHtml();
     h += card('', 'achievements', hd('Achievements', a.earned.length + ' earned'), a.groups.map(function (g) {
       return '<div class="ach-group"><div class="row spread"><b>' + g.title + '</b><span class="muted small">' + (g.next ? g.have + ' / ' + (g.next.at % 1 ? g.next.at.toFixed(1) : g.next.at) + ' ' + g.unit : 'All done') + '</span></div>' + bar(g.nextPct) +
         '<div class="ach-chips">' + g.items.map(function (i) { return '<span class="ach' + (i.earned ? ' earned' : '') + '" data-ach="' + i.id + '">' + (i.earned ? ico('check', 'inline') : '') + esc(i.label) + '</span>'; }).join('') + '</div></div>';
@@ -1794,7 +1937,7 @@ nav.tabs svg { width: 24px; height: 24px; }
     var m = F.mergeRuns(state.runs, list, uid, source);
     if (!m.added.length) { toast('Nothing new to add' + (m.skipped ? ' · ' + m.skipped + ' already logged' : '')); return m; }
     if (!confirm('Add ' + plural(m.added.length, 'run') + ' from ' + label + '?' + (m.skipped ? ' ' + m.skipped + ' already logged will be skipped.' : '') + ' Nothing is replaced.')) return null;
-    state.runs = m.runs; state.celebrated.ach = ach().earned.map(function (a) { return a.id; }); save(); closeOverlay(); render();
+    F.tagKnownRaces(m.added); state.runs = m.runs; state.celebrated.ach = ach().earned.map(function (a) { return a.id; }); save(); closeOverlay(); render();
     toast('Added ' + plural(m.added.length, 'run') + (m.skipped ? ' · skipped ' + m.skipped + ' duplicate' + (m.skipped === 1 ? '' : 's') : '') + (m.invalid ? ' · ' + m.invalid + ' unreadable' : ''));
     return m;
   }
@@ -1829,7 +1972,7 @@ nav.tabs svg { width: 24px; height: 24px; }
       '<div class="field"><label for="edit-miles">Distance (mi)</label><input id="edit-miles" name="miles" type="number" inputmode="decimal" step="0.01" min="0.1" max="100" value="' + r.miles + '" required></div>' +
       '<div class="field"><label for="edit-date">Date</label><input id="edit-date" name="date" type="date" max="' + today() + '" value="' + r.date + '" required></div></div>' +
       timeField('etime', 'Time', r.minutes, true) +
-      routePicker('edit', r.routeId) +
+      routePicker('edit', r.routeId) + raceFields('edit', r) +
       '<button class="btn primary block">Save changes</button></form><div class="sheet-actions"><button class="btn ghost block" data-action="close-overlay">Cancel</button></div></div>');
   }
 
@@ -1859,7 +2002,7 @@ nav.tabs svg { width: 24px; height: 24px; }
     s.routes.forEach(function (r) { if (/Greenway/.test(r.name)) { r.surface = 'Paved'; r.location = 'Murfreesboro, TN'; r.notes = 'Start at Thompson Lane trailhead. Flat and shaded.'; } else { r.surface = 'Mixed'; r.location = 'Barfield Crescent Park'; } });
     s.routes.push({ id: uid(), name: 'Old Fort trail', miles: 5, surface: 'Trail', location: 'Old Fort Park', notes: 'Rooty in the woods section' });
     s.race = { name: 'Turkey Trot', distance: '10K', date: F.addDays(t, 46), targetTime: '58:00' };
-    s.flags = { nrcImported: true }; s.celebrated = { milestone: 0, badges: [], ach: F.achievements(s.profile, s.weights, s.runs).earned.map(function (a) { return a.id; }) };
+    s.flags = { nrcImported: true, racesTagged: true, framily: true }; s.celebrated = { milestone: 0, badges: [], ach: F.achievements(s.profile, s.weights, s.runs).earned.map(function (a) { return a.id; }) };
     if (state && state.weather) s.weather = state.weather;
     return s;
   }
@@ -1898,6 +2041,7 @@ nav.tabs svg { width: 24px; height: 24px; }
       case 'shoe-unretire': state.shoes.forEach(function (s) { if (s.id === id) s.retired = false; }); save(); render(); break;
       case 'settings': settings(); break;
       case 'race-form': raceForm(); break;
+      case 'past-race': pastRaceForm(); break;
       case 'race-clear': state.race = null; save(); render(); break;
       case 'close-overlay': closeOverlay(); break;
       case 'wx-loc': locModal(); break;
@@ -1954,7 +2098,7 @@ nav.tabs svg { width: 24px; height: 24px; }
       var rt = resolveRoute(fd, mi); if (rt === false) return;
       var cad = parseInt(fd.get('cadence'), 10), hr = parseInt(fd.get('hr'), 10), route = rt ? rt.name : '';
       var newRun = { id: uid(), date: fd.get('date'), miles: Math.round(mi * 100) / 100, minutes: min, cadence: cad > 0 ? cad : null, hr: hr > 0 ? hr : null, shoeId: fd.get('shoe') || null,
-        route: route || null, routeId: rt ? rt.id : null, mood: +fd.get('mood') || null, energy: +fd.get('energy') || null, note: (fd.get('note') || '').trim() || null };
+        route: route || null, routeId: rt ? rt.id : null, mood: +fd.get('mood') || null, energy: +fd.get('energy') || null, note: (fd.get('note') || '').trim() || null, race: readRace(fd) };
       var hadRuns = state.runs.length > 0, prsBefore = F.personalRecords(state.runs);
       var gc = F.ghostCompare(state.runs, { route: route, miles: newRun.miles, minutes: min, beforeDate: newRun.date });
       state.runs.push(newRun);
@@ -1966,8 +2110,16 @@ nav.tabs svg { width: 24px; height: 24px; }
       var er = state.runs.filter(function (x) { return x.id === f.dataset.id; })[0], emi = parseFloat(fd.get('miles')), emin = readTime(f, 'etime');
       if (!er) return; if (!(emi > 0) || !(emin > 0)) { toast('Enter a distance and a time (seconds 0–59)'); return; }
       var ert = resolveRoute(fd, emi); if (ert === false) return;
-      er.miles = Math.round(emi * 100) / 100; er.minutes = emin; er.date = fd.get('date') || er.date; er.route = ert ? ert.name : null; er.routeId = ert ? ert.id : null;
+      er.miles = Math.round(emi * 100) / 100; er.minutes = emin; er.date = fd.get('date') || er.date; er.route = ert ? ert.name : null; er.routeId = ert ? ert.id : null; er.race = readRace(fd);
       save(); closeOverlay(); render(); toast('Run updated'); return;
+    }
+    if (f.id === 'past-race-form') {
+      var pmi = parseFloat(fd.get('miles')), pmin = readTime(f, 'ptime'), pd = fd.get('date');
+      if (!(pmi > 0) || !(pmin > 0) || !pd) { toast('Enter date, distance and finish time'); return; }
+      var prace = readRace(fd) || { name: 'Race' };
+      state.runs.push({ id: uid(), date: pd, miles: Math.round(pmi * 100) / 100, minutes: pmin, cadence: null, hr: null, shoeId: null, route: null, routeId: null, mood: null, energy: null, note: null, race: prace });
+      state.celebrated.ach = ach().earned.map(function (a) { return a.id; });
+      save(); closeOverlay(); render(); toast('Race result added · ' + prace.name); return;
     }
     if (f.id === 'water-form') { var cz = parseFloat(fd.get('oz')); if (cz > 0) { addWater(cz); } else toast('Enter ounces'); return; }
     if (f.id === 'route-form') {
