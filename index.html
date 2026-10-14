@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<!-- Grit standalone build 2026-10-14T14:01:16.760Z · Fonts: Inter (SIL OFL 1.1) -->
+<!-- Grit standalone build 2026-10-14T14:23:50.046Z · Fonts: Inter (SIL OFL 1.1) -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#000000">
@@ -296,7 +296,7 @@ form.row input { width: auto; } form.row input.grow { flex: 1 1 0; } form.row .b
 
 /* bottom tabs */
 nav.tabs { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; background: rgba(0,0,0,.82); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom); }
-nav.tabs .inner { max-width: 560px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); }
+nav.tabs .inner { max-width: 560px; margin: 0 auto; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); }
 nav.tabs button { min-height: 60px; border: 0; background: none; color: var(--dim); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 11px; font-weight: 600; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: color .2s; }
 nav.tabs button[aria-selected=true] { color: var(--green); }
 nav.tabs svg { width: 24px; height: 24px; }
@@ -481,6 +481,63 @@ nav.tabs svg { width: 24px; height: 24px; }
 .mo-check input { width: 22px; height: 22px; margin-top: 1px; flex: none; accent-color: var(--green); }
 .mo-check small { display: block; font-weight: 400; font-size: 12px; color: var(--muted); margin-top: 2px; }
 
+/* ---------- trophies ---------- */
+.trophy-room { background: radial-gradient(120% 50% at 50% 0%, rgba(105,190,40,.08), rgba(0,0,0,0) 60%), #0a0b0c; border-color: rgba(255,255,255,.08); }
+.trophy-room h3 { font-size: 22px; font-weight: 800; letter-spacing: -.01em; }
+.tr-count { display: flex; gap: 14px; align-items: baseline; margin: 2px 0 6px; }
+.tr-count b { font-size: 34px; font-weight: 800; color: #fff; line-height: 1; } .tr-count span { color: var(--muted); font-size: 13px; }
+.tr-next { list-style: none; margin: 8px 0 16px; padding: 0; display: grid; gap: 10px; }
+.tr-next li { display: flex; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 14px; background: rgba(255,255,255,.03); border: 1px solid hsla(var(--h),90%,60%,.28); cursor: pointer; }
+.tr-next .tbadge { flex: none; filter: drop-shadow(0 0 8px hsla(var(--h),100%,55%,.35)) saturate(.75) brightness(.8); }
+.tr-next b { display: block; font-size: 15px; } .tr-next .s { font-size: 12px; color: var(--muted); display: block; margin: 2px 0 6px; }
+.tr-bar { height: 6px; border-radius: 4px; background: rgba(255,255,255,.08); overflow: hidden; } .tr-bar i { display: block; height: 100%; border-radius: 4px; background: linear-gradient(90deg, hsl(var(--h),100%,45%), hsl(calc(var(--h) + 30),100%,62%)); box-shadow: 0 0 10px hsla(var(--h),100%,55%,.6); }
+.tr-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px 8px; margin-top: 6px; }
+.tr-tile { all: unset; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 8px 2px 10px; border-radius: 16px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.tr-tile:active { transform: scale(.96); }
+.tr-tile .tbadge { width: 92px; height: auto; filter: drop-shadow(0 0 14px hsla(var(--h),100%,55%,.55)) drop-shadow(0 6px 10px rgba(0,0,0,.6)); }
+.tr-tile.t4 .tbadge { filter: drop-shadow(0 0 18px hsla(var(--h),100%,58%,.8)) drop-shadow(0 0 6px rgba(243,215,122,.6)); }
+.tr-tile .tn { font-size: 12.5px; font-weight: 800; line-height: 1.15; margin-top: 6px; color: #fff; }
+.tr-tile .td { font-size: 11px; color: var(--muted); margin-top: 3px; } .tr-tile .tx { font-size: 11px; font-weight: 700; color: hsl(var(--h),100%,70%); margin-top: 1px; }
+.tr-tile.locked .tbadge { filter: grayscale(1) brightness(.42) contrast(1.1); }
+.tr-tile.locked .tn { color: #8a9097; } .tr-tile.locked .td { font-size: 10.5px; line-height: 1.25; }
+.tr-tile.locked .tr-bar { width: 78%; margin-top: 5px; height: 4px; } .tr-tile.locked .tr-bar i { background: #6b737c; box-shadow: none; }
+.tr-tile .fwd { font-size: 9.5px; color: #6b737c; text-transform: uppercase; letter-spacing: .06em; margin-top: 2px; }
+.tr-sec { grid-column: 1 / -1; font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 10px 0 0; }
+
+.unlock { position: fixed; inset: 0; z-index: 90; display: none; align-items: center; justify-content: center; overflow: hidden; background: #000; --hue: 120; }
+.unlock.show { display: flex; animation: ulIn .25s ease-out both; }
+.unlock::before { content: ''; position: absolute; inset: 0; background: radial-gradient(60% 45% at 50% 40%, hsla(var(--hue),100%,45%,.55), rgba(0,0,0,0) 70%), radial-gradient(120% 80% at 50% 110%, hsla(calc(var(--hue) + 40),100%,30%,.4), #000 70%); }
+.ul-flash { position: absolute; inset: 0; background: radial-gradient(circle at 50% 40%, #fff, hsl(var(--hue),100%,70%) 30%, rgba(0,0,0,0) 70%); opacity: 0; animation: ulFlash .9s .32s ease-out both; pointer-events: none; }
+.ul-rays { position: absolute; left: 50%; top: 38%; width: 1600px; height: 1600px; margin: -800px 0 0 -800px; background: repeating-conic-gradient(from 0deg, hsla(var(--hue),100%,65%,.22) 0 6deg, rgba(0,0,0,0) 6deg 18deg); -webkit-mask: radial-gradient(circle, #000 0, rgba(0,0,0,.6) 25%, transparent 55%); mask: radial-gradient(circle, #000 0, rgba(0,0,0,.6) 25%, transparent 55%); animation: ulSpin 14s linear infinite, ulRays .8s .35s ease-out both; pointer-events: none; }
+.ul-parts { position: absolute; left: 50%; top: 38%; width: 0; height: 0; pointer-events: none; }
+.ul-parts i { position: absolute; left: 0; top: 0; width: var(--w); height: var(--h); margin: calc(var(--h) / -2) 0 0 calc(var(--w) / -2); background: var(--c); border-radius: 2px; box-shadow: 0 0 8px var(--c); opacity: 0; animation: ulBurst var(--t) .38s cubic-bezier(.15,.7,.3,1) both; }
+.ul-body { position: relative; z-index: 2; width: min(92vw, 420px); text-align: center; padding: 20px 18px calc(24px + env(safe-area-inset-bottom)); animation: ulShake .42s .36s both; }
+.ul-kicker { font-size: 12px; letter-spacing: .22em; text-transform: uppercase; color: hsl(var(--hue),100%,74%); font-weight: 700; animation: ulUp .5s .55s both; } .ul-kicker b { color: #fff; }
+.ul-badge { margin: 18px auto 6px; width: 230px; animation: ulSlam .62s .05s cubic-bezier(.2,.9,.25,1.25) both; filter: drop-shadow(0 0 28px hsla(var(--hue),100%,55%,.9)) drop-shadow(0 18px 30px rgba(0,0,0,.7)); }
+.ul-badge .tbadge { width: 230px; height: auto; }
+.ul-name { font-size: 40px; line-height: 1; font-weight: 800; letter-spacing: -.02em; text-transform: uppercase; margin: 14px 0 8px; color: #fff; text-shadow: 0 0 24px hsla(var(--hue),100%,55%,.7); animation: ulUp .5s .62s both; }
+.ul-tag { font-size: 16px; color: #d6dbe0; margin: 0 0 14px; animation: ulUp .5s .7s both; }
+.ul-stat { display: inline-block; padding: 8px 14px; border-radius: 999px; background: hsla(var(--hue),100%,50%,.16); border: 1px solid hsla(var(--hue),100%,60%,.5); color: hsl(var(--hue),100%,78%); font-weight: 700; font-size: 14px; animation: ulUp .5s .78s both; }
+.ul-meta { color: #8b939c; font-size: 13px; margin-top: 10px; animation: ulUp .5s .84s both; }
+.ul-actions { display: flex; gap: 10px; margin-top: 22px; animation: ulUp .5s .9s both; } .ul-actions .btn { flex: 1; }
+.unlock.replay .ul-flash, .unlock.replay .ul-parts { display: none; } .unlock.replay .ul-body { animation: none; }
+.unlock.beast .ul-name { background: linear-gradient(180deg, #fff6c4, hsl(var(--hue),100%,62%)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+@keyframes ulIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes ulFlash { 0% { opacity: 0; } 12% { opacity: .95; } 100% { opacity: 0; } }
+@keyframes ulSpin { to { transform: rotate(360deg); } }
+@keyframes ulRays { from { opacity: 0; } to { opacity: 1; } }
+@keyframes ulSlam { 0% { transform: scale(3.4) rotate(-14deg); opacity: 0; } 55% { transform: scale(.9) rotate(2deg); opacity: 1; } 75% { transform: scale(1.07) rotate(-1deg); } 100% { transform: scale(1) rotate(0); opacity: 1; } }
+@keyframes ulShake { 0%, 100% { transform: translate(0, 0); } 20% { transform: translate(-7px, 4px); } 40% { transform: translate(6px, -5px); } 60% { transform: translate(-4px, 3px); } 80% { transform: translate(3px, -2px); } }
+@keyframes ulBurst { 0% { opacity: 1; transform: rotate(var(--a)) translateY(0) rotate(0); } 80% { opacity: 1; } 100% { opacity: 0; transform: rotate(var(--a)) translateY(calc(var(--d) * -1)) rotate(var(--r)); } }
+@keyframes ulUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .unlock *, .unlock { animation: none !important; } .ul-parts, .ul-flash { display: none; } }
+
+nav.tabs button { position: relative; min-width: 0; padding: 0 2px; } nav.tabs button span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.nav-dot { display: none; position: absolute; top: 9px; left: calc(50% + 8px); width: 9px; height: 9px; border-radius: 50%; background: #ff3b5c; box-shadow: 0 0 0 2px #000, 0 0 10px rgba(255,59,92,.8); }
+nav.tabs button.has-dot .nav-dot { display: block; animation: dotPulse 1.6s ease-in-out infinite; }
+@keyframes dotPulse { 50% { transform: scale(1.25); } }
+@media (max-width: 340px) { nav.tabs button { font-size: 10px; } }
+
 </style>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
@@ -494,7 +551,8 @@ nav.tabs svg { width: 24px; height: 24px; }
 <nav class="tabs" aria-label="Screens"><div class="inner">
 <button data-goto="home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11.5 12 5l8 6.5V20a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1z"/></svg><span>Today</span></button>
 <button data-goto="run"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg><span>Log</span></button>
-<button data-goto="scores"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0zM8 6H5v1.5A3.5 3.5 0 0 0 8.5 11M16 6h3v1.5a3.5 3.5 0 0 1-3.5 3.5M12 13v4M8.5 20h7M10 17h4v3h-4z"/></svg><span>Records</span></button>
+<button data-goto="scores"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM12 9v4l2.5 2M9.5 2.5h5M18.5 5.5 20 4"/></svg><span>Records</span></button>
+<button data-goto="trophies" data-testid="tab-trophies"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0zM8 6H5v1.5A3.5 3.5 0 0 0 8.5 11M16 6h3v1.5a3.5 3.5 0 0 1-3.5 3.5M12 13v4M8.5 20h7M10 17h4v3h-4z"/></svg><span>Trophies</span><i class="nav-dot" aria-label="New trophy"></i></button>
 <button data-goto="routes"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="18" r="2"/><circle cx="18" cy="6" r="2"/><path d="M8 18h7.5a3.5 3.5 0 0 0 0-7h-7a3.5 3.5 0 0 1 0-7H16"/></svg><span>Routes</span></button>
 </div></nav>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -988,6 +1046,251 @@ nav.tabs svg { width: 24px; height: 24px; }
     return state;
   }
 
+  // ---------- trophies ----------
+  // tier: 1 bronze · 2 silver · 3 gold · 4 beast. kind 'all' = mileage/streak/holiday/consistency (miles-only runs count); 'perf' = pace/PR/ghost/race (miles-only runs never count)
+  var TIERS = ['', 'Bronze', 'Silver', 'Gold', 'Beast'], RARITY = ['', 'Common', 'Rare', 'Epic', 'Legendary'];
+  function nthWeekday(y, m, wd, n) { var d = new Date(y, m, 1), first = (wd - d.getDay() + 7) % 7 + 1; return y + '-' + pad(m + 1) + '-' + pad(first + 7 * (n - 1)); }
+  function thanksgiving(y) { return nthWeekday(y, 10, 4, 4); }
+  function laborDay(y) { return nthWeekday(y, 8, 1, 1); }
+  var FIVEK = 3.10686, TENK = 6.21371;
+  function mmss(min) { return fmtDuration(min); }
+  function hm(s) { var p = String(s || '').split(':'); return p.length >= 2 ? +p[0] * 60 + +p[1] : null; }
+  function wxAt(data, iso, hr) { // temp (°F) + rain flag for a given local date/hour from an Open-Meteo forecast
+    if (!data || !data.hourly || !data.hourly.time) return null;
+    var key = iso + 'T' + pad(hr) + ':00', i = data.hourly.time.indexOf(key); if (i < 0) return null;
+    var code = data.hourly.weather_code ? data.hourly.weather_code[i] : 0;
+    return { tempF: Math.round(data.hourly.temperature_2m[i]), rain: (code >= 51 && code <= 67) || (code >= 80 && code <= 82) || code >= 95, code: code };
+  }
+  function trophies(runs, opts) {
+    opts = opts || {};
+    var all = (runs || []).filter(function (r) { return r && r.date && r.miles > 0; }).slice().sort(function (a, b) { return a.date < b.date ? -1 : a.date > b.date ? 1 : (hm(a.start) || 0) - (hm(b.start) || 0); });
+    var pr = perf(all).filter(function (r) { return r.minutes > 0; });
+    var days = {}; all.forEach(function (r) { days[r.date] = (days[r.date] || 0) + 1; });
+    var dayList = Object.keys(days).sort(), today = opts.today || dayList[dayList.length - 1] || toISO(new Date());
+    var months = {}; all.forEach(function (r) { var k = r.date.slice(0, 7); months[k] = (months[k] || 0) + r.miles; });
+    var mKeys = Object.keys(months).sort(), curMonth = today.slice(0, 7);
+    var wDays = {}, wMiles = {}; dayList.forEach(function (d) { var w = weekStart(d); wDays[w] = (wDays[w] || 0) + 1; }); all.forEach(function (r) { var w = weekStart(r.date); wMiles[w] = (wMiles[w] || 0) + r.miles; });
+    var wKeys = Object.keys(wDays).sort(), curWeek = weekStart(today);
+    var segs = streakSegments(all), curStreak = currentStreak(all, today), bestStreak = segs.reduce(function (m, s) { return Math.max(m, s.days); }, 0);
+    var life = 0, lifeAt = {}; all.forEach(function (r) { var b = life; life += r.miles; [100, 250, 500, 1000, 1250].forEach(function (m) { if (b < m && life >= m) lifeAt[m] = r.date; }); });
+    var longest = all.reduce(function (m, r) { return Math.max(m, r.miles); }, 0);
+    var defs = [];
+    function H(d, s) { return { d: d, s: s }; }
+    function T(o) {
+      var hits = o.hits || [], n = hits.length;
+      var pct = n ? 100 : Math.max(0, Math.min(99, Math.round(o.pct || 0)));
+      defs.push({ id: o.id, hue: o.hue, tier: o.tier, tierName: TIERS[o.tier], rarity: RARITY[o.tier], name: o.name, tag: o.tag, req: o.req, glyph: o.glyph, label: o.label, kind: o.kind || 'all', fam: o.fam,
+        count: n, earned: n > 0, first: n ? hits[0].d : null, last: n ? hits[n - 1].d : null, stat: n ? hits[n - 1].s : '', pct: pct, progress: o.progress || '', fwd: !!o.fwd });
+    }
+    function ratio(have, need) { return need ? have / need * 100 : 0; }
+    function lower(best, need) { return best == null ? 0 : best <= need ? 100 : Math.max(0, 100 - (best - need) / need * 500); } // speed: 1% slower = -5%
+    var fmtD = function (d) { return fmtShort(d) + ', ' + d.slice(0, 4); };
+
+    // ===== FIRSTS & DISTANCE (red → green) =====
+    T({ id: 'day-one', fam: 'first', hue: 352, tier: 1, name: 'Day One', tag: 'The first step is the hardest. You took it.', req: 'Log your first run', glyph: 'flag', label: 'DAY 1', hits: all.length ? [H(all[0].date, all[0].miles + ' mi · the run that started it all')] : [] });
+    [[0.621, '1K', 'first-blood', 'First Blood', 'One kilometer down. The hunger starts here.', 1, 4], [FIVEK - 0.006, '5K', 'dist-5k', '5K Crusher', 'Three-point-one, no stopping.', 2, 10], [TENK - 0.011, '10K', 'dist-10k', '10K Warrior', 'Six-point-two. No breaks, no excuses.', 3, 18]].forEach(function (d) {
+      var h = all.filter(function (r) { return r.miles >= d[0]; }).map(function (r) { return H(r.date, r.miles + ' mi in ' + mmss(r.minutes)); });
+      T({ id: d[2], fam: 'dist', hue: d[6], tier: d[5], name: d[3], tag: d[4], req: 'One run of ' + d[1] + ' or longer', glyph: 'fang', label: d[1], hits: h, pct: ratio(longest, d[0]), progress: 'Longest ' + longest.toFixed(2) + ' mi' });
+    });
+    [[7, 'dist-7', 'Seven Deadly Miles', 'Seven miles. Every one of them a sin against quitting.', 2, 58, '7 MI'], [8, 'dist-8', 'Eight Ball', 'Eight miles. Rack \u2019em up.', 3, 70, '8 MI'], [10, 'dist-10', 'Double Digits', 'Ten miles in one go. Different animal.', 3, 88, '10 MI'], [13.1, 'dist-half', 'Half Beast', 'Thirteen-point-one on your own two feet.', 4, 108, '13.1']].forEach(function (d) {
+      var h = all.filter(function (r) { return r.miles >= d[0] - 0.005; }).map(function (r) { return H(r.date, r.miles + ' mi in ' + mmss(r.minutes)); });
+      T({ id: d[1], fam: 'dist', hue: d[5], tier: d[4], name: d[2], tag: d[3], req: 'One run of ' + d[0] + '+ mi', glyph: d[0] >= 13 ? 'claw' : 'fang', label: d[6], hits: h, pct: ratio(longest, d[0]), progress: 'Longest ' + longest.toFixed(2) + ' / ' + d[0] + ' mi' });
+    });
+    (function () { // 4 runs of 6.2+ in one month
+      var c = {}, h = []; all.forEach(function (r) { if (r.miles >= TENK - 0.011) { var k = r.date.slice(0, 7); c[k] = (c[k] || 0) + 1; if (c[k] === 4) h.push(H(r.date, '4 runs of 6.2+ mi in ' + fmtMonth(k))); } });
+      var best = Math.max.apply(null, Object.keys(c).map(function (k) { return c[k]; }).concat([0]));
+      T({ id: 'long-season', fam: 'dist', hue: 120, tier: 3, name: 'Long Run Season', tag: 'Four 10K-plus runs in a single month. Built for distance.', req: 'Four runs of 6.2+ mi in one month', glyph: 'mountain', label: '4x10K', hits: h, pct: ratio(c[curMonth] || 0, 4), progress: (c[curMonth] || 0) + '/4 this month · best ' + best });
+    })();
+    (function () { // 6+ on Sat and Sun of the same weekend
+      var big = {}; all.forEach(function (r) { if (r.miles >= 6) big[r.date] = r.miles; });
+      var h = Object.keys(big).sort().filter(function (d) { return parseISO(d).getDay() === 0 && big[addDays(d, -1)]; }).map(function (d) { return H(d, big[addDays(d, -1)] + ' mi Sat + ' + big[d] + ' mi Sun'); });
+      T({ id: 'b2b-long', fam: 'dist', hue: 132, tier: 4, name: 'Back-to-Back Long', tag: 'Six on Saturday. Six on Sunday. Legs of steel.', req: '6+ mi on both Saturday and Sunday of one weekend', glyph: 'claw', label: '6+6', hits: h, pct: 0, progress: 'Not yet' });
+    })();
+
+    // ===== SPEED (perf only; red → yellow) =====
+    var fk = pr.filter(function (r) { return r.miles >= FIVEK - 0.006; }).map(function (r) { return { r: r, t: r.minutes / r.miles * FIVEK }; });
+    var best5 = fk.length ? Math.min.apply(null, fk.map(function (x) { return x.t; })) : null;
+    [[31, 'sub31', 'Sub-31 Slayer', 'Thirty-one minutes never stood a chance.', 2, 0, '<31'], [30, 'sub30', 'Thirty Below', 'A 5K under thirty. Ice in the veins.', 3, 6, '<30'], [29, 'sub29', 'Sub-29 Savage', 'Under twenty-nine. Pure violence on pavement.', 4, 12, '<29']].forEach(function (d) {
+      var h = fk.filter(function (x) { return x.t < d[0]; }).map(function (x) { return H(x.r.date, '5K in ' + mmss(x.t) + ' (' + fmtPace(x.r.minutes / x.r.miles) + '/mi)'); });
+      T({ id: d[1], fam: 'speed', kind: 'perf', hue: d[5] || 0, tier: d[4], name: d[2], tag: d[3], req: '5K (3.1+ mi) under ' + d[0] + ':00', glyph: 'bolt', label: d[6], hits: h, pct: lower(best5, d[0]), progress: best5 ? 'Best ' + mmss(best5) + ' → under ' + d[0] + ':00' : 'Run a 5K' });
+    });
+    var p3 = pr.filter(function (r) { return r.miles >= 3; }), best3 = p3.length ? Math.min.apply(null, p3.map(pace)) : null;
+    T({ id: 'sub10', fam: 'speed', kind: 'perf', hue: 18, tier: 3, name: 'Double-Digit Dropout', tag: 'Kicked the double-digit pace for good.', req: '3+ mi averaging under 10:00/mi', glyph: 'bolt', label: '<10:00',
+      hits: p3.filter(function (r) { return pace(r) * 60 < 599.5; }).map(function (r) { return H(r.date, r.miles + ' mi at ' + fmtPace(pace(r)) + '/mi'); }), pct: lower(best3, 10), progress: best3 ? 'Best ' + fmtPace(best3) + '/mi (3+ mi)' : '' });
+    (function () {
+      var c = {}, h = []; p3.forEach(function (r) { if (pace(r) * 60 < 599.5) { var k = r.date.slice(0, 7); c[k] = (c[k] || 0) + 1; if (c[k] === 3) h.push(H(r.date, 'Third sub-10 run of ' + fmtMonth(k))); } });
+      T({ id: 'sub10-hat', fam: 'speed', kind: 'perf', hue: 26, tier: 4, name: 'Sub-10 Hat Trick', tag: 'Three sub-10 runs in one month. Not a fluke anymore.', req: 'Three 3+ mi runs under 10:00/mi in one month', glyph: 'bolt', label: 'x3', hits: h, pct: ratio(c[curMonth] || 0, 3), progress: (c[curMonth] || 0) + '/3 this month' });
+    })();
+    var p1 = pr.filter(function (r) { return r.miles >= 1; }), best1 = p1.length ? Math.min.apply(null, p1.map(pace)) : null;
+    T({ id: 'nine', fam: 'speed', kind: 'perf', hue: 34, tier: 3, name: 'Nine-Something', tag: 'A nine on the pace clock. Wheels.', req: '1+ mi under 9:30/mi', glyph: 'bolt', label: '9:XX', hits: p1.filter(function (r) { return pace(r) < 9.5; }).map(function (r) { return H(r.date, r.miles + ' mi at ' + fmtPace(pace(r)) + '/mi'); }), pct: lower(best1, 9.5), progress: best1 ? 'Best ' + fmtPace(best1) + '/mi (1+ mi)' : '' });
+    var p10 = pr.filter(function (r) { return r.miles >= TENK - 0.011; }), best10 = p10.length ? Math.min.apply(null, p10.map(function (r) { return pace(r) * TENK; })) : null;
+    T({ id: 'sixty-five', fam: 'speed', kind: 'perf', hue: 42, tier: 3, name: 'Sixty-Five Club', tag: 'A 10K in under 65. That\u2019s a statement.', req: '10K (6.2+ mi) under 65:00', glyph: 'stopwatch', label: '<65', hits: p10.filter(function (r) { return pace(r) * TENK < 65; }).map(function (r) { return H(r.date, '10K in ' + mmss(pace(r) * TENK)); }), pct: lower(best10, 65), progress: best10 ? 'Best 10K ' + mmss(best10) : 'Run a 10K' });
+    (function () {
+      var pm = {}; pr.forEach(function (r) { var k = r.date.slice(0, 7); pm[k] = pm[k] || { mi: 0, mn: 0 }; pm[k].mi += r.miles; pm[k].mn += r.minutes; });
+      var h = Object.keys(pm).sort().filter(function (k) { return pm[k].mi >= 50 && pm[k].mn / pm[k].mi < 10.5; }).map(function (k) { return H(k + '-28', Math.round(pm[k].mi) + ' mi at ' + fmtPace(pm[k].mn / pm[k].mi) + '/mi in ' + fmtMonth(k)); });
+      var c = pm[curMonth];
+      T({ id: 'fast-fifty', fam: 'speed', kind: 'perf', hue: 50, tier: 4, name: 'Fast Fifty', tag: 'Fifty miles in a month, all of it fast.', req: '50+ mi month averaging under 10:30/mi', glyph: 'flame', label: '50@10:30', hits: h, pct: c ? Math.min(ratio(c.mi, 50), lower(c.mn / c.mi, 10.5)) : 0, progress: c ? Math.round(c.mi) + ' mi at ' + fmtPace(c.mn / c.mi) + '/mi this month' : '' });
+    })();
+
+    // ===== VOLUME: months, weeks, quarters (yellow → blue) =====
+    var bestMonth = Math.max.apply(null, mKeys.map(function (k) { return months[k]; }).concat([0]));
+    [[25, 'month-25', 'Quarter Ton', 'Twenty-five miles in a month. The engine\u2019s running.', 1, 56], [50, 'month-50', 'Fifty Burner', 'Fifty miles in one month.', 2, 62], [75, 'month-75', 'Seventy-Five Savage', 'Seventy-five in a month. Relentless.', 3, 66],
+      [85, 'month-85', 'Eighty-Five Fury', 'Eighty-five miles. Past your best and still swinging.', 3, 150], [90, 'month-90', 'Ninety Proof', 'Ninety miles in a month. Strong stuff.', 4, 160], [100, 'month-100', '100 Club', 'A hundred miles in one month. Elite company.', 4, 176]].forEach(function (d) {
+      var h = mKeys.filter(function (k) { return months[k] >= d[0] - 0.005; }).map(function (k) { return H(k + '-28', months[k].toFixed(1) + ' mi in ' + fmtMonth(k)); });
+      T({ id: d[1], fam: 'month', hue: d[5], tier: d[4], name: d[2], tag: d[3], req: d[0] + ' mi in a calendar month', glyph: 'flame', label: String(d[0]), hits: h, pct: ratio(months[curMonth] || 0, d[0]), progress: (months[curMonth] || 0).toFixed(1) + ' mi this month · best ' + bestMonth.toFixed(1) });
+    });
+    (function () {
+      var h = []; for (var i = 1; i < mKeys.length; i++) { var a = mKeys[i - 1], b = mKeys[i], pa = parseISO(a + '-01'), pb = parseISO(b + '-01'); if ((pb.getFullYear() - pa.getFullYear()) * 12 + pb.getMonth() - pa.getMonth() === 1 && months[a] >= 75 && months[b] >= 75) h.push(H(b + '-28', fmtMonth(a) + ' ' + Math.round(months[a]) + ' + ' + fmtMonth(b) + ' ' + Math.round(months[b]) + ' mi')); }
+      T({ id: 'b2b-75', fam: 'month', hue: 186, tier: 4, name: 'Back-to-Back 75s', tag: 'Two 75-mile months in a row. This is who you are now.', req: '75+ mi in two consecutive months', glyph: 'flame', label: '75+75', hits: h, pct: ratio(months[curMonth] || 0, 75) / 2 + ((months[mKeys[mKeys.length - 2]] || 0) >= 75 ? 50 : 0), progress: (months[curMonth] || 0).toFixed(1) + ' mi this month' });
+    })();
+    (function () {
+      var q = {}; all.forEach(function (r) { var k = r.date.slice(0, 4) + '-Q' + (Math.floor((+r.date.slice(5, 7) - 1) / 3) + 1); q[k] = (q[k] || 0) + r.miles; });
+      var acc = {}, h = []; all.forEach(function (r) { var k = r.date.slice(0, 4) + '-Q' + (Math.floor((+r.date.slice(5, 7) - 1) / 3) + 1), b = acc[k] || 0; acc[k] = b + r.miles; if (b < 225 && acc[k] >= 225) h.push(H(r.date, Math.round(q[k]) + ' mi in ' + k.replace('-', ' '))); });
+      var ck = today.slice(0, 4) + '-Q' + (Math.floor((+today.slice(5, 7) - 1) / 3) + 1), bq = Math.max.apply(null, Object.keys(q).map(function (k) { return q[k]; }).concat([0]));
+      T({ id: 'quarter-225', fam: 'month', hue: 196, tier: 3, name: 'Quarter Grinder', tag: '225 miles in a single quarter. Season-long grind.', req: '225 mi in one calendar quarter', glyph: 'road', label: '225', hits: h, pct: ratio(q[ck] || 0, 225), progress: Math.round(q[ck] || 0) + ' mi this quarter · best ' + Math.round(bq) });
+    })();
+    var bestWeekMi = Math.max.apply(null, Object.keys(wMiles).map(function (k) { return wMiles[k]; }).concat([0]));
+    [[25, 'week-25', 'Twenty-Five Week', 'Twenty-five miles in seven days. Heavy week.', 3, 206], [30, 'week-30', 'Thirty-Mile Week', 'Thirty miles in a week. Built different.', 4, 218]].forEach(function (d) {
+      var acc = {}, h = []; all.forEach(function (r) { var w = weekStart(r.date), b = acc[w] || 0; acc[w] = b + r.miles; if (b < d[0] && acc[w] >= d[0]) h.push(H(r.date, acc[w].toFixed(1) + ' mi the week of ' + fmtShort(w))); });
+      T({ id: d[1], fam: 'week', hue: d[5], tier: d[4], name: d[2], tag: d[3], req: d[0] + ' mi in one Mon\u2013Sun week', glyph: 'road', label: d[0] + '/WK', hits: h, pct: ratio(wMiles[curWeek] || 0, d[0]), progress: (wMiles[curWeek] || 0).toFixed(1) + ' mi this week · best ' + bestWeekMi.toFixed(1) });
+    });
+
+    // ===== STREAKS (indigo → violet) =====
+    [[3, 'streak-3', 'Spark', 'Three days in a row. It begins.', 1, 226], [5, 'streak-5', 'Locked In', 'Five straight days. Focus mode.', 2, 230], [7, 'streak-7', 'On Fire', 'A full week without missing.', 3, 236],
+      [8, 'streak-8', 'Eight Is Enough', 'Eight straight. Past your best and still going.', 3, 242], [10, 'streak-10', 'Ten Toes Down', 'Ten days running. Planted.', 4, 250], [14, 'streak-14', 'Fortnight Fury', 'Fourteen straight days. Nothing stops you.', 4, 258]].forEach(function (d) {
+      var h = segs.filter(function (s) { return s.days >= d[0]; }).map(function (s) { return H(addDays(s.start, d[0] - 1), d[0] + ' days straight from ' + fmtShort(s.start)); }).sort(function (a, b) { return a.d < b.d ? -1 : 1; });
+      T({ id: d[1], fam: 'streak', hue: d[5], tier: d[4], name: d[2], tag: d[3], req: d[0] + '-day run streak', glyph: 'bolt', label: d[0] + ' DAYS', hits: h, pct: ratio(curStreak, d[0]), progress: 'Current ' + curStreak + ' · best ' + bestStreak });
+    });
+    (function () {
+      var s7 = segs.filter(function (s) { return s.days >= 7; }).map(function (s) { return addDays(s.start, 6); }).sort(), h = [];
+      for (var i = 1; i < s7.length; i++) if (dayDiff(s7[i - 1], s7[i]) <= 365) h.push(H(s7[i], 'Second 7-day streak within a year'));
+      T({ id: 'lightning', fam: 'streak', hue: 264, tier: 3, name: 'Lightning Twice', tag: 'Two seven-day streaks inside a year. Not luck.', req: 'Two separate 7+ day streaks within 12 months', glyph: 'bolt', label: '7+7', hits: h, pct: s7.length && dayDiff(s7[s7.length - 1], today) <= 365 ? 50 + ratio(curStreak, 7) / 2 : ratio(curStreak, 7) / 2, progress: s7.length + ' seven-day streak' + (s7.length === 1 ? '' : 's') + ' so far' });
+    })();
+
+    // ===== CONSISTENCY (violet → magenta) =====
+    function weekRun(min) { var best = 0, cur = 0, prev = null, h = [], run = 0; wKeys.forEach(function (w) { if (wDays[w] >= min) { run = prev && dayDiff(prev, w) === 7 && wDays[prev] >= min ? run + 1 : 1; } else run = 0; best = Math.max(best, run); prev = w; h.push({ w: w, run: run }); }); var last = h.length ? h[h.length - 1] : null; cur = last && dayDiff(last.w, curWeek) <= 7 ? last.run : 0; return { best: best, cur: cur, list: h }; }
+    var w4 = weekRun(4), w5 = weekRun(5);
+    T({ id: 'iron-week', fam: 'cons', hue: 272, tier: 2, name: 'Iron Week', tag: 'Five run days in one week. Iron.', req: 'Five run days in one Mon\u2013Sun week', glyph: 'claw', label: 'IRON', hits: wKeys.filter(function (w) { return wDays[w] >= 5; }).map(function (w) { return H(addDays(w, 6), wDays[w] + ' run days the week of ' + fmtShort(w)); }), pct: ratio(wDays[curWeek] || 0, 5), progress: (wDays[curWeek] || 0) + '/5 days this week' });
+    [[10, 'wall-10', 'Ten-Week Wall', 'Ten straight weeks of 4+ runs. A wall nobody climbs over.', 3, 280], [13, 'wall-13', 'Iron Quarter', 'Thirteen weeks in a row of 4+ runs. A full season of iron.', 4, 288]].forEach(function (d) {
+      var h = w4.list.filter(function (x) { return x.run === d[0]; }).map(function (x) { return H(addDays(x.w, 6), d[0] + ' weeks in a row with 4+ runs'); });
+      T({ id: d[1], fam: 'cons', hue: d[5], tier: d[4], name: d[2], tag: d[3], req: d[0] + ' consecutive weeks with 4+ run days', glyph: 'shield', label: d[0] + ' WKS', hits: h, pct: ratio(w4.cur, d[0]), progress: 'Current ' + w4.cur + ' · best ' + w4.best + ' weeks' });
+    });
+    T({ id: 'full-send', fam: 'cons', hue: 296, tier: 4, name: 'Full Send', tag: 'Seven days. Seven runs. Zero rest.', req: 'Seven run days in one Mon\u2013Sun week', glyph: 'claw', label: '7/7', hits: wKeys.filter(function (w) { return wDays[w] >= 7; }).map(function (w) { return H(addDays(w, 6), '7 run days the week of ' + fmtShort(w)); }), pct: ratio(wDays[curWeek] || 0, 7), progress: (wDays[curWeek] || 0) + '/7 this week · best ' + Math.max.apply(null, wKeys.map(function (w) { return wDays[w]; }).concat([0])) });
+    (function () {
+      var c = {}, h = []; wKeys.forEach(function (w) { if (wDays[w] >= 6) { var k = w.slice(0, 7); c[k] = (c[k] || 0) + 1; if (c[k] === 2) h.push(H(addDays(w, 6), 'Two 6-day weeks in ' + fmtMonth(k))); } });
+      T({ id: 'six-pack', fam: 'cons', hue: 304, tier: 3, name: 'Six-Pack Month', tag: 'Two six-day weeks in one month. Shredded.', req: 'Two weeks with 6+ run days in the same month', glyph: 'shield', label: '6x2', hits: h, pct: ratio(c[curMonth] || 0, 2), progress: (c[curMonth] || 0) + '/2 this month' });
+    })();
+    (function () {
+      var mons = dayList.filter(function (d) { return parseISO(d).getDay() === 1; }), run = 0, best = 0, h = [], prev = null;
+      mons.forEach(function (d) { run = prev && dayDiff(prev, d) === 7 ? run + 1 : 1; prev = d; best = Math.max(best, run); if (run === 8) h.push(H(d, '8 Mondays in a row')); });
+      var cur = prev && dayDiff(prev, today) < 7 ? run : 0;
+      T({ id: 'monday', fam: 'cons', hue: 312, tier: 3, name: 'Never Miss a Monday', tag: 'Eight Mondays straight. You own the week from day one.', req: 'Run every Monday for 8 straight weeks', glyph: 'calendar', label: 'MON x8', hits: h, pct: ratio(cur, 8), progress: 'Current ' + cur + ' · best ' + best });
+    })();
+    var suns = dayList.filter(function (d) { return parseISO(d).getDay() === 0; });
+    T({ id: 'sunday', fam: 'sunday', hue: 170, tier: 1, name: 'Sunday Service', tag: 'Worship at the church of the open road.', req: 'Run on a Sunday', glyph: 'cross', label: 'SUN', hits: suns.map(function (d) { return H(d, 'Sunday run'); }) });
+    [[1, 'sun-mile', 'Sunday Sermon: Mile', 1, 'MI'], [FIVEK - 0.006, 'sun-5k', 'Sunday Sermon: 5K', 2, '5K'], [TENK - 0.011, 'sun-10k', 'Sunday Sermon: 10K', 3, '10K']].forEach(function (d, i) {
+      var h = all.filter(function (r) { return parseISO(r.date).getDay() === 0 && r.miles >= d[0]; }).map(function (r) { return H(r.date, r.miles + ' mi on a Sunday'); });
+      T({ id: d[1], fam: 'sunday', hue: 172 + i * 4, tier: d[3], name: d[2], tag: 'Preached ' + (d[4] === 'MI' ? 'a mile' : 'a ' + d[4]) + ' on the Lord\u2019s day.', req: 'Sunday run of ' + (d[4] === 'MI' ? '1 mi' : d[4]) + '+', glyph: 'cross', label: 'SUN ' + d[4], hits: h });
+    });
+    T({ id: 'weekend', fam: 'sunday', hue: 164, tier: 2, name: 'Weekend Warrior', tag: 'Saturday AND Sunday. No days off.', req: 'Run Saturday and Sunday of one weekend', glyph: 'swords', label: 'SAT+SUN', hits: suns.filter(function (d) { return days[addDays(d, -1)]; }).map(function (d) { return H(d, 'Ran Sat ' + fmtShort(addDays(d, -1)) + ' + Sun ' + fmtShort(d)); }) });
+    T({ id: 'double', fam: 'sunday', hue: 322, tier: 2, name: 'Double Down', tag: 'Two runs in a single day. Greedy.', req: 'Two runs on the same day', glyph: 'bolt', label: 'x2', hits: dayList.filter(function (d) { return days[d] >= 2; }).map(function (d) { return H(d, days[d] + ' runs in one day'); }) });
+
+    // ===== LIFETIME (orange / gold / pink) =====
+    [[100, 'life-100', 'Century', 'A hundred miles in the bank.', 1, 30], [250, 'life-250', 'Road Dog', 'Two-fifty of pavement, chewed up.', 2, 36], [500, 'life-500', 'Iron Lungs', 'Five hundred miles. Lungs of iron.', 3, 40], [1000, 'life-1000', 'Thousand-Mile Stare', 'A thousand miles. Legend status.', 4, 46], [1250, 'life-1250', '1,250 Heavy', 'Twelve-fifty. Heavyweight division.', 4, 326]].forEach(function (d) {
+      T({ id: d[1], fam: 'life', hue: d[5], tier: d[4], name: d[2], tag: d[3], req: d[0].toLocaleString() + ' lifetime miles', glyph: 'road', label: d[0] >= 1000 ? (d[0] / 1000) + 'K MI' : String(d[0]), hits: lifeAt[d[0]] ? [H(lifeAt[d[0]], Math.round(life) + ' lifetime miles')] : [], pct: ratio(life, d[0]), progress: life.toFixed(1) + ' / ' + d[0].toLocaleString() + ' mi' });
+    });
+    T({ id: 'runs-400', fam: 'life', hue: 336, tier: 3, name: 'Four Hundred', tag: 'Four hundred runs logged. Showing up is the superpower.', req: '400 logged runs', glyph: 'shield', label: '400', hits: all.length >= 400 ? [H(all[399].date, '400th run')] : [], pct: ratio(all.length, 400), progress: all.length + ' / 400 runs' });
+
+    // ===== RACES (perf; spread) =====
+    var races = pr.filter(function (r) { return r.race; });
+    T({ id: 'race-day', fam: 'race', hue: 276, tier: 2, name: 'Race Day', tag: 'Pinned a bib and crossed the line.', req: 'Finish a race', glyph: 'flag', label: 'BIB', kind: 'perf', hits: races.map(function (r) { return H(r.date, (r.race.name || 'Race') + ' · ' + mmss(r.minutes)); }) });
+    T({ id: 'five-bibs', fam: 'race', hue: 284, tier: 3, name: 'Five Bibs', tag: 'Five races. A collection of battle scars.', req: 'Finish 5 races', glyph: 'flag', label: 'x5', kind: 'perf', hits: races.length >= 5 ? [H(races[4].date, '5th race: ' + (races[4].race.name || ''))] : [], pct: ratio(races.length, 5), progress: races.length + ' / 5 races' });
+    var fram = races.filter(function (r) { return /framily/i.test(r.race.name || ''); });
+    T({ id: 'framily', fam: 'race', hue: 100, tier: 2, name: 'FRAMILY Finisher', tag: 'Mill Ridge trails conquered. Family pride.', req: 'Finish the FRAMILY 5K', glyph: 'mountain', label: 'FRAMILY', kind: 'perf', hits: fram.map(function (r) { return H(r.date, 'FRAMILY 5K in ' + mmss(r.minutes)); }), progress: 'Oct 31, 2026 · Mill Ridge Park' });
+    T({ id: 'framily-33', fam: 'race', hue: 94, tier: 3, name: 'Mud & Glory', tag: 'Under 33 on the trail. Dirt-caked and dangerous.', req: 'FRAMILY trail 5K under 33:00', glyph: 'mountain', label: '<33', kind: 'perf', hits: fram.filter(function (r) { return r.minutes < 33; }).map(function (r) { return H(r.date, 'FRAMILY 5K in ' + mmss(r.minutes)); }), progress: 'Road best 31:11' });
+    (function () {
+      var r5 = races.filter(function (r) { return raceLabel(r.miles) === '5K'; }), h = [], bestT = null;
+      r5.forEach(function (r, i) { if (i >= 3 && r.minutes < bestT) h.push(H(r.date, 'New 5K race PR ' + mmss(r.minutes) + ' (was ' + mmss(bestT) + ')')); bestT = bestT == null ? r.minutes : Math.min(bestT, r.minutes); });
+      T({ id: 'race-pr', fam: 'race', hue: 4, tier: 3, name: 'Race PR Crusher', tag: 'Beat the race PR that\u2019s been staring you down.', req: 'Beat an established 5K race PR (after 3+ 5K races)', glyph: 'skull', label: 'PR', kind: 'perf', hits: h, pct: bestT ? lower(bestT, bestT - 0.02) : 0, progress: bestT ? 'Race PR ' + mmss(bestT) : 'Race a 5K' });
+    })();
+    (function () {
+      var h = []; for (var i = 2; i < races.length; i++) if (dayDiff(races[i - 2].date, races[i].date) <= 90) h.push(H(races[i].date, '3 races in ' + dayDiff(races[i - 2].date, races[i].date) + ' days'));
+      var recent = races.filter(function (r) { return dayDiff(r.date, today) <= 90; }).length;
+      T({ id: 'season-bibs', fam: 'race', hue: 14, tier: 3, name: 'Season of Bibs', tag: 'Three races in ninety days. Race season, your season.', req: '3 races within 90 days', glyph: 'flag', label: '3/90', kind: 'perf', hits: h, pct: ratio(recent, 3), progress: recent + ' race' + (recent === 1 ? '' : 's') + ' in the last 90 days' });
+    })();
+    T({ id: 'race-10k', fam: 'race', hue: 228, tier: 3, name: '10K Debut', tag: 'Toed the line at a 10K. Bigger battlefield.', req: 'Finish a 10K race', glyph: 'flag', label: '10K', kind: 'perf', hits: races.filter(function (r) { return raceLabel(r.miles) === '10K'; }).map(function (r) { return H(r.date, (r.race.name || '10K') + ' in ' + mmss(r.minutes)); }) });
+    T({ id: 'ag-top3', fam: 'race', hue: 48, tier: 4, name: 'Age-Group Assassin', tag: 'Top three in your age group. Hardware earned.', req: 'Top 3 in your age group at a race', glyph: 'crown', label: 'TOP 3', kind: 'perf', hits: races.filter(function (r) { return r.race.agePlace && r.race.agePlace <= 3; }).map(function (r) { return H(r.date, (r.race.name || 'Race') + ' · AG ' + r.race.agePlace + (r.race.ageField ? '/' + r.race.ageField : '')); }) });
+
+    // ===== TIME OF DAY + WEATHER (forward-only) =====
+    var timed = all.filter(function (r) { return hm(r.start) != null; });
+    [['dawn', 'Dawn Patrol', 'Five runs before 7 AM. The world sleeps, you hunt.', 52, function (m) { return m < 420; }, 'sun', '<7AM', 'Five runs starting before 7:00 AM'], ['night', 'Night Shift', 'Five runs after 8 PM. Owl hours.', 248, function (m) { return m >= 1200; }, 'moon', '8PM+', 'Five runs starting at 8:00 PM or later']].forEach(function (d) {
+      var q = timed.filter(function (r) { return d[4](hm(r.start)); }), h = q.length >= 5 ? q.slice(4).map(function (r) { return H(r.date, 'Started ' + r.start + ' · run #' + (q.indexOf(r) + 1)); }) : [];
+      T({ id: d[0], fam: 'time', hue: d[3], tier: 3, name: d[1], tag: d[2], req: d[7] + ' (log a start time)', glyph: d[5], label: d[6], hits: h, pct: ratio(q.length, 5), progress: q.length + ' / 5 runs', fwd: true });
+    });
+    var wx = all.filter(function (r) { return r.wx && r.wx.tempF != null; });
+    T({ id: 'polar', fam: 'wx', hue: 192, tier: 3, name: 'Polar Vortex', tag: 'Ran at freezing or below. Ice-cold blood.', req: 'Run at 32\u00b0F or colder (weather saved at log time)', glyph: 'snow', label: '32\u00b0', hits: wx.filter(function (r) { return r.wx.tempF <= 32; }).map(function (r) { return H(r.date, r.wx.tempF + '\u00b0F'); }), progress: 'Weather is saved when you log a run', fwd: true });
+    T({ id: 'heat', fam: 'wx', hue: 10, tier: 3, name: 'Heat Index', tag: 'Ninety degrees and you still went. Furnace mode.', req: 'Run at 90\u00b0F or hotter', glyph: 'flame', label: '90\u00b0', hits: wx.filter(function (r) { return r.wx.tempF >= 90; }).map(function (r) { return H(r.date, r.wx.tempF + '\u00b0F'); }), progress: 'Weather is saved when you log a run', fwd: true });
+    T({ id: 'storm', fam: 'wx', hue: 214, tier: 3, name: 'Storm Chaser', tag: 'Rain didn\u2019t cancel you. You cancelled the rain.', req: 'Run in the rain', glyph: 'rain', label: 'RAIN', hits: wx.filter(function (r) { return r.wx.rain; }).map(function (r) { return H(r.date, 'Rain · ' + r.wx.tempF + '\u00b0F'); }), progress: 'Weather is saved when you log a run', fwd: true });
+    (function () {
+      var h = mKeys.filter(function (k) { return /-(01|02)$/.test(k) && months[k] >= 60; }).map(function (k) { return H(k + '-28', months[k].toFixed(1) + ' mi in ' + fmtMonth(k)); });
+      var bw = Math.max.apply(null, mKeys.filter(function (k) { return /-(01|02)$/.test(k); }).map(function (k) { return months[k]; }).concat([0]));
+      T({ id: 'winter', fam: 'season', hue: 182, tier: 3, name: 'Winter Soldier', tag: 'Sixty miles in the dead of winter.', req: '60+ mi in January or February', glyph: 'snow', label: '60 WNTR', hits: h, pct: /-(01|02)$/.test(curMonth) ? ratio(months[curMonth] || 0, 60) : ratio(bw, 60), progress: 'Best winter month ' + bw.toFixed(1) + ' mi' });
+    })();
+    (function () {
+      var s = {}; all.forEach(function (r) { var m = +r.date.slice(5, 7); if (m >= 6 && m <= 8) { var y = r.date.slice(0, 4); s[y] = (s[y] || 0) + r.miles; } });
+      var acc = {}, h = []; all.forEach(function (r) { var m = +r.date.slice(5, 7); if (m >= 6 && m <= 8) { var y = r.date.slice(0, 4), b = acc[y] || 0; acc[y] = b + r.miles; if (b < 200 && acc[y] >= 200) h.push(H(r.date, Math.round(s[y]) + ' mi summer ' + y)); } });
+      var bs = Math.max.apply(null, Object.keys(s).map(function (k) { return s[k]; }).concat([0]));
+      T({ id: 'summer', fam: 'season', hue: 28, tier: 3, name: 'Summer of Grit', tag: 'Two hundred summer miles. Forged in the heat.', req: '200 mi across June\u2013August', glyph: 'sun', label: '200 SMR', hits: h, pct: ratio(bs, 200), progress: 'Best summer ' + bs.toFixed(1) + ' mi' });
+    })();
+
+    // ===== HOLIDAYS (magenta → pink → red) =====
+    [['july4', 'Red, White & Run', 'Ran on the Fourth. Freedom miles.', 0, 'star', 'JUL 4', function (d) { return d.slice(5) === '07-04'; }],
+      ['thanksgiving', 'Gobble Gobbler', 'Ran on Thanksgiving. Earned the pie.', 24, 'drumstick', 'GOBBLE', function (d) { return d === thanksgiving(+d.slice(0, 4)); }],
+      ['xmas', 'Sleigh Ride', 'Ran on Christmas Day. Santa\u2019s got nothing on you.', 140, 'tree', 'DEC 25', function (d) { return d.slice(5) === '12-25'; }],
+      ['newyear', 'Fresh Start', 'Ran on New Year\u2019s Day. Set the tone.', 60, 'sun', 'JAN 1', function (d) { return d.slice(5) === '01-01'; }],
+      ['nye', 'Last Call', 'Closed the year out running on Dec 31.', 290, 'flame', 'DEC 31', function (d) { return d.slice(5) === '12-31'; }],
+      ['valentine', 'Heartbreaker', 'Ran on Valentine\u2019s Day. True love is the road.', 340, 'heart', 'FEB 14', function (d) { return d.slice(5) === '02-14'; }],
+      ['labor', 'Labor Day Lunatic', 'Labor Day: everyone rested, you worked.', 200, 'hammer', 'LABOR', function (d) { return d === laborDay(+d.slice(0, 4)); }],
+      ['halloween', 'Graveyard Shift', 'Ran on Halloween. Scarier than anything out there.', 30, 'skull', 'OCT 31', function (d) { return d.slice(5) === '10-31'; }]].forEach(function (h) {
+      T({ id: 'hol-' + h[0], fam: 'holiday', hue: h[3], tier: 2, name: h[1], tag: h[2], req: 'Run on ' + ({ july4: 'July 4', thanksgiving: 'Thanksgiving', xmas: 'Christmas Day', newyear: 'New Year\u2019s Day', nye: 'Dec 31', valentine: 'Valentine\u2019s Day', labor: 'Labor Day', halloween: 'Halloween' })[h[0]], glyph: h[4], label: h[5], hits: dayList.filter(h[6]).map(function (d) { return H(d, 'Holiday miles on ' + fmtD(d)); }) });
+    });
+    var tday = all.filter(function (r) { return r.date === thanksgiving(+r.date.slice(0, 4)) && r.miles >= FIVEK - 0.006; });
+    T({ id: 'turkey-5k', fam: 'holiday', hue: 20, tier: 3, name: 'Turkey Terminator', tag: 'A 5K-plus on Thanksgiving morning. The bird never stood a chance.', req: '5K+ on Thanksgiving', glyph: 'drumstick', label: 'T-DAY 5K', hits: tday.map(function (r) { return H(r.date, r.miles + ' mi in ' + mmss(r.minutes)); }) });
+    var bd = opts.birthday ? String(opts.birthday).slice(-5) : null;
+    T({ id: 'birthday', fam: 'holiday', hue: 316, tier: 3, name: 'Birthday Beast', tag: 'Ran on your birthday. Another lap around the sun.', req: bd ? 'Run on your birthday' : 'Add your birthday in Settings, then run on it', glyph: 'crown', label: 'B-DAY', hits: bd ? dayList.filter(function (d) { return d.slice(5) === bd; }).map(function (d) { return H(d, 'Birthday run ' + d.slice(0, 4)); }) : [] });
+
+    // ===== GHOST, COMEBACK, PRs =====
+    var routeBest = {}, ghostWins = [];
+    pr.forEach(function (r) { var k = (r.route || '').toLowerCase(); if (!k) return; var p = pace(r); if (routeBest[k] != null && p < routeBest[k]) ghostWins.push(H(r.date, 'Beat your ghost on ' + r.route + ' by ' + Math.round((routeBest[k] - p) * 60) + ' s/mi')); if (routeBest[k] == null || p < routeBest[k]) routeBest[k] = p; });
+    T({ id: 'ghost', fam: 'ghost', hue: 208, tier: 2, name: 'Ghost Slayer', tag: 'Ran down your own ghost on a route.', req: 'Beat your best pace on a saved route', glyph: 'ghost', label: 'SLAY', kind: 'perf', hits: ghostWins });
+    T({ id: 'ghostbuster', fam: 'ghost', hue: 202, tier: 4, name: 'Ghostbuster', tag: 'Five ghosts down. They fear you now.', req: 'Beat your route ghost 5 times', glyph: 'ghost', label: 'x5', kind: 'perf', hits: ghostWins.length >= 5 ? ghostWins.slice(4) : [], pct: ratio(ghostWins.length, 5), progress: ghostWins.length + ' / 5 ghosts' });
+    var gaps = []; for (var i = 1; i < dayList.length; i++) if (dayDiff(dayList[i - 1], dayList[i]) >= 8) gaps.push(dayList[i]);
+    T({ id: 'comeback', fam: 'comeback', hue: 8, tier: 1, name: 'Comeback Kid', tag: 'A week-plus off, and you came back swinging.', req: 'Run again after 7+ days off', glyph: 'wolf', label: 'BACK', hits: gaps.map(function (d) { return H(d, 'Back after ' + (dayDiff(dayList[dayList.indexOf(d) - 1], d) - 1) + ' days off'); }) });
+    var phx = gaps.filter(function (d) { return dayList.filter(function (x) { return x >= d && dayDiff(d, x) < 7; }).length >= 5; }).map(function (d) { return H(addDays(d, 6), '5 run days in the 7 after a break'); });
+    T({ id: 'phoenix', fam: 'comeback', hue: 16, tier: 3, name: 'Phoenix', tag: 'Rose from the ashes: five of seven days right after a break.', req: 'After 7+ days off, run 5 of the next 7 days', glyph: 'flame', label: 'RISE', hits: phx, progress: 'Comeback weeks so far: ' + gaps.length });
+    // PR events: new best 1 mi / 5K / 10K pace or longest run, beating a record that stood 14+ days
+    var rec = {}, prEv = [];
+    pr.forEach(function (r) {
+      [['mi', 1, pace(r)], ['5k', FIVEK - 0.006, pace(r)], ['10k', TENK - 0.011, pace(r)], ['long', 0, -r.miles]].forEach(function (k) {
+        if (r.miles < k[1]) return; var o = rec[k[0]];
+        if (o && k[2] < o.v - 1e-9 && dayDiff(o.d, r.date) >= 14) prEv.push({ d: r.date, k: k[0] });
+        if (!o || k[2] < o.v - 1e-9) rec[k[0]] = { v: k[2], d: r.date };
+      });
+    });
+    var prDays = prEv.map(function (e) { return e.d; }).filter(function (d, i, a) { return a.indexOf(d) === i; });
+    T({ id: 'record-breaker', fam: 'pr', hue: 244, tier: 2, name: 'Record Breaker', tag: 'Broke one of your own records. Better than yesterday.', req: 'Beat a 1 mi / 5K / 10K pace or longest-run record', glyph: 'skull', label: 'PR', kind: 'perf', hits: prDays.map(function (d) { return H(d, 'New personal record'); }) });
+    T({ id: 'pr-machine', fam: 'pr', hue: 254, tier: 3, name: 'PR Machine', tag: 'Five personal records smashed.', req: 'Set 5 personal records', glyph: 'skull', label: 'PR x5', kind: 'perf', hits: prDays.length >= 5 ? [H(prDays[4], '5th personal record')] : [], pct: ratio(prDays.length, 5), progress: prDays.length + ' / 5 PRs' });
+    var blitz = []; prEv.forEach(function (e, i) { var win = prEv.filter(function (x) { return x.d <= e.d && dayDiff(x.d, e.d) < 30; }); if (win.length >= 3 && !blitz.some(function (b) { return dayDiff(b.d, e.d) < 30; })) blitz.push(H(e.d, win.length + ' PRs in 30 days')); });
+    var recentPR = prEv.filter(function (x) { return dayDiff(x.d, today) < 30; }).length;
+    T({ id: 'pr-blitz', fam: 'pr', hue: 318, tier: 4, name: 'PR Blitz', tag: 'Three records in thirty days. On a tear.', req: '3 personal records within 30 days', glyph: 'skull', label: '3 IN 30', kind: 'perf', hits: blitz, pct: ratio(recentPR, 3), progress: recentPR + ' PR' + (recentPR === 1 ? '' : 's') + ' in the last 30 days' });
+
+    defs.forEach(function (d) { d.hue = ((d.hue % 360) + 360) % 360; });
+    var earned = defs.filter(function (d) { return d.earned; });
+    var next = defs.filter(function (d) { return !d.earned && d.pct > 0; }).sort(function (a, b) { return b.pct - a.pct || a.tier - b.tier; }).slice(0, 3);
+    return { list: defs, earned: earned.length, total: defs.length, times: earned.reduce(function (s, d) { return s + d.count; }, 0), next: next, life: life };
+  }
+  function fmtMonth(k) { return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][+k.slice(5, 7) - 1] + ' ' + k.slice(0, 4); }
+
   var api = {
     pad: pad, toISO: toISO, parseISO: parseISO, addDays: addDays, dayDiff: dayDiff, weekStart: weekStart, fmtShort: fmtShort,
     parseDuration: parseDuration, fmtPace: fmtPace, fmtDuration: fmtDuration, pace: pace, round1: round1,
@@ -995,7 +1298,7 @@ nav.tabs svg { width: 24px; height: 24px; }
     topEfforts: topEfforts, highScores: topEfforts, latestWeight: latestWeight, normalizeRun: normalizeRun, mergeRuns: mergeRuns, isDuplicateRun: isDuplicateRun, runCalories: runCalories, totalMiles: totalMiles, achievements: achievements,
     shoeMiles: shoeMiles, shoeStatus: shoeStatus,
     weeklyRecap: weeklyRecap, todayGoal: todayGoal, WATER_QUICK: WATER_QUICK, waterFor: waterFor, migrateWater: migrateWater,
-    perf: perf, RACE_DISTANCES: RACE_DISTANCES, raceInfo: raceInfo, KNOWN_RACES: KNOWN_RACES, tagKnownRaces: tagKnownRaces, raceLabel: raceLabel, raceResults: raceResults, 
+    trophies: trophies, thanksgiving: thanksgiving, laborDay: laborDay, wxAt: wxAt, TIERS: TIERS, perf: perf, RACE_DISTANCES: RACE_DISTANCES, raceInfo: raceInfo, KNOWN_RACES: KNOWN_RACES, tagKnownRaces: tagKnownRaces, raceLabel: raceLabel, raceResults: raceResults, 
 
     SURFACES: SURFACES, migrateRoutes: migrateRoutes, routeStats: routeStats, routeRuns: routeRuns, routeNames: routeNames, ghostFor: ghostFor, ghostCompare: ghostCompare,
     WMO: WMO, weatherTips: weatherTips, weatherUrl: weatherUrl, geocodeUrl: geocodeUrl, fmtHour: fmtHour, MOODS: MOODS, journalPatterns: journalPatterns,
@@ -1346,13 +1649,163 @@ nav.tabs svg { width: 24px; height: 24px; }
 
 </script>
 <script>
+/* Grit trophies: original SVG badges, unlock takeover, share card. No third-party art. */
+(function (root) {
+  'use strict';
+  var uid = 0;
+  var G = { // 24x24 glyphs: [fill paths], [stroke paths], [dark detail paths]
+    flag: [['M5 3h12l-2.5 4.5L17 12H7v9H5z'], [], []],
+    fang: [['M3 4h18l-3.4 7.2-2.3-3.1L12 21 8.7 8.1 6.4 11.2z'], [], []],
+    claw: [[], ['M5 3.5l5 17', 'M10.5 2.5l4.5 18.5', 'M16 3.5l3.6 14.5'], []],
+    bolt: [['M13.5 1.5 4 14h7l-1.5 8.5L20 9.5h-7z'], [], []],
+    road: [['M9 2h2.2L9.6 22H4.5z', 'M12.8 2H15l4.5 20h-5.1z'], ['M12 4v3', 'M12 10v3', 'M12 16v4'], []],
+    flame: [['M12 1.5c1.2 4.2 6.5 6.3 6.5 12.5a6.5 6.5 0 0 1-13 0c0-3.4 2.1-5.6 3.3-6.6.1 2.2 1.1 3.4 2.3 3.6-.3-4.1-.4-6.6.9-9.5z'], [], ['M12 21a3 3 0 0 1-3-3c0-2 1.5-3 3-5 1.5 2 3 3 3 5a3 3 0 0 1-3 3z']],
+    mountain: [['M1.5 21 9 7.5l4 6.5 3-4.2 6.5 11.2z'], [], ['M9 7.5l2 3.3-2-1-2 1.6z']],
+    stopwatch: [[], ['M12 21.5a8 8 0 1 0 0-16 8 8 0 0 0 0 16z', 'M12 9.5v4.5l3 2', 'M9 2h6', 'M19 6l1.5-1.5'], []],
+    shield: [['M12 1.5 20.5 5v6.2c0 5.4-3.6 9.6-8.5 11.3-4.9-1.7-8.5-5.9-8.5-11.3V5z'], [], ['M12 5.5l1.6 3.4 3.7.4-2.8 2.5.8 3.7L12 13.6l-3.3 1.9.8-3.7-2.8-2.5 3.7-.4z']],
+    calendar: [[], ['M3.5 5h17v16h-17z', 'M3.5 10h17', 'M8 2.5v5', 'M16 2.5v5'], ['M7 13h4v4H7z']],
+    cross: [['M9.8 1.5h4.4v6.3h6.3v4.4h-6.3v10.3H9.8V12.2H3.5V7.8h6.3z'], [], []],
+    swords: [[], ['M4 3l12.5 12.5', 'M20 3L7.5 15.5', 'M13.5 18l5-5', 'M5.5 13l5 5', 'M3 21l3.5-3.5', 'M21 21l-3.5-3.5'], []],
+    crown: [['M2.5 18.5h19L19.5 7l-4.6 4.6L12 3.5l-2.9 8.1L4.5 7z', 'M3 20h18v2H3z'], [], []],
+    skull: [['M12 1.5a8.6 8.6 0 0 0-8.6 8.6c0 3.3 1.7 5.3 3.1 6.4v3.8h11v-3.8c1.4-1.1 3.1-3.1 3.1-6.4A8.6 8.6 0 0 0 12 1.5z'], [], ['M8.7 8.8a2 2 0 1 0 0 4 2 2 0 0 0 0-4z', 'M15.3 8.8a2 2 0 1 0 0 4 2 2 0 0 0 0-4z', 'M12 13.2l-1.3 2.6h2.6z', 'M9.5 17.3h1.2v3h-1.2z', 'M13.3 17.3h1.2v3h-1.2z']],
+    star: [['M12 1.5l3.1 6.9 7.4.7-5.6 5 1.6 7.4L12 17.7l-6.5 3.8 1.6-7.4-5.6-5 7.4-.7z'], [], []],
+    drumstick: [['M15.5 2a6.5 6.5 0 0 1 6.5 6.5c0 4.3-4.2 6.7-7.5 6.5l-3.7 3.7a2.3 2.3 0 1 1-3.4 1.6 2.3 2.3 0 1 1 1.6-3.4l3.7-3.7C12.5 9.9 12 5 15.5 2z'], [], []],
+    tree: [['M12 1.5l6.5 8.5h-3.2l5.2 7.5h-6.3V22h-4.4v-4.5H3.5L8.7 10H5.5z'], [], []],
+    sun: [['M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10z'], ['M12 1.5v3', 'M12 19.5v3', 'M1.5 12h3', 'M19.5 12h3', 'M4.6 4.6l2.1 2.1', 'M17.3 17.3l2.1 2.1', 'M4.6 19.4l2.1-2.1', 'M17.3 6.7l2.1-2.1'], []],
+    moon: [['M20.5 14.5A9 9 0 1 1 9.5 3.5a7 7 0 0 0 11 11z'], [], []],
+    snow: [[], ['M12 1.5v21', 'M2.9 6.8l18.2 10.4', 'M21.1 6.8L2.9 17.2', 'M9.5 3.5L12 6l2.5-2.5', 'M9.5 20.5L12 18l2.5 2.5'], []],
+    rain: [['M7 14.5a4.5 4.5 0 0 1-.6-9 6 6 0 0 1 11.3 1.6A3.8 3.8 0 0 1 17.5 14.5z'], ['M8 17l-1.5 4', 'M12.5 17L11 21', 'M17 17l-1.5 4'], []],
+    heart: [['M12 21.5S2.5 15.6 2.5 8.8A5 5 0 0 1 12 6a5 5 0 0 1 9.5 2.8c0 6.8-9.5 12.7-9.5 12.7z'], [], []],
+    hammer: [['M13 2.5l8.5 8.5-3.3 3.3-8.5-8.5z'], ['M11.5 9.5 2.5 21.5'], []],
+    ghost: [['M4.5 22V10a7.5 7.5 0 0 1 15 0v12l-2.5-2-2.5 2-2.5-2-2.5 2-2.5-2z'], [], ['M9 8.5a1.6 1.8 0 1 0 0 3.6 1.6 1.8 0 0 0 0-3.6z', 'M15 8.5a1.6 1.8 0 1 0 0 3.6 1.6 1.8 0 0 0 0-3.6z']],
+    wolf: [['M3 2l5 5.5h8L21 2v10.5l-3 6-6 4-6-4-3-6z'], [], ['M7 10.5l3.5 1.5-1 1.5z', 'M17 10.5l-3.5 1.5 1 1.5z', 'M10.5 17h3L12 19z']]
+  };
+  var SHAPES = {
+    1: 'M60 4 L111 19 V64 C111 98 89 118 60 129 C31 118 9 98 9 64 V19 Z',
+    2: 'M60 3 L113 33.5 V98.5 L60 129 L7 98.5 V33.5 Z',
+    3: 'M37 3 H83 L115 31 V101 L83 129 H37 L5 101 V31 Z'
+  };
+  (function () { var p = [], n = 16; for (var i = 0; i < n * 2; i++) { var a = Math.PI * i / n - Math.PI / 2, r = i % 2 ? 50 : 64; p.push((60 + r * Math.cos(a)).toFixed(1) + ' ' + (66 + r * Math.sin(a)).toFixed(1)); } SHAPES[4] = 'M' + p.join(' L') + ' Z'; })();
+  function rim(tier, h, id) {
+    var s = { 1: [['#ffd1a3', 0], ['#c27a3e', .5], ['#5e2f10', 1]], 2: [['#ffffff', 0], ['#c3ccd6', .45], ['#56606c', 1]], 3: [['#fff6c4', 0], ['#e7c14e', .45], ['#7d5b0b', 1]],
+      4: [['#fff6c4', 0], ['hsl(' + h + ',100%,62%)', .35], ['#e7c14e', .7], ['hsl(' + (h + 30) + ',100%,30%)', 1]] }[tier];
+    return '<linearGradient id="' + id + '" x1="0" y1="0" x2="1" y2="1">' + s.map(function (x) { return '<stop offset="' + x[1] + '" stop-color="' + x[0] + '"/>'; }).join('') + '</linearGradient>';
+  }
+  function badgeSVG(t, size, opt) {
+    opt = opt || {}; var k = 'tb' + (++uid), h = t.hue, tier = t.tier || 1, sh = SHAPES[tier], g = G[t.glyph] || G.flag;
+    var label = String(t.label || '').toUpperCase(), lw = Math.min(84, Math.max(30, label.length * 8.6));
+    return '<svg class="tbadge t' + tier + '" viewBox="0 0 120 132" width="' + size + '" height="' + Math.round(size * 1.1) + '" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="' + t.name.replace(/"/g, '') + '"><defs>' +
+      '<linearGradient id="' + k + 'f" x1="0" y1="0" x2=".9" y2="1"><stop offset="0" stop-color="hsl(' + h + ',100%,68%)"/><stop offset=".5" stop-color="hsl(' + (h + 14) + ',96%,50%)"/><stop offset="1" stop-color="hsl(' + (h + 32) + ',92%,24%)"/></linearGradient>' +
+      rim(tier, h, k + 'r') +
+      '<radialGradient id="' + k + 'l" cx=".5" cy=".38" r=".62"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset=".45" stop-color="#fff" stop-opacity=".08"/><stop offset="1" stop-color="#000" stop-opacity=".35"/></radialGradient>' +
+      '<pattern id="' + k + 'p" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><rect width="5" height="5" fill="none"/><path d="M0 0v5" stroke="#000" stroke-opacity=".22" stroke-width="1.4"/></pattern>' +
+      '<clipPath id="' + k + 'c"><path d="' + sh + '" transform="translate(60 66) scale(.84) translate(-60 -66)"/></clipPath></defs>' +
+      (tier === 4 ? '<path d="' + sh + '" fill="hsl(' + h + ',100%,55%)" opacity=".35" transform="translate(60 66) scale(1.06) translate(-60 -66)"/>' : '') +
+      '<path d="' + sh + '" fill="url(#' + k + 'r)"/>' +
+      '<path d="' + sh + '" fill="#0a0a0b" transform="translate(60 66) scale(.9) translate(-60 -66)"/>' +
+      '<g clip-path="url(#' + k + 'c)"><rect width="120" height="132" fill="url(#' + k + 'f)"/><rect width="120" height="132" fill="url(#' + k + 'p)"/><rect width="120" height="132" fill="url(#' + k + 'l)"/>' +
+      (tier >= 3 ? '<g opacity=".25" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M86 18l-14 34"/><path d="M96 22l-14 34"/><path d="M106 28l-12 30"/></g>' : '') +
+      '<path d="M0 112 L120 92 V132 H0Z" fill="#000" opacity=".28"/></g>' +
+      '<g transform="translate(34 24) scale(2.17)">' +
+      g[0].map(function (d) { return '<path d="' + d + '" fill="#000" opacity=".35" transform="translate(.6 .9)"/><path d="' + d + '" fill="#fff"/>'; }).join('') +
+      g[1].map(function (d) { return '<path d="' + d + '" fill="none" stroke="#000" stroke-opacity=".35" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" transform="translate(.6 .9)"/><path d="' + d + '" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>'; }).join('') +
+      g[2].map(function (d) { return '<path d="' + d + '" fill="hsl(' + (h + 20) + ',90%,22%)"/>'; }).join('') + '</g>' +
+      '<g transform="translate(60 99)"><path d="M' + (-lw / 2 - 8) + ' -9 H' + (lw / 2 + 8) + ' L' + (lw / 2 + 2) + ' 10 H' + (-lw / 2 - 14) + 'Z" fill="#0b0b0c" stroke="url(#' + k + 'r)" stroke-width="1.6"/>' +
+      '<text x="-3" y="5.2" text-anchor="middle" font-family="Inter, \'Arial Narrow\', Arial, sans-serif" font-weight="800" font-size="13" letter-spacing=".4" fill="#fff"' + (label.length > 7 ? ' textLength="' + lw + '" lengthAdjust="spacingAndGlyphs"' : '') + '>' + label.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</text></g>' +
+      (tier === 4 ? '<text x="60" y="16.5" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-weight="800" font-size="8" letter-spacing="1.5" fill="#fff6c4">BEAST</text>' : '') +
+      '</svg>';
+  }
+
+  // ---------- unlock takeover ----------
+  var queue = [], cur = null, cfg = {};
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function parts(h) {
+    var s = '', n = 56;
+    for (var i = 0; i < n; i++) {
+      var a = Math.round(i * (360 / n) + (i * 37) % 13), d = 120 + (i * 53) % 190, hue = i % 5 === 0 ? 48 : i % 7 === 0 ? 0 : h + ((i * 29) % 60) - 30, w = i % 3 ? 8 : 5, ht = i % 3 ? 14 : 5;
+      s += '<i style="--a:' + a + 'deg;--d:' + d + 'px;--c:' + (i % 7 === 0 ? '#fff' : 'hsl(' + hue + ',100%,62%)') + ';--w:' + w + 'px;--h:' + ht + 'px;--r:' + ((i * 71) % 540) + 'deg;--t:' + (0.75 + (i % 6) * 0.08) + 's"></i>';
+    }
+    return s;
+  }
+  function show() {
+    var el = document.getElementById('unlock'); if (!el) { el = document.createElement('div'); el.id = 'unlock'; el.className = 'unlock'; document.body.appendChild(el); }
+    cur = queue.shift(); if (!cur) { el.className = 'unlock'; el.innerHTML = ''; if (cfg.onDone) cfg.onDone(); return; }
+    var t = cur.t, more = queue.length;
+    el.style.setProperty('--hue', t.hue);
+    el.innerHTML = '<div class="ul-flash"></div><div class="ul-rays"></div><div class="ul-parts">' + parts(t.hue) + '</div>' +
+      '<div class="ul-body" role="dialog" aria-label="Trophy unlocked" data-testid="unlock" data-trophy="' + esc(t.id) + '">' +
+      '<div class="ul-kicker">' + (cur.replay ? 'Trophy' : 'Trophy unlocked') + ' · <b>' + esc(t.tierName) + '</b> · ' + esc(t.rarity) + '</div>' +
+      '<div class="ul-badge">' + badgeSVG(t, 230) + '</div>' +
+      '<h1 class="ul-name">' + esc(t.name) + '</h1><p class="ul-tag">' + esc(t.tag) + '</p>' +
+      '<div class="ul-stat" data-testid="unlock-stat">' + esc(t.stat || t.req) + '</div>' +
+      '<div class="ul-meta">' + (t.last ? esc(cfg.fmtDate ? cfg.fmtDate(t.last) : t.last) : '') + (t.count > 1 ? ' · earned ' + t.count + ' times' : '') + '</div>' +
+      '<div class="ul-actions"><button class="btn secondary" data-ul="share" data-testid="unlock-share">Share</button><button class="btn primary" data-ul="next" data-testid="unlock-next">' + (more ? 'Next · ' + more + ' more' : 'Let\u2019s go') + '</button></div></div>';
+    el.className = 'unlock show' + (t.tier === 4 ? ' beast' : '') + (cur.replay ? ' replay' : '');
+    if (!cur.replay && navigator.vibrate) try { navigator.vibrate([35, 45, 140]); } catch (e) {}
+  }
+  function takeover(list, opt) {
+    cfg = opt || {}; list.forEach(function (t) { queue.push({ t: t, replay: !!cfg.replay }); });
+    var el = document.getElementById('unlock'); if (!el || !/show/.test(el.className)) show();
+  }
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('[data-ul]'); if (!b) return;
+    if (b.dataset.ul === 'next') show();
+    if (b.dataset.ul === 'share' && cur) share(cur.t);
+  });
+
+  // ---------- share card (1080x1350) ----------
+  function wrap(ctx, text, x, y, maxW, lh) {
+    var words = String(text).split(' '), line = '', lines = [];
+    words.forEach(function (w) { var t = line ? line + ' ' + w : w; if (ctx.measureText(t).width > maxW && line) { lines.push(line); line = w; } else line = t; });
+    if (line) lines.push(line); lines.forEach(function (l, i) { ctx.fillText(l, x, y + i * lh); }); return lines.length;
+  }
+  function cardBlob(t) {
+    return new Promise(function (res, rej) {
+      var W = 1080, Hh = 1350, c = document.createElement('canvas'); c.width = W; c.height = Hh; var x = c.getContext('2d'), h = t.hue;
+      x.fillStyle = '#050607'; x.fillRect(0, 0, W, Hh);
+      var g = x.createRadialGradient(540, 520, 40, 540, 520, 760); g.addColorStop(0, 'hsla(' + h + ',100%,55%,.55)'); g.addColorStop(.45, 'hsla(' + (h + 20) + ',100%,40%,.18)'); g.addColorStop(1, 'rgba(0,0,0,0)'); x.fillStyle = g; x.fillRect(0, 0, W, Hh);
+      x.save(); x.translate(540, 520); for (var i = 0; i < 28; i++) { x.rotate(Math.PI * 2 / 28); x.beginPath(); x.moveTo(0, 0); x.lineTo(-26, -900); x.lineTo(26, -900); x.closePath(); x.fillStyle = 'hsla(' + h + ',100%,70%,' + (i % 2 ? .035 : .07) + ')'; x.fill(); } x.restore();
+      var seed = 7; for (var n = 0; n < 2600; n++) { seed = (seed * 9301 + 49297) % 233280; var px = seed % W; seed = (seed * 9301 + 49297) % 233280; var py = seed % Hh; x.fillStyle = n % 2 ? 'rgba(255,255,255,.035)' : 'rgba(0,0,0,.25)'; x.fillRect(px, py, 2, 2); }
+      x.strokeStyle = 'hsla(' + h + ',100%,60%,.5)'; x.lineWidth = 4; x.strokeRect(36, 36, W - 72, Hh - 72);
+      var svg = badgeSVG(t, 560), url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' })), img = new Image();
+      img.onload = function () {
+        x.save(); x.shadowColor = 'hsla(' + h + ',100%,55%,.8)'; x.shadowBlur = 80; x.drawImage(img, 260, 110, 560, 616); x.restore(); URL.revokeObjectURL(url);
+        x.textAlign = 'center'; x.fillStyle = 'hsl(' + h + ',100%,72%)'; x.font = '800 34px Inter, Arial, sans-serif';
+        x.fillText(('TROPHY UNLOCKED  \u00b7  ' + t.tierName + '  \u00b7  ' + t.rarity).toUpperCase().split('').join('\u200a'), 540, 790);
+        x.fillStyle = '#fff'; x.font = '800 ' + (t.name.length > 16 ? 86 : 104) + 'px Inter, Arial, sans-serif'; x.fillText(t.name.toUpperCase(), 540, 900);
+        x.fillStyle = '#cfd4da'; x.font = '500 40px Inter, Arial, sans-serif'; var ln = wrap(x, t.tag, 540, 970, 900, 52);
+        x.fillStyle = 'hsl(' + h + ',100%,75%)'; x.font = '700 40px Inter, Arial, sans-serif'; x.fillText(t.stat || t.req, 540, 990 + ln * 52 + 10);
+        x.fillStyle = '#8b939c'; x.font = '600 32px Inter, Arial, sans-serif'; x.fillText((t.last ? (cfg.fmtDate ? cfg.fmtDate(t.last) : t.last) : '') + (t.count > 1 ? '  \u00b7  earned ' + t.count + ' times' : ''), 540, 1050 + ln * 52 + 20);
+        // GRIT wordmark
+        x.save(); x.translate(408, 1228); x.strokeStyle = '#69BE28'; x.lineWidth = 11; x.lineCap = 'round'; x.beginPath(); x.arc(0, 0, 30, -0.35 * Math.PI, 1.65 * Math.PI, false); x.stroke(); x.beginPath(); x.moveTo(30, 0); x.lineTo(4, 0); x.stroke(); x.restore();
+        x.textAlign = 'left'; x.fillStyle = '#fff'; x.font = '800 74px Inter, Arial, sans-serif'; x.fillText('GRIT', 458, 1254);
+        x.textAlign = 'center'; x.fillStyle = '#69BE28'; x.font = '600 26px Inter, Arial, sans-serif'; x.fillText('BETTER THAN YESTERDAY', 540, 1300);
+        c.toBlob(function (b) { b ? res(b) : rej(new Error('toBlob failed')); }, 'image/png');
+      };
+      img.onerror = function () { rej(new Error('badge render failed')); };
+      img.src = url;
+    });
+  }
+  function share(t) {
+    return cardBlob(t).then(function (blob) {
+      var name = 'grit-trophy-' + t.id + '.png', file = null;
+      try { file = new File([blob], name, { type: 'image/png' }); } catch (e) {}
+      if (file && navigator.canShare && navigator.canShare({ files: [file] }) && navigator.share) return navigator.share({ files: [file], title: t.name, text: t.name + ' \u2014 ' + t.tag + ' #Grit' }).catch(function () {});
+      var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1500);
+    });
+  }
+  root.GritTrophies = { badgeSVG: badgeSVG, takeover: takeover, share: share, cardBlob: cardBlob, GLYPHS: Object.keys(G) };
+})(typeof window !== 'undefined' ? window : this);
+
+</script>
+<script>
 /* Grit — UI. Get better than you were yesterday. */
 (function () {
   'use strict';
   var F = window.FA, Q = window.FA_QUOTES;
   // Storage keys are unchanged from the original app so existing data on the phone carries over.
   var KEY = 'fitnessArcade.v1', PHOTO_KEY = 'fitnessArcade.photos';
-  var TABS = ['home', 'run', 'scores', 'routes'];
+  var TABS = ['home', 'run', 'scores', 'trophies', 'routes'];
   var params = new URLSearchParams(location.search);
   function today() { return params.get('today') || F.toISO(new Date()); }
   function uid() { return Math.random().toString(36).slice(2, 9); }
@@ -1410,6 +1863,8 @@ nav.tabs svg { width: 24px; height: 24px; }
     if (!Array.isArray(s.upcoming)) s.upcoming = [];
     // Nike-imported races (4/4 FCA Run the Cedars 5K, 5/2 Honor the Fallen 5K) get flagged as races once; Jon can untag/edit after
     var rtv = s.flags.racesTagged === true ? 1 : (+s.flags.racesTagged || 0); if (rtv < 2) { F.tagKnownRaces(s.runs, rtv); s.flags.racesTagged = 2; } // v2 adds the 2025 Turkey Trot (11/27) and Booby Bolt 5K (10/4)
+    // 1/22/2026 4.63 mi in 41:18 was a treadmill run: miles only (not pace/records)
+    if (!s.flags.fix0122) { s.runs.forEach(function (r) { if (r.date === '2026-01-22' && Math.abs(r.miles - 4.63) < 0.011 && Math.abs(r.minutes - 41.3) < 0.2) { r.milesOnly = true; if (!r.note) r.note = 'Treadmill'; } }); s.flags.fix0122 = true; }
     // Jon's FRAMILY 5K: added to Upcoming once; becomes the race goal only if he has no current goal of his own
     if (!s.flags.framily) {
       s.flags.framily = true;
@@ -1427,6 +1882,8 @@ nav.tabs svg { width: 24px; height: 24px; }
     s.weather = s.weather && s.weather.loc ? s.weather : b.weather;
     s.celebrated = Object.assign({ milestone: 0, badges: [] }, s.celebrated || {});
     // first launch of Grit on an existing save: count already-earned achievements as seen (no flood of celebrations)
+    // trophies already earned from history count as seen (no flood of unlocks)
+    if (!Array.isArray(s.celebrated.trophies)) s.celebrated.trophies = F.trophies(s.runs, { today: today(), birthday: s.profile.birthday }).list.filter(function (x) { return x.earned; }).map(function (x) { return x.id; });
     if (!Array.isArray(s.celebrated.ach)) s.celebrated.ach = F.achievements(s.profile, s.weights, s.runs).earned.map(function (a) { return a.id; });
     return s;
   }
@@ -1447,6 +1904,39 @@ nav.tabs svg { width: 24px; height: 24px; }
   function kcal(r) { return F.runCalories(r, +state.profile.bodyLbs); }
   function ach() { return F.achievements(state.profile, state.weights, state.runs); }
   function activeShoe() { return state.shoes.filter(function (s) { return s.id === state.activeShoe && !s.retired; })[0] || null; }
+  // weather saved at log time (only for runs logged today, from the cached Open-Meteo forecast)
+  function runWeather(r) {
+    var c = state.weather && state.weather.cache; if (!c || !c.data || r.date !== today() || Date.now() - c.at > 12 * 3600e3) return null;
+    var hr = r.start ? +r.start.slice(0, 2) : new Date().getHours(); return F.wxAt(c.data, r.date, hr);
+  }
+  function trophyData() { return F.trophies(state.runs, { today: today(), birthday: state.profile.birthday }); }
+  function trophyDate(d) { return F.fmtShort(d) + ', ' + d.slice(0, 4); }
+  // new trophies: celebrate (silent = mark seen without a takeover, e.g. imports, merges, birthday edits)
+  function checkTrophies(silent) {
+    if (!Array.isArray(state.celebrated.trophies)) state.celebrated.trophies = [];
+    var seen = state.celebrated.trophies, fresh = trophyData().list.filter(function (x) { return x.earned && seen.indexOf(x.id) === -1; });
+    fresh.forEach(function (x) { seen.push(x.id); });
+    if (fresh.length && !silent && state.ui.tab !== 'trophies') { state.ui.trophyNew = true; document.querySelectorAll('nav.tabs button[data-goto=trophies]').forEach(function (b) { b.classList.add('has-dot'); }); }
+    save();
+    if (fresh.length && !silent && !window.__noTrophyFx && window.GritTrophies) GritTrophies.takeover(fresh.sort(function (a, b) { return a.tier - b.tier; }), { fmtDate: trophyDate });
+    return fresh;
+  }
+  function trophyRoomHtml() {
+    var T = trophyData(), B = window.GritTrophies;
+    if (!B) return '';
+    var b = '<div class="tr-count"><b data-testid="trophy-earned">' + T.earned + '</b><span>of ' + T.total + ' earned · ' + T.times.toLocaleString() + ' times</span></div>';
+    if (T.next.length) b += '<div class="eyebrow" style="margin-top:12px">Next up</div><ul class="tr-next" data-testid="trophy-next">' + T.next.map(function (x) {
+      return '<li style="--h:' + x.hue + '" data-action="trophy" data-id="' + x.id + '">' + B.badgeSVG(x, 46) + '<div class="grow"><b>' + esc(x.name) + '</b><span class="s">' + esc(x.req) + ' · ' + esc(x.progress) + '</span><div class="tr-bar"><i style="width:' + x.pct + '%"></i></div></div></li>'; }).join('') + '</ul>';
+    var earned = T.list.filter(function (x) { return x.earned; }).sort(function (a, c) { return a.last < c.last ? 1 : a.last > c.last ? -1 : c.tier - a.tier; });
+    var locked = T.list.filter(function (x) { return !x.earned; }).sort(function (a, c) { return c.pct - a.pct || a.tier - c.tier; });
+    function tile(x) {
+      return '<button class="tr-tile t' + x.tier + (x.earned ? '' : ' locked') + '" style="--h:' + x.hue + '" data-action="trophy" data-id="' + x.id + '" data-testid="trophy-' + x.id + '" aria-label="' + esc(x.name) + (x.earned ? ', earned' : ', locked') + '">' + B.badgeSVG(x, 92) +
+        '<span class="tn">' + esc(x.name) + '</span>' + (x.earned ? '<span class="td">' + trophyDate(x.last) + '</span>' + (x.count > 1 ? '<span class="tx">' + x.count + ' times</span>' : '') :
+        '<span class="td">' + esc(x.req) + '</span>' + (x.pct > 0 ? '<span class="tr-bar"><i style="width:' + x.pct + '%"></i></span>' : '') + (x.fwd ? '<span class="fwd">from now on</span>' : '')) + '</button>';
+    }
+    b += '<div class="tr-grid" data-testid="trophy-grid"><div class="tr-sec">Earned · ' + earned.length + '</div>' + earned.map(tile).join('') + '<div class="tr-sec">Locked · ' + locked.length + '</div>' + locked.map(tile).join('') + '</div>';
+    return '<section class="card trophy-room" data-testid="trophy-room"><div class="card-head"><div><h3>Trophy Room</h3><div class="sub">Tap any trophy to relive it and share.</div></div></div>' + b + '</section>';
+  }
   function newAchievements() {
     var fresh = ach().earned.filter(function (a) { return state.celebrated.ach.indexOf(a.id) === -1; });
     fresh.forEach(function (a) { state.celebrated.ach.push(a.id); });
@@ -1808,6 +2298,7 @@ nav.tabs svg { width: 24px; height: 24px; }
     h += card('', 'log-card', null, '<form id="run-form">' +
       '<div class="grid2"><div class="field"><label for="run-miles">Distance (mi)</label><input id="run-miles" name="miles" type="number" inputmode="decimal" step="0.01" min="0.1" max="100" placeholder="3.10" required></div>' +
       timeField('time', 'Time', null, true) +
+      '<div class="field"><label for="run-start">Start time <span class="muted">(optional)</span></label><input id="run-start" name="start" type="time"></div>' +
       '<div class="field"><label for="run-date">Date</label><input id="run-date" name="date" type="date" value="' + t + '" max="' + t + '" required></div>' +
       '<div class="field"><label for="run-shoe">Shoes</label><select id="run-shoe" name="shoe"><option value="">None</option>' + shoesActive.map(function (s) { return '<option value="' + s.id + '"' + (s.id === state.activeShoe ? ' selected' : '') + '>' + esc(s.name) + '</option>'; }).join('') + '</select></div>' +
       '<div class="field"><label for="run-cad">Cadence (spm)</label><input id="run-cad" name="cadence" type="number" inputmode="numeric" min="100" max="230" placeholder="Optional"></div>' +
@@ -1941,7 +2432,7 @@ nav.tabs svg { width: 24px; height: 24px; }
 
   // ---------- Nike Run Club history (bundled, one-time merge; adds only) ----------
   var NRC_MILES_ONLY_BEFORE = '2025-08-04'; // Jon: runs before Aug 4, 2025 count for miles only
-  var NRC_RUNS = [["2026-10-10",3.22,"35:07"],["2026-10-09",3.34,"35:40"],["2026-10-08",3.2,"34:08"],["2026-10-06",3.11,"33:54"],["2026-10-02",3.4,"37:43"],["2026-10-01",2.16,"22:59"],["2026-09-29",3.24,"34:03"],["2026-09-28",3,"31:56"],["2026-09-25",3.29,"36:08"],["2026-09-24",3.19,"35:15"],["2026-09-23",3.12,"34:35"],["2026-09-20",3.17,"35:45"],["2026-09-19",3.03,"35:02"],["2026-09-18",3.13,"35:37"],["2026-09-16",2.09,"22:58"],["2026-09-15",2.01,"22:00"],["2026-09-12",2.55,"27:47"],["2026-09-10",3.35,"37:57"],["2026-09-08",3.35,"36:19"],["2026-09-07",3.11,"34:03"],["2026-09-06",3.53,"40:04"],["2026-09-02",3,"33:35"],["2026-08-31",3.1,"35:02"],["2026-08-29",3.02,"34:08"],["2026-08-28",4.42,"49:14"],["2026-08-27",3.28,"39:35"],["2026-08-26",4.42,"50:44"],["2026-08-22",3.14,"37:15","Indianapolis, IN"],["2026-08-21",2.05,"23:22"],["2026-08-20",3,"34:25"],["2026-08-19",2.08,"23:39"],["2026-08-18",3.04,"35:02"],["2026-08-16",2.2,"26:00","Treadmill"],["2026-08-16",1,"14:09","Treadmill"],["2026-08-15",3.12,"35:57"],["2026-08-14",3.2,"38:01"],["2026-08-13",3.04,"36:20"],["2026-08-11",3.03,"38:13"],["2026-08-10",2.52,"32:13"],["2026-08-05",3.42,"39:12"],["2026-08-04",3.06,"34:41"],["2026-08-03",1.9,"21:12"],["2026-07-30",3.03,"32:47"],["2026-07-29",2.03,"21:57"],["2026-07-25",3.21,"35:09"],["2026-07-24",3.23,"35:43"],["2026-07-23",3.12,"35:55"],["2026-07-20",3.31,"39:07"],["2026-07-18",2.16,"23:56"],["2026-07-16",3.26,"37:06"],["2026-07-15",1.21,"13:30"],["2026-07-12",3.18,"34:23"],["2026-07-09",3.01,"34:18","Treadmill"],["2026-07-08",3.22,"36:32"],["2026-07-07",2.1,"25:11","Treadmill"],["2026-07-06",3.6,"41:58","Treadmill"],["2026-07-04",2.92,"33:00"],["2026-07-02",3.11,"36:58","Treadmill"],["2026-07-01",3.15,"35:09"],["2026-06-29",3.38,"38:37"],["2026-06-27",3.12,"35:44"],["2026-06-26",2.26,"25:46"],["2026-06-25",3.49,"41:10"],["2026-06-24",4.16,"46:45"],["2026-06-23",3.31,"37:02"],["2026-06-22",3.3,"37:51"],["2026-06-18",3.07,"34:09"],["2026-06-17",4.01,"45:58"],["2026-06-13",1.25,"13:54"],["2026-06-12",4.09,"46:38"],["2026-06-11",4.42,"50:41"],["2026-06-10",1.86,"20:22"],["2026-06-06",3.11,"34:52"],["2026-06-05",3.43,"36:50"],["2026-06-04",4.08,"45:58"],["2026-06-02",4.01,"46:27"],["2026-06-01",4.14,"46:54"],["2026-05-31",4.4,"49:22"],["2026-05-30",3.35,"37:01"],["2026-05-28",3.12,"35:18"],["2026-05-27",3.16,"36:49"],["2026-05-20",2.45,"26:58"],["2026-05-19",3.26,"37:11"],["2026-05-16",4.42,"50:06"],["2026-05-15",3.14,"34:59"],["2026-05-13",1.05,"11:42"],["2026-05-11",3.3,"35:51"],["2026-05-07",3.13,"33:30"],["2026-05-03",5.1,"59:12"],["2026-05-02",3.26,"32:57","Honor the fallen 5k (race)"],["2026-04-30",3.4,"38:47"],["2026-04-29",3.26,"34:49"],["2026-04-28",1.23,"13:21"],["2026-04-28",0.17,"1:57"],["2026-04-27",3.4,"37:14"],["2026-04-24",3.11,"33:50"],["2026-04-23",3.14,"33:20"],["2026-04-22",3.37,"36:02"],["2026-04-21",3.13,"33:36"],["2026-04-19",6.32,"1:10:13"],["2026-04-17",3.11,"34:34"],["2026-04-16",5.02,"54:43"],["2026-04-14",4.05,"45:17"],["2026-04-13",3.27,"36:12"],["2026-04-11",4.42,"48:46"],["2026-04-10",2.09,"24:15"],["2026-04-10",3.22,"36:31"],["2026-04-08",3.12,"32:10"],["2026-04-07",5.27,"57:45"],["2026-04-06",5.01,"54:50"],["2026-04-04",3.11,"31:37","FCA run the cedars 5k (race)"],["2026-04-02",4.22,"47:39"],["2026-04-01",4.1,"47:28"],["2026-03-31",4.0,"43:41"],["2026-03-30",4.04,"44:47"],["2026-03-28",3.37,"35:20"],["2026-03-26",3.19,"33:55"],["2026-03-25",3.17,"32:45"],["2026-03-24",3.14,"34:01"],["2026-03-23",3.12,"33:22"],["2026-03-21",4.1,"45:12"],["2026-03-20",3.18,"34:11"],["2026-03-19",3.22,"33:50"],["2026-03-18",3.12,"33:20"],["2026-03-14",3.18,"35:15","New Orleans"],["2026-03-13",3.12,"34:45","New Orleans"],["2026-03-12",3.17,"33:26"],["2026-03-10",3.15,"32:14"],["2026-03-09",3.1,"31:23"],["2026-03-06",3.13,"32:36"],["2026-03-05",3.35,"35:05"],["2026-03-04",3.0,"31:09"],["2026-03-03",3.15,"32:28"],["2026-02-25",3.11,"31:28"],["2026-02-24",3.12,"32:11"],["2026-02-22",3.13,"32:09"],["2026-02-20",3.2,"33:21"],["2026-02-19",3.11,"33:28"],["2026-02-17",3.27,"34:56"],["2026-02-16",3.11,"33:09"],["2026-02-14",3.13,"32:31"],["2026-02-12",3.12,"32:52"],["2026-02-11",2.0,"25:32"],["2026-02-10",3.11,"32:49"],["2026-02-09",1.29,"12:49"],["2026-02-05",3.1,"32:49"],["2026-02-04",3.11,"31:55"],["2026-02-04",0.12,"1:59"],["2026-02-03",2.24,"23:17"],["2026-02-02",3.29,"34:01"],["2026-02-01",2.0,"21:02"],["2026-01-22",4.63,"41:18"],["2026-01-22",1.27,"12:31"],["2026-01-16",3.15,"31:52"],["2026-01-11",2.67,"27:20"],["2026-01-10",1.27,"12:45"],["2026-01-08",0.28,"4:51"],["2026-01-07",2.54,"26:44"],["2026-01-06",3.22,"35:20"],["2026-01-03",3.27,"33:19"],["2025-12-31",3.2,"34:07"],["2025-12-30",3.1,"33:21"],["2025-12-28",3.12,"32:16"],["2025-12-27",3.12,"34:04"],["2025-12-26",3.11,"32:53"],["2025-12-25",4.0,"42:49"],["2025-12-22",3.28,"33:43"],["2025-12-21",1.2,"11:54"],["2025-12-20",5.67,"1:00:54"],["2025-12-18",3.19,"33:39"],["2025-12-17",3.37,"37:24"],["2025-12-16",3.12,"33:30"],["2025-12-13",6.2,"1:06:14"],["2025-12-11",3.19,"33:17"],["2025-12-10",3.33,"35:00"],["2025-12-09",3.27,"35:18"],["2025-12-08",1.32,"12:53"],["2025-12-07",4.02,"44:23"],["2025-12-06",3.19,"34:42"],["2025-12-05",3.28,"35:00"],["2025-12-03",2.05,"21:22"],["2025-12-02",3.11,"34:55"],["2025-11-30",6.24,"1:07:16"],["2025-11-28",4.0,"42:16"],["2025-11-27",3.12,"31:11","Turkey Trot Nashville"],["2025-11-26",1.36,"13:50"],["2025-11-24",3.1,"33:16"],["2025-11-23",3.25,"35:26"],["2025-11-22",4.04,"45:53"],["2025-11-21",3.38,"37:42"],["2025-11-11",3.11,"36:25"],["2025-11-07",6.24,"1:11:48"],["2025-11-06",3.18,"35:43"],["2025-11-05",3.1,"35:23","Treadmill"],["2025-11-04",3.36,"38:27"],["2025-10-31",2.28,"23:29"],["2025-10-30",3.26,"36:03"],["2025-10-28",6.29,"1:10:46"],["2025-10-27",3.17,"35:36"],["2025-10-25",3.1,"34:59"],["2025-10-23",3.24,"34:53"],["2025-10-21",3.19,"36:15"],["2025-10-20",4.35,"48:44"],["2025-10-18",2.66,"32:37"],["2025-10-18",3.32,"37:46"],["2025-10-16",3.31,"38:39"],["2025-10-15",4.09,"49:31"],["2025-10-12",6.2,"1:10:09","Panama City Beach"],["2025-10-10",3.53,"38:10"],["2025-10-08",5.7,"1:04:01"],["2025-10-06",3.1,"35:50"],["2025-10-05",3.8,"45:55"],["2025-10-04",3.18,"32:52","Booby Bolt 5K"],["2025-10-02",3.1,"34:46"],["2025-10-01",3.26,"35:14"],["2025-09-29",3.3,"36:01"],["2025-09-27",4.61,"52:00"],["2025-09-25",3.3,"35:31"],["2025-09-24",3.51,"38:20"],["2025-09-23",0.32,"3:48"],["2025-09-22",3.13,"35:11"],["2025-09-21",2.83,"31:19"],["2025-09-18",6.03,"1:08:32"],["2025-09-16",3.34,"38:13"],["2025-09-15",4.15,"47:17"],["2025-09-13",6.1,"1:11:18"],["2025-09-12",1.69,"18:39"],["2025-09-11",3.15,"34:23"],["2025-09-09",3.24,"35:24"],["2025-09-08",3.16,"35:01"],["2025-09-07",3.25,"34:33"],["2025-09-06",3.77,"42:40","10K plan: Speed Run"],["2025-09-05",2.73,"30:36","10K plan: Recovery Run"],["2025-09-03",2.28,"25:06","10K plan: Recovery Run"],["2025-09-01",6.27,"1:14:18","10K plan"],["2025-08-27",6.21,"1:12:39","10K plan: Speed Run"],["2025-08-25",3.1,"35:10"],["2025-08-24",3.16,"35:33","10K plan: Recovery Run"],["2025-08-22",3.25,"36:08","10K plan: Long Run"],["2025-08-21",2.28,"26:09","10K plan: Recovery Run"],["2025-08-20",1.56,"18:38"],["2025-08-20",1.65,"19:29","10K plan: Speed Run"],["2025-08-19",4.0,"48:33","10K plan: Recovery Run"],["2025-08-17",2.08,"23:20","10K plan: Recovery Run"],["2025-08-16",2.14,"24:57"],["2025-08-16",1.3,"14:46"],["2025-08-14",3.15,"36:05"],["2025-08-13",1.46,"15:59"],["2025-08-12",2.04,"23:51"],["2025-08-11",2.0,"22:35"],["2025-08-10",3.1,"35:11"],["2025-08-08",0.36,"5:06","Treadmill"],["2025-08-08",1.5,"16:40","Treadmill"],["2025-08-06",3.1,"34:32"],["2025-08-05",3.3,"34:23"],["2025-08-04",2.01,"21:38","Treadmill"],["2025-07-31",1.03,"10:41"],["2025-07-30",2.01,"20:02"],["2025-07-28",3.29,"35:03"],["2025-07-25",1.79,"18:55"],["2025-07-24",2.01,"23:29","Treadmill"],["2025-07-23",2.11,"20:54"],["2025-07-21",3.12,"33:13"],["2025-07-18",2.2,"25:07"],["2025-07-17",2.03,"24:05"],["2025-07-16",2.01,"23:16"],["2025-07-15",2.56,"30:22"],["2025-07-14",2.0,"20:21"],["2025-07-11",0.11,"1:15"],["2025-07-11",2.0,"22:36","Treadmill · phone died"],["2025-07-09",2.02,"21:16"],["2025-07-08",3.1,"35:51"],["2025-07-07",2.52,"26:02"],["2025-06-30",0.02,"0:26"],["2025-06-27",3.12,"37:03"],["2025-06-26",2.3,"25:14"],["2025-06-25",2.21,"25:03"],["2025-06-24",2.05,"23:45"],["2025-06-23",3.1,"35:47"],["2025-06-20",2.75,"31:31"],["2025-06-19",2.06,"25:07"],["2025-06-18",3.17,"33:03"],["2025-06-17",2.14,"24:02"],["2025-06-16",2.27,"23:11"],["2025-06-13",2.71,"30:04"],["2025-06-12",0.38,"4:13"],["2025-06-12",1.27,"15:04"],["2025-06-11",2.7,"30:19"],["2025-06-10",2.01,"23:35"],["2025-06-09",2.57,"27:06"],["2025-06-03",2.02,"21:02"],["2025-06-02",2.0,"21:00"],["2025-05-31",1.66,"22:15"],["2025-05-30",2.05,"25:03"],["2025-05-29",0.41,"4:36"],["2025-05-28",2.03,"21:02"],["2025-05-27",2.09,"25:14"],["2025-05-25",1.0,"11:48"],["2025-05-25",2.06,"24:18"],["2025-05-24",0.45,"5:11"],["2025-05-22",1.87,"21:02"],["2025-05-21",1.8,"19:57"],["2025-05-20",0.47,"6:15"],["2025-05-20",1.04,"10:34"],["2025-05-19",1.94,"19:33"],["2025-05-17",0.64,"8:14"],["2025-05-16",0.1,"1:22"],["2025-05-15",1.04,"11:13"],["2025-05-14",1.11,"13:35"],["2025-05-13",1.01,"13:23"]].map(function (a) { return { date: a[0], miles: a[1], time: a[2], note: a[3] || null, source: 'Nike Run Club', milesOnly: a[0] < NRC_MILES_ONLY_BEFORE || undefined }; });
+  var NRC_RUNS = [["2026-10-10",3.22,"35:07"],["2026-10-09",3.34,"35:40"],["2026-10-08",3.2,"34:08"],["2026-10-06",3.11,"33:54"],["2026-10-02",3.4,"37:43"],["2026-10-01",2.16,"22:59"],["2026-09-29",3.24,"34:03"],["2026-09-28",3,"31:56"],["2026-09-25",3.29,"36:08"],["2026-09-24",3.19,"35:15"],["2026-09-23",3.12,"34:35"],["2026-09-20",3.17,"35:45"],["2026-09-19",3.03,"35:02"],["2026-09-18",3.13,"35:37"],["2026-09-16",2.09,"22:58"],["2026-09-15",2.01,"22:00"],["2026-09-12",2.55,"27:47"],["2026-09-10",3.35,"37:57"],["2026-09-08",3.35,"36:19"],["2026-09-07",3.11,"34:03"],["2026-09-06",3.53,"40:04"],["2026-09-02",3,"33:35"],["2026-08-31",3.1,"35:02"],["2026-08-29",3.02,"34:08"],["2026-08-28",4.42,"49:14"],["2026-08-27",3.28,"39:35"],["2026-08-26",4.42,"50:44"],["2026-08-22",3.14,"37:15","Indianapolis, IN"],["2026-08-21",2.05,"23:22"],["2026-08-20",3,"34:25"],["2026-08-19",2.08,"23:39"],["2026-08-18",3.04,"35:02"],["2026-08-16",2.2,"26:00","Treadmill"],["2026-08-16",1,"14:09","Treadmill"],["2026-08-15",3.12,"35:57"],["2026-08-14",3.2,"38:01"],["2026-08-13",3.04,"36:20"],["2026-08-11",3.03,"38:13"],["2026-08-10",2.52,"32:13"],["2026-08-05",3.42,"39:12"],["2026-08-04",3.06,"34:41"],["2026-08-03",1.9,"21:12"],["2026-07-30",3.03,"32:47"],["2026-07-29",2.03,"21:57"],["2026-07-25",3.21,"35:09"],["2026-07-24",3.23,"35:43"],["2026-07-23",3.12,"35:55"],["2026-07-20",3.31,"39:07"],["2026-07-18",2.16,"23:56"],["2026-07-16",3.26,"37:06"],["2026-07-15",1.21,"13:30"],["2026-07-12",3.18,"34:23"],["2026-07-09",3.01,"34:18","Treadmill"],["2026-07-08",3.22,"36:32"],["2026-07-07",2.1,"25:11","Treadmill"],["2026-07-06",3.6,"41:58","Treadmill"],["2026-07-04",2.92,"33:00"],["2026-07-02",3.11,"36:58","Treadmill"],["2026-07-01",3.15,"35:09"],["2026-06-29",3.38,"38:37"],["2026-06-27",3.12,"35:44"],["2026-06-26",2.26,"25:46"],["2026-06-25",3.49,"41:10"],["2026-06-24",4.16,"46:45"],["2026-06-23",3.31,"37:02"],["2026-06-22",3.3,"37:51"],["2026-06-18",3.07,"34:09"],["2026-06-17",4.01,"45:58"],["2026-06-13",1.25,"13:54"],["2026-06-12",4.09,"46:38"],["2026-06-11",4.42,"50:41"],["2026-06-10",1.86,"20:22"],["2026-06-06",3.11,"34:52"],["2026-06-05",3.43,"36:50"],["2026-06-04",4.08,"45:58"],["2026-06-02",4.01,"46:27"],["2026-06-01",4.14,"46:54"],["2026-05-31",4.4,"49:22"],["2026-05-30",3.35,"37:01"],["2026-05-28",3.12,"35:18"],["2026-05-27",3.16,"36:49"],["2026-05-20",2.45,"26:58"],["2026-05-19",3.26,"37:11"],["2026-05-16",4.42,"50:06"],["2026-05-15",3.14,"34:59"],["2026-05-13",1.05,"11:42"],["2026-05-11",3.3,"35:51"],["2026-05-07",3.13,"33:30"],["2026-05-03",5.1,"59:12"],["2026-05-02",3.26,"32:57","Honor the fallen 5k (race)"],["2026-04-30",3.4,"38:47"],["2026-04-29",3.26,"34:49"],["2026-04-28",1.23,"13:21"],["2026-04-28",0.17,"1:57"],["2026-04-27",3.4,"37:14"],["2026-04-24",3.11,"33:50"],["2026-04-23",3.14,"33:20"],["2026-04-22",3.37,"36:02"],["2026-04-21",3.13,"33:36"],["2026-04-19",6.32,"1:10:13"],["2026-04-17",3.11,"34:34"],["2026-04-16",5.02,"54:43"],["2026-04-14",4.05,"45:17"],["2026-04-13",3.27,"36:12"],["2026-04-11",4.42,"48:46"],["2026-04-10",2.09,"24:15"],["2026-04-10",3.22,"36:31"],["2026-04-08",3.12,"32:10"],["2026-04-07",5.27,"57:45"],["2026-04-06",5.01,"54:50"],["2026-04-04",3.11,"31:37","FCA run the cedars 5k (race)"],["2026-04-02",4.22,"47:39"],["2026-04-01",4.1,"47:28"],["2026-03-31",4.0,"43:41"],["2026-03-30",4.04,"44:47"],["2026-03-28",3.37,"35:20"],["2026-03-26",3.19,"33:55"],["2026-03-25",3.17,"32:45"],["2026-03-24",3.14,"34:01"],["2026-03-23",3.12,"33:22"],["2026-03-21",4.1,"45:12"],["2026-03-20",3.18,"34:11"],["2026-03-19",3.22,"33:50"],["2026-03-18",3.12,"33:20"],["2026-03-14",3.18,"35:15","New Orleans"],["2026-03-13",3.12,"34:45","New Orleans"],["2026-03-12",3.17,"33:26"],["2026-03-10",3.15,"32:14"],["2026-03-09",3.1,"31:23"],["2026-03-06",3.13,"32:36"],["2026-03-05",3.35,"35:05"],["2026-03-04",3.0,"31:09"],["2026-03-03",3.15,"32:28"],["2026-02-25",3.11,"31:28"],["2026-02-24",3.12,"32:11"],["2026-02-22",3.13,"32:09"],["2026-02-20",3.2,"33:21"],["2026-02-19",3.11,"33:28"],["2026-02-17",3.27,"34:56"],["2026-02-16",3.11,"33:09"],["2026-02-14",3.13,"32:31"],["2026-02-12",3.12,"32:52"],["2026-02-11",2.0,"25:32"],["2026-02-10",3.11,"32:49"],["2026-02-09",1.29,"12:49"],["2026-02-05",3.1,"32:49"],["2026-02-04",3.11,"31:55"],["2026-02-04",0.12,"1:59"],["2026-02-03",2.24,"23:17"],["2026-02-02",3.29,"34:01"],["2026-02-01",2.0,"21:02"],["2026-01-22",4.63,"41:18","Treadmill",1],["2026-01-22",1.27,"12:31"],["2026-01-16",3.15,"31:52"],["2026-01-11",2.67,"27:20"],["2026-01-10",1.27,"12:45"],["2026-01-08",0.28,"4:51"],["2026-01-07",2.54,"26:44"],["2026-01-06",3.22,"35:20"],["2026-01-03",3.27,"33:19"],["2025-12-31",3.2,"34:07"],["2025-12-30",3.1,"33:21"],["2025-12-28",3.12,"32:16"],["2025-12-27",3.12,"34:04"],["2025-12-26",3.11,"32:53"],["2025-12-25",4.0,"42:49"],["2025-12-22",3.28,"33:43"],["2025-12-21",1.2,"11:54"],["2025-12-20",5.67,"1:00:54"],["2025-12-18",3.19,"33:39"],["2025-12-17",3.37,"37:24"],["2025-12-16",3.12,"33:30"],["2025-12-13",6.2,"1:06:14"],["2025-12-11",3.19,"33:17"],["2025-12-10",3.33,"35:00"],["2025-12-09",3.27,"35:18"],["2025-12-08",1.32,"12:53"],["2025-12-07",4.02,"44:23"],["2025-12-06",3.19,"34:42"],["2025-12-05",3.28,"35:00"],["2025-12-03",2.05,"21:22"],["2025-12-02",3.11,"34:55"],["2025-11-30",6.24,"1:07:16"],["2025-11-28",4.0,"42:16"],["2025-11-27",3.12,"31:11","Turkey Trot Nashville"],["2025-11-26",1.36,"13:50"],["2025-11-24",3.1,"33:16"],["2025-11-23",3.25,"35:26"],["2025-11-22",4.04,"45:53"],["2025-11-21",3.38,"37:42"],["2025-11-11",3.11,"36:25"],["2025-11-07",6.24,"1:11:48"],["2025-11-06",3.18,"35:43"],["2025-11-05",3.1,"35:23","Treadmill"],["2025-11-04",3.36,"38:27"],["2025-10-31",2.28,"23:29"],["2025-10-30",3.26,"36:03"],["2025-10-28",6.29,"1:10:46"],["2025-10-27",3.17,"35:36"],["2025-10-25",3.1,"34:59"],["2025-10-23",3.24,"34:53"],["2025-10-21",3.19,"36:15"],["2025-10-20",4.35,"48:44"],["2025-10-18",2.66,"32:37"],["2025-10-18",3.32,"37:46"],["2025-10-16",3.31,"38:39"],["2025-10-15",4.09,"49:31"],["2025-10-12",6.2,"1:10:09","Panama City Beach"],["2025-10-10",3.53,"38:10"],["2025-10-08",5.7,"1:04:01"],["2025-10-06",3.1,"35:50"],["2025-10-05",3.8,"45:55"],["2025-10-04",3.18,"32:52","Booby Bolt 5K"],["2025-10-02",3.1,"34:46"],["2025-10-01",3.26,"35:14"],["2025-09-29",3.3,"36:01"],["2025-09-27",4.61,"52:00"],["2025-09-25",3.3,"35:31"],["2025-09-24",3.51,"38:20"],["2025-09-23",0.32,"3:48"],["2025-09-22",3.13,"35:11"],["2025-09-21",2.83,"31:19"],["2025-09-18",6.03,"1:08:32"],["2025-09-16",3.34,"38:13"],["2025-09-15",4.15,"47:17"],["2025-09-13",6.1,"1:11:18"],["2025-09-12",1.69,"18:39"],["2025-09-11",3.15,"34:23"],["2025-09-09",3.24,"35:24"],["2025-09-08",3.16,"35:01"],["2025-09-07",3.25,"34:33"],["2025-09-06",3.77,"42:40","10K plan: Speed Run"],["2025-09-05",2.73,"30:36","10K plan: Recovery Run"],["2025-09-03",2.28,"25:06","10K plan: Recovery Run"],["2025-09-01",6.27,"1:14:18","10K plan"],["2025-08-27",6.21,"1:12:39","10K plan: Speed Run"],["2025-08-25",3.1,"35:10"],["2025-08-24",3.16,"35:33","10K plan: Recovery Run"],["2025-08-22",3.25,"36:08","10K plan: Long Run"],["2025-08-21",2.28,"26:09","10K plan: Recovery Run"],["2025-08-20",1.56,"18:38"],["2025-08-20",1.65,"19:29","10K plan: Speed Run"],["2025-08-19",4.0,"48:33","10K plan: Recovery Run"],["2025-08-17",2.08,"23:20","10K plan: Recovery Run"],["2025-08-16",2.14,"24:57"],["2025-08-16",1.3,"14:46"],["2025-08-14",3.15,"36:05"],["2025-08-13",1.46,"15:59"],["2025-08-12",2.04,"23:51"],["2025-08-11",2.0,"22:35"],["2025-08-10",3.1,"35:11"],["2025-08-08",0.36,"5:06","Treadmill"],["2025-08-08",1.5,"16:40","Treadmill"],["2025-08-06",3.1,"34:32"],["2025-08-05",3.3,"34:23"],["2025-08-04",2.01,"21:38","Treadmill"],["2025-07-31",1.03,"10:41"],["2025-07-30",2.01,"20:02"],["2025-07-28",3.29,"35:03"],["2025-07-25",1.79,"18:55"],["2025-07-24",2.01,"23:29","Treadmill"],["2025-07-23",2.11,"20:54"],["2025-07-21",3.12,"33:13"],["2025-07-18",2.2,"25:07"],["2025-07-17",2.03,"24:05"],["2025-07-16",2.01,"23:16"],["2025-07-15",2.56,"30:22"],["2025-07-14",2.0,"20:21"],["2025-07-11",0.11,"1:15"],["2025-07-11",2.0,"22:36","Treadmill · phone died"],["2025-07-09",2.02,"21:16"],["2025-07-08",3.1,"35:51"],["2025-07-07",2.52,"26:02"],["2025-06-30",0.02,"0:26"],["2025-06-27",3.12,"37:03"],["2025-06-26",2.3,"25:14"],["2025-06-25",2.21,"25:03"],["2025-06-24",2.05,"23:45"],["2025-06-23",3.1,"35:47"],["2025-06-20",2.75,"31:31"],["2025-06-19",2.06,"25:07"],["2025-06-18",3.17,"33:03"],["2025-06-17",2.14,"24:02"],["2025-06-16",2.27,"23:11"],["2025-06-13",2.71,"30:04"],["2025-06-12",0.38,"4:13"],["2025-06-12",1.27,"15:04"],["2025-06-11",2.7,"30:19"],["2025-06-10",2.01,"23:35"],["2025-06-09",2.57,"27:06"],["2025-06-03",2.02,"21:02"],["2025-06-02",2.0,"21:00"],["2025-05-31",1.66,"22:15"],["2025-05-30",2.05,"25:03"],["2025-05-29",0.41,"4:36"],["2025-05-28",2.03,"21:02"],["2025-05-27",2.09,"25:14"],["2025-05-25",1.0,"11:48"],["2025-05-25",2.06,"24:18"],["2025-05-24",0.45,"5:11"],["2025-05-22",1.87,"21:02"],["2025-05-21",1.8,"19:57"],["2025-05-20",0.47,"6:15"],["2025-05-20",1.04,"10:34"],["2025-05-19",1.94,"19:33"],["2025-05-17",0.64,"8:14"],["2025-05-16",0.1,"1:22"],["2025-05-15",1.04,"11:13"],["2025-05-14",1.11,"13:35"],["2025-05-13",1.01,"13:23"]].map(function (a) { return { date: a[0], miles: a[1], time: a[2], note: a[3] || null, source: 'Nike Run Club', milesOnly: a[0] < NRC_MILES_ONLY_BEFORE || a[4] === 1 || undefined }; });
   function nrcPending() { return NRC_RUNS.filter(function (r) { var n = F.normalizeRun(r); return !state.runs.some(function (x) { return F.isDuplicateRun(x, n); }); }); }
   function nrcRange() { var p = nrcPending(); var d = (p.length ? p : NRC_RUNS).map(function (r) { return r.date; }).sort(); var y0 = d[0].slice(0, 4), y1 = d[d.length - 1].slice(0, 4), ty = today().slice(0, 4); if (y0 !== y1) return F.fmtShort(d[0]) + ', ' + y0 + ' – ' + F.fmtShort(d[d.length - 1]) + ', ' + y1; return F.fmtShort(d[0]) + ' – ' + F.fmtShort(d[d.length - 1]) + (y1 !== ty ? ', ' + y1 : ''); }
   function dShort(d) { return F.fmtShort(d) + (d.slice(0, 4) !== today().slice(0, 4) ? ', ' + d.slice(0, 4) : ''); }
@@ -1956,7 +2447,7 @@ nav.tabs svg { width: 24px; height: 24px; }
     var m = F.mergeRuns(state.runs, list, uid, source);
     if (!m.added.length) { toast('Nothing new to add' + (m.skipped ? ' · ' + m.skipped + ' already logged' : '')); return m; }
     if (!confirm('Add ' + plural(m.added.length, 'run') + ' from ' + label + '?' + (m.skipped ? ' ' + m.skipped + ' already logged will be skipped.' : '') + ' Nothing is replaced.')) return null;
-    F.tagKnownRaces(m.added); state.runs = m.runs; state.celebrated.ach = ach().earned.map(function (a) { return a.id; }); save(); closeOverlay(); render();
+    F.tagKnownRaces(m.added); state.runs = m.runs; state.celebrated.ach = ach().earned.map(function (a) { return a.id; }); checkTrophies(true); save(); closeOverlay(); render();
     toast('Added ' + plural(m.added.length, 'run') + (m.skipped ? ' · skipped ' + m.skipped + ' duplicate' + (m.skipped === 1 ? '' : 's') : '') + (m.invalid ? ' · ' + m.invalid + ' unreadable' : ''));
     return m;
   }
@@ -1967,7 +2458,7 @@ nav.tabs svg { width: 24px; height: 24px; }
     overlay('<div class="sheet" role="dialog" aria-label="Settings"><h2>Settings</h2><form id="settings-form">' +
       '<div class="grid2"><div class="field"><label>Name</label><input name="name" value="' + esc(p.name || firstName()) + '" placeholder="First name"></div><div class="field"><label>Daily goal (mi)</label><input name="dailyGoal" type="number" step="0.1" min="0.1" value="' + esc(p.dailyGoal) + '"></div>' +
       '<div class="field"><label>Weekly goal (mi)</label><input name="weeklyGoal" type="number" step="0.5" min="1" value="' + esc(p.weeklyGoal) + '"></div><div class="field"><label>Water goal (oz/day)</label><input name="waterOz" type="number" inputmode="decimal" min="8" max="300" value="' + esc(p.waterOz || 64) + '"></div>' +
-      '</div><div class="eyebrow" style="margin:8px 0 10px">Body metrics</div><section class="body-metrics" data-testid="body-metrics"><div class="grid2">' +
+      '</div><div class="field"><label for="set-bday">Birthday <span class="muted">(optional · unlocks Birthday Beast)</span></label><input id="set-bday" name="birthday" type="date" value="' + esc(p.birthday || '') + '"></div><div class="eyebrow" style="margin:8px 0 10px">Body metrics</div><section class="body-metrics" data-testid="body-metrics"><div class="grid2">' +
       '<div class="field"><label for="bm-lbs">Current weight (lbs)</label><input id="bm-lbs" name="bodyLbs" type="number" inputmode="decimal" step="0.1" min="50" max="700" value="' + esc(p.bodyLbs || '') + '" placeholder="e.g. 246"></div>' +
       '<div class="field"><label for="bm-ft">Height</label><div class="hfield"><input id="bm-ft" name="heightFt" type="number" inputmode="numeric" pattern="[0-9]*" min="3" max="8" value="' + (p.heightIn ? Math.floor(p.heightIn / 12) : '') + '" placeholder="ft" aria-label="Feet"><span>ft</span><input id="bm-in" name="heightInch" type="number" inputmode="numeric" pattern="[0-9]*" min="0" max="11" value="' + (p.heightIn ? p.heightIn % 12 : '') + '" placeholder="in" aria-label="Inches"><span>in</span></div></div></div>' +
       '<p class="fine" style="margin-top:0">Used only to estimate calories burned per run' + (p.bodyLbs && p.heightIn ? ' · BMI ' + (703 * p.bodyLbs / (p.heightIn * p.heightIn)).toFixed(1) : '') + '.</p></section>' +
@@ -1990,6 +2481,7 @@ nav.tabs svg { width: 24px; height: 24px; }
     overlay('<div class="sheet" role="dialog" aria-label="Edit run"><h2>Edit run</h2><form id="edit-form" data-id="' + r.id + '"><div class="grid2">' +
       '<div class="field"><label for="edit-miles">Distance (mi)</label><input id="edit-miles" name="miles" type="number" inputmode="decimal" step="0.01" min="0.1" max="100" value="' + r.miles + '" required></div>' +
       '<div class="field"><label for="edit-date">Date</label><input id="edit-date" name="date" type="date" max="' + today() + '" value="' + r.date + '" required></div></div>' +
+      '<div class="field"><label for="edit-start">Start time <span class="muted">(optional)</span></label><input id="edit-start" name="start" type="time" value="' + esc(r.start || '') + '"></div>' +
       timeField('etime', 'Time', r.minutes, true) +
       routePicker('edit', r.routeId) +
       '<label class="check mo-check"><input type="checkbox" id="edit-miles-only" name="milesOnly" value="1"' + (r.milesOnly ? ' checked' : '') + '><span>Miles only<small>Counts toward miles and streaks; skipped for pace, records, ghost and race PRs</small></span></label>' + raceFields('edit', r) +
@@ -2022,17 +2514,19 @@ nav.tabs svg { width: 24px; height: 24px; }
     s.routes.forEach(function (r) { if (/Greenway/.test(r.name)) { r.surface = 'Paved'; r.location = 'Murfreesboro, TN'; r.notes = 'Start at Thompson Lane trailhead. Flat and shaded.'; } else { r.surface = 'Mixed'; r.location = 'Barfield Crescent Park'; } });
     s.routes.push({ id: uid(), name: 'Old Fort trail', miles: 5, surface: 'Trail', location: 'Old Fort Park', notes: 'Rooty in the woods section' });
     s.race = { name: 'Turkey Trot', distance: '10K', date: F.addDays(t, 46), targetTime: '58:00' };
-    s.flags = { nrcImported: true, racesTagged: 2, framily: true }; s.celebrated = { milestone: 0, badges: [], ach: F.achievements(s.profile, s.weights, s.runs).earned.map(function (a) { return a.id; }) };
+    s.flags = { nrcImported: true, racesTagged: 2, framily: true, fix0122: true }; s.celebrated = { milestone: 0, badges: [], trophies: F.trophies(s.runs, { today: t }).list.filter(function (x) { return x.earned; }).map(function (x) { return x.id; }), ach: F.achievements(s.profile, s.weights, s.runs).earned.map(function (a) { return a.id; }) };
     if (state && state.weather) s.weather = state.weather;
     return s;
   }
 
   // ---------- main render ----------
-  var SCREENS = { home: renderHome, run: renderRun, scores: renderScores, routes: renderRoutes };
+  var SCREENS = { home: renderHome, run: renderRun, scores: renderScores, trophies: renderTrophies, routes: renderRoutes };
+  function renderTrophies() { return title('Trophies', 'Earn them. Every one of them.') + trophyRoomHtml(); }
   function render() {
     var tab = state.ui.tab in SCREENS ? state.ui.tab : 'home';
     $('#main').innerHTML = header() + '<div class="screen" data-screen="' + tab + '">' + SCREENS[tab]() + '</div>';
-    document.querySelectorAll('nav.tabs button').forEach(function (b) { b.setAttribute('aria-selected', b.dataset.goto === tab); });
+    if (tab === 'trophies' && state.ui.trophyNew) { state.ui.trophyNew = false; save(); }
+    document.querySelectorAll('nav.tabs button').forEach(function (b) { b.setAttribute('aria-selected', b.dataset.goto === tab); b.classList.toggle('has-dot', b.dataset.goto === 'trophies' && !!state.ui.trophyNew); });
     if (tab === 'home') fetchWeather();
   }
   function go(tab) { state.ui.tab = tab; save(); render(); window.scrollTo(0, 0); }
@@ -2040,7 +2534,7 @@ nav.tabs svg { width: 24px; height: 24px; }
     var s; try { s = JSON.parse(txt); } catch (x) { s = null; }
     if (!s || s.v !== 1 || !Array.isArray(s.runs)) { toast('That file isn’t a Grit backup'); return; }
     if (!confirm('Are you sure? This replaces your current data with the backup (' + plural(s.runs.length, 'run') + ').')) { toast('Import cancelled — your data is unchanged'); return; }
-    state = migrate(Object.assign(blank(), s)); save(); closeOverlay(); render(); toast('Backup imported');
+    state = migrate(Object.assign(blank(), s)); checkTrophies(true); save(); closeOverlay(); render(); toast('Backup imported');
   }
 
   document.addEventListener('click', function (e) {
@@ -2054,6 +2548,7 @@ nav.tabs svg { width: 24px; height: 24px; }
       case 'water-del': state.water[t] = (state.water[t] || []).filter(function (x) { return x.id !== id; }); save(); refreshWater(); break;
       case 'water-undo': var wl = state.water[t] || []; if (wl.length) { var gone = wl.pop(); save(); refreshWater(); toast('Removed ' + fmtOz(gone.oz) + ' oz'); } break;
       case 'edit-run': editRun(id); break;
+      case 'trophy': { var tx = trophyData().list.filter(function (x) { return x.id === id; })[0]; if (tx && window.GritTrophies) { if (tx.earned) GritTrophies.takeover([tx], { replay: true, fmtDate: trophyDate }); else toast(tx.name + ': ' + tx.req + (tx.progress ? ' · ' + tx.progress : '')); } break; }
       case 'del-run': state.runs = state.runs.filter(function (r) { return r.id !== id; }); save(); render(); break;
       case 'miles-view': state.ui.milesView = id; save(); render(); break;
       case 'shoe-active': state.activeShoe = id; save(); render(); break;
@@ -2118,20 +2613,21 @@ nav.tabs svg { width: 24px; height: 24px; }
       var rt = resolveRoute(fd, mi); if (rt === false) return;
       var cad = parseInt(fd.get('cadence'), 10), hr = parseInt(fd.get('hr'), 10), route = rt ? rt.name : '';
       var newRun = { id: uid(), date: fd.get('date'), miles: Math.round(mi * 100) / 100, minutes: min, cadence: cad > 0 ? cad : null, hr: hr > 0 ? hr : null, shoeId: fd.get('shoe') || null,
-        route: route || null, routeId: rt ? rt.id : null, mood: +fd.get('mood') || null, energy: +fd.get('energy') || null, note: (fd.get('note') || '').trim() || null, race: readRace(fd) };
+        route: route || null, routeId: rt ? rt.id : null, mood: +fd.get('mood') || null, energy: +fd.get('energy') || null, note: (fd.get('note') || '').trim() || null, race: readRace(fd), start: /^\d\d:\d\d$/.test(fd.get('start') || '') ? fd.get('start') : null };
+      newRun.wx = runWeather(newRun);
       var hadRuns = state.runs.length > 0, prsBefore = F.personalRecords(state.runs);
       var gc = F.ghostCompare(state.runs, { route: route, miles: newRun.miles, minutes: min, beforeDate: newRun.date });
       state.runs.push(newRun);
       var recs = F.newRecords(prsBefore, F.personalRecords(state.runs));
       save(); render(); toast(hadRuns ? 'Run saved · ' + newRun.miles + ' mi at ' + F.fmtPace(min / mi) + '/mi' : 'First run saved. That’s your baseline — now beat it.');
-      afterRun({ recs: recs, hadRuns: hadRuns, ghost: gc });
+      afterRun({ recs: recs, hadRuns: hadRuns, ghost: gc }); checkTrophies();
     }
     if (f.id === 'edit-form') {
       var er = state.runs.filter(function (x) { return x.id === f.dataset.id; })[0], emi = parseFloat(fd.get('miles')), emin = readTime(f, 'etime');
       if (!er) return; if (!(emi > 0) || !(emin > 0)) { toast('Enter a distance and a time (seconds 0–59)'); return; }
       var ert = resolveRoute(fd, emi); if (ert === false) return;
-      er.miles = Math.round(emi * 100) / 100; er.minutes = emin; er.date = fd.get('date') || er.date; er.route = ert ? ert.name : null; er.routeId = ert ? ert.id : null; er.race = readRace(fd); if (fd.get('milesOnly')) er.milesOnly = true; else delete er.milesOnly;
-      save(); closeOverlay(); render(); toast('Run updated'); return;
+      er.miles = Math.round(emi * 100) / 100; er.minutes = emin; er.date = fd.get('date') || er.date; er.route = ert ? ert.name : null; er.routeId = ert ? ert.id : null; er.race = readRace(fd); er.start = /^\d\d:\d\d$/.test(fd.get('start') || '') ? fd.get('start') : (er.start || null); if (fd.get('milesOnly')) er.milesOnly = true; else delete er.milesOnly;
+      save(); closeOverlay(); render(); toast('Run updated'); checkTrophies(); return;
     }
     if (f.id === 'past-race-form') {
       var pmi = parseFloat(fd.get('miles')), pmin = readTime(f, 'ptime'), pd = fd.get('date');
@@ -2139,7 +2635,7 @@ nav.tabs svg { width: 24px; height: 24px; }
       var prace = readRace(fd) || { name: 'Race' };
       state.runs.push({ id: uid(), date: pd, miles: Math.round(pmi * 100) / 100, minutes: pmin, cadence: null, hr: null, shoeId: null, route: null, routeId: null, mood: null, energy: null, note: null, race: prace });
       state.celebrated.ach = ach().earned.map(function (a) { return a.id; });
-      save(); closeOverlay(); render(); toast('Race result added · ' + prace.name); return;
+      save(); closeOverlay(); render(); toast('Race result added · ' + prace.name); checkTrophies(); return;
     }
     if (f.id === 'water-form') { var cz = parseFloat(fd.get('oz')); if (cz > 0) { addWater(cz); } else toast('Enter ounces'); return; }
     if (f.id === 'route-form') {
@@ -2180,7 +2676,8 @@ nav.tabs svg { width: 24px; height: 24px; }
       var bl = parseFloat(fd.get('bodyLbs')), hf = parseInt(fd.get('heightFt'), 10), hi = parseInt(fd.get('heightInch'), 10) || 0;
       p.bodyLbs = bl > 0 ? Math.round(bl * 10) / 10 : null; p.heightIn = hf > 0 ? hf * 12 + Math.min(11, Math.max(0, hi)) : null;
       p.waterOz = Math.round(parseFloat(fd.get('waterOz')) * 10) / 10 || 64;
-      save(); closeOverlay(); render(); toast('Settings saved');
+      var bdv = (fd.get('birthday') || '').trim(); p.birthday = /^\d{4}-\d\d-\d\d$/.test(bdv) ? bdv : null;
+      checkTrophies(true); save(); closeOverlay(); render(); toast('Settings saved');
     }
   });
 
