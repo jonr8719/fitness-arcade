@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<!-- Grit standalone build 2026-10-14T14:23:50.046Z · Fonts: Inter (SIL OFL 1.1) -->
+<!-- Grit standalone build 2026-10-14T16:27:23.196Z · Fonts: Inter (SIL OFL 1.1) -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#000000">
@@ -391,7 +391,7 @@ nav.tabs svg { width: 24px; height: 24px; }
 .ba-badge.flat { border-color: var(--line2); color: var(--muted); box-shadow: none; background: var(--card2); } .ba-badge.flat span { color: var(--dim); }
 .pane .link { min-height: 36px; padding: 6px 0 0; }
 /* miles bars & seg */
-.seg.mini { margin: 0; padding: 3px; flex: none; } .seg.mini button { min-height: 40px; min-width: 52px; padding: 0 12px; font-size: 12px; flex: none; }
+.seg.mini { margin: 0; padding: 3px; flex: none; } .seg.mini button { min-height: 42px; min-width: 52px; padding: 0 12px; font-size: 12px; flex: none; }
 .bars8 .top i { background: var(--green); box-shadow: 0 0 12px rgba(105,190,40,.35); } .bars8 .top em { color: var(--green); font-weight: 700; }
 /* weigh-in history */
 .wlist li { gap: 10px; } .wlist b { font-size: 16px; }
@@ -538,6 +538,32 @@ nav.tabs button.has-dot .nav-dot { display: block; animation: dotPulse 1.6s ease
 @keyframes dotPulse { 50% { transform: scale(1.25); } }
 @media (max-width: 340px) { nav.tabs button { font-size: 10px; } }
 
+/* Top efforts podium */
+.eff-seg { display: grid; grid-template-columns: repeat(3, 1fr); margin: 4px 0 12px; }
+.podium { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.pd { --m: var(--dim); --m2: var(--dim); display: flex; gap: 12px; align-items: center; padding: 10px 12px; border-radius: var(--r-sm); background: var(--card2); border: 1px solid var(--line); }
+.pd-gold { --m: var(--gold); --m2: var(--gold-hi); } .pd-silver { --m: #a9b3bb; --m2: #e3e8ec; } .pd-bronze { --m: #b06d3b; --m2: #e0a070; }
+.pd-rk { flex: none; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 14px; color: #000; background: linear-gradient(160deg, var(--m2), var(--m)); }
+.pd-rest .pd-rk { background: var(--card); color: var(--muted); border: 1px solid var(--line2); }
+.pd-body { flex: 1; min-width: 0; }
+.pd-line { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.pd-v { font-size: 19px; font-weight: 800; letter-spacing: -.02em; white-space: nowrap; } .pd-v small { font-size: 12px; font-weight: 600; color: var(--muted); margin-left: 2px; }
+.pd-d { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pd-bar { height: 6px; margin-top: 7px; border-radius: 3px; background: rgba(255,255,255,.06); overflow: hidden; }
+.pd-bar i { display: block; height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--m), var(--m2)); }
+.pd-rest .pd-bar i { background: var(--line2); }
+.pd-top { padding: 14px; border-color: rgba(212,175,55,.45); background: linear-gradient(135deg, rgba(212,175,55,.16), var(--card2) 65%); box-shadow: 0 6px 22px -12px rgba(212,175,55,.6); }
+.pd-top .pd-rk { width: 38px; height: 38px; font-size: 18px; box-shadow: 0 0 14px rgba(212,175,55,.5); }
+.pd-top .pd-v { font-size: 30px; color: var(--gold-hi); } .pd-top .pd-bar { height: 8px; }
+.eff-more { display: block; width: 100%; min-height: 44px; margin-top: 10px; padding: 10px; background: none; border: 1px dashed var(--line2); border-radius: var(--r-sm); color: var(--muted); font: 600 13px var(--font); }
+.eff-seg { width: 100%; box-sizing: border-box; }
+.podium { grid-template-columns: minmax(0, 1fr); }
+.pd { min-width: 0; box-sizing: border-box; }
+.pd-line { min-width: 0; }
+.pd-d { min-width: 0; flex: 0 1 auto; text-align: right; }
+.pd-top .pd-line { flex-direction: column; align-items: flex-start; gap: 2px; }
+.pd-top .pd-d { text-align: left; font-size: 12.5px; }
+
 </style>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
@@ -643,10 +669,10 @@ nav.tabs button.has-dot .nav-dot { display: block; animation: dotPulse 1.6s ease
   function topEfforts(runs, n) {
     n = n || 5;
     var streaks = streakSegments(runs).slice().sort(function (a, b) { return b.days - a.days || (a.end < b.end ? 1 : -1); })
-      .slice(0, n).map(function (s) { return { score: s.days, label: s.days + (s.days === 1 ? ' day' : ' days'), date: s.end, detail: fmtShort(s.start) + '–' + fmtShort(s.end) }; });
-    var paces = perf(runs).filter(function (r) { return r.miles >= 1 && r.minutes > 0; })
+      .slice(0, n).map(function (s) { return { score: s.days, label: s.days + (s.days === 1 ? ' day' : ' days'), date: s.end, start: s.start, detail: fmtShort(s.start) + '–' + fmtShort(s.end) }; });
+    var paces = perf(runs).filter(function (r) { return r.miles >= 3 - 1e-9 && r.minutes > 0; })
       .slice().sort(function (a, b) { return pace(a) - pace(b); })
-      .slice(0, n).map(function (r) { return { score: pace(r), label: fmtPace(pace(r)) + '/mi', date: r.date, detail: round1(r.miles) + ' mi' }; });
+      .slice(0, n).map(function (r) { return { score: pace(r), label: fmtPace(pace(r)) + '/mi', date: r.date, miles: r.miles, minutes: r.minutes, detail: round1(r.miles) + ' mi' }; });
     var weeks = weeklyMiles(runs).slice().sort(function (a, b) { return b.miles - a.miles; })
       .slice(0, n).map(function (w) { return { score: w.miles, label: w.miles.toFixed(1) + ' mi', date: w.week, detail: 'wk of ' + fmtShort(w.week) }; });
     return { streak: streaks, pace: paces, weekly: weeks };
@@ -2383,8 +2409,22 @@ nav.tabs button.has-dot .nav-dot { display: block; animation: dotPulse 1.6s ease
     return sum + '<div class="mbars" data-testid="miles-bars">' + avgLine + bars + '</div>' + legend;
   }
   // ---------- RECORDS ----------
-  function effortList(rows, testid) {
-    return '<ol class="efforts" data-testid="' + testid + '">' + (rows.length ? rows.map(function (r, i) { return '<li><span class="rk">' + (i + 1) + '</span><b>' + r.label + '</b><span class="muted">' + esc(r.detail) + '</span></li>'; }).join('') : '<li class="muted">No runs yet</li>') + '</ol>';
+  var EFF_TABS = [['pace', 'Fastest', 'Fastest runs · 3+ mi'], ['weekly', 'Weeks', 'Biggest weeks · Mon–Sun'], ['streak', 'Streaks', 'Longest streaks · days in a row']];
+  function effortsHtml(te) {
+    var k = EFF_TABS.some(function (x) { return x[0] === state.ui.effTab; }) ? state.ui.effTab : 'pace', tab = EFF_TABS.filter(function (x) { return x[0] === k; })[0];
+    var rows = te[k] || [], more = !!state.ui.effMore, isPace = k === 'pace';
+    var vals = rows.map(function (r) { return r.score; }), best = isPace ? Math.min.apply(null, vals) : Math.max.apply(null, vals);
+    function w(v) { return Math.round(isPace ? Math.max(30, 100 - (v - best) / best * 500) : Math.max(8, v / best * 100)); }
+    function big(r) { return isPace ? F.fmtPace(r.score) + '<small>/mi</small>' : k === 'weekly' ? r.score.toFixed(1) + '<small>mi</small>' : r.score + '<small>' + (r.score === 1 ? 'day' : 'days') + '</small>'; }
+    function sub(r) { return isPace ? (+r.miles).toFixed(2).replace(/0$/, '') + ' mi · ' + F.fmtDuration(r.minutes) + ' · ' + dShort(r.date) : k === 'weekly' ? 'Week of ' + dShort(r.date) : dShort(r.start) + ' – ' + dShort(r.date); }
+    var seg = '<div class="seg eff-seg" role="tablist">' + EFF_TABS.map(function (x) { return '<button data-action="eff-tab" data-id="' + x[0] + '" data-testid="eff-tab-' + x[0] + '" aria-pressed="' + (x[0] === k) + '">' + x[1] + '</button>'; }).join('') + '</div>';
+    var list = !rows.length ? '<p class="muted" data-testid="board-' + k + '">' + (isPace ? 'Log a run of 3+ miles to rank here.' : 'No runs yet') + '</p>' :
+      '<ol class="podium" data-testid="board-' + k + '">' + rows.map(function (r, i) {
+        var m = ['gold', 'silver', 'bronze'][i] || 'rest';
+        if (i > 2 && !more) return '';
+        return '<li class="pd pd-' + m + (i === 0 ? ' pd-top' : '') + '" data-testid="eff-row"><span class="pd-rk">' + (i + 1) + '</span><div class="pd-body"><div class="pd-line"><b class="pd-v">' + big(r) + '</b><span class="pd-d">' + esc(sub(r)) + '</span></div><div class="pd-bar"><i style="width:' + w(r.score) + '%"></i></div></div></li>';
+      }).join('') + '</ol>' + (rows.length > 3 ? '<button class="linkish eff-more" data-action="eff-more" data-testid="eff-more">' + (more ? 'Show less' : 'Show #4–' + rows.length) + '</button>' : '');
+    return card('', 'efforts', hd('Top efforts', tab[2]), seg + list);
   }
   function renderScores() {
     var t = today(), te = F.topEfforts(state.runs, 5), a = ach(), h = title('Records', 'The only competition is who you were yesterday.');
@@ -2415,9 +2455,7 @@ nav.tabs button.has-dot .nav-dot { display: block; animation: dotPulse 1.6s ease
           return '<tr' + (i === 0 ? ' class="best"' : '') + '><td>' + (i ? i + 1 : ico('ghost', 'inline')) + '</td><td>' + r.miles.toFixed(r.miles % 1 ? (Math.round(r.miles * 100) % 10 ? 2 : 1) : 1) + '</td><td>' + F.fmtDuration(r.minutes) + '</td><td>' + F.fmtPace(F.pace(r)) + '</td><td class="muted">' + F.fmtShort(r.date) + (r === latest && i ? '<i class="latest-dot" title="latest"></i>' : '') + '</td></tr>'; }).join('') + '</table>' +
         (tries.length > 1 && latest !== gb ? '<p class="fine" style="margin-bottom:0"><i class="latest-dot"></i> latest attempt</p>' : '') + '</section>';
     } else h += card('', 'ghost-board', hd('Ghost runner'), '<p class="muted">Name a route when you log a run. Next time on that route, you’ll race your best effort.</p>');
-    h += card('', 'efforts', hd('Top efforts'), '<div class="eyebrow">Fastest runs (1 mi+)</div>' + effortList(te.pace, 'board-pace') +
-      '<div class="eyebrow" style="margin-top:18px">Biggest weeks</div>' + effortList(te.weekly, 'board-weekly') +
-      '<div class="eyebrow" style="margin-top:18px">Longest streaks</div>' + effortList(te.streak, 'board-streak'));
+    h += effortsHtml(te);
     var mode = state.ui.milesView === 'month' ? 'month' : 'week', wp = F.weeklyPace(state.runs).slice(-10);
     h += '<div class="section-t">Training</div>';
     h += card('', 'miles-chart', hd('Miles', mode === 'month' ? 'Last 6 months' : 'Last 8 weeks (Mon–Sun)', '<div class="seg mini"><button data-action="miles-view" data-id="week" aria-pressed="' + (mode === 'week') + '">Week</button><button data-action="miles-view" data-id="month" aria-pressed="' + (mode === 'month') + '">Month</button></div>'), periodBars(mode));
@@ -2550,6 +2588,8 @@ nav.tabs button.has-dot .nav-dot { display: block; animation: dotPulse 1.6s ease
       case 'edit-run': editRun(id); break;
       case 'trophy': { var tx = trophyData().list.filter(function (x) { return x.id === id; })[0]; if (tx && window.GritTrophies) { if (tx.earned) GritTrophies.takeover([tx], { replay: true, fmtDate: trophyDate }); else toast(tx.name + ': ' + tx.req + (tx.progress ? ' · ' + tx.progress : '')); } break; }
       case 'del-run': state.runs = state.runs.filter(function (r) { return r.id !== id; }); save(); render(); break;
+      case 'eff-tab': state.ui.effTab = id; state.ui.effMore = false; save(); render(); break;
+      case 'eff-more': state.ui.effMore = !state.ui.effMore; render(); break;
       case 'miles-view': state.ui.milesView = id; save(); render(); break;
       case 'shoe-active': state.activeShoe = id; save(); render(); break;
       case 'shoe-retire': state.shoes.forEach(function (s) { if (s.id === id) s.retired = true; }); if (state.activeShoe === id) { var nx = state.shoes.filter(function (s) { return !s.retired; })[0]; state.activeShoe = nx ? nx.id : null; } save(); render(); break;
