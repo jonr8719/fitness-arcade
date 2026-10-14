@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<!-- Grit standalone build 2026-10-14T13:57:21.331Z · Fonts: Inter (SIL OFL 1.1) -->
+<!-- Grit standalone build 2026-10-14T14:01:16.760Z · Fonts: Inter (SIL OFL 1.1) -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#000000">
@@ -476,6 +476,11 @@ nav.tabs svg { width: 24px; height: 24px; }
 .mc-legend .sw { flex: none; width: 12px; height: 10px; border-radius: 3px; display: inline-block; box-sizing: border-box; } .sw-navy { background: var(--navy2); } .sw-green { background: var(--green); } .sw-gold { background: var(--gold); }
 .sw-proj { border: 1.5px dashed rgba(105,190,40,.8); } .mc-legend .sw-dash { height: 0; border-top: 1.5px dashed rgba(255,255,255,.5); border-radius: 0; }
 
+.tag.mo { background: rgba(255,255,255,.06); color: var(--muted); border: 1px solid rgba(255,255,255,.12); font-weight: 600; text-transform: lowercase; }
+.mo-check { display: flex; gap: 10px; align-items: flex-start; margin: 4px 0 10px; min-height: 44px; font-weight: 600; }
+.mo-check input { width: 22px; height: 22px; margin-top: 1px; flex: none; accent-color: var(--green); }
+.mo-check small { display: block; font-weight: 400; font-size: 12px; color: var(--muted); margin-top: 2px; }
+
 </style>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
@@ -564,7 +569,10 @@ nav.tabs svg { width: 24px; height: 24px; }
   }
 
   // ---------- weeks ----------
+  // milesOnly runs (early history Jon wants counted for distance only) never feed pace, records, ghosts or race PRs
+  function perf(runs) { return (runs || []).filter(function (r) { return r && !r.milesOnly; }); }
   function weeklyPace(runs) {
+    runs = perf(runs);
     var m = {}; runs.forEach(function (r) { if (!(r.miles > 0 && r.minutes > 0)) return; var w = weekStart(r.date); m[w] = m[w] || { mi: 0, mn: 0 }; m[w].mi += r.miles; m[w].mn += r.minutes; });
     return Object.keys(m).sort().map(function (w) { return { week: w, pace: m[w].mn / m[w].mi, miles: round1(m[w].mi) }; });
   }
@@ -578,7 +586,7 @@ nav.tabs svg { width: 24px; height: 24px; }
     n = n || 5;
     var streaks = streakSegments(runs).slice().sort(function (a, b) { return b.days - a.days || (a.end < b.end ? 1 : -1); })
       .slice(0, n).map(function (s) { return { score: s.days, label: s.days + (s.days === 1 ? ' day' : ' days'), date: s.end, detail: fmtShort(s.start) + '–' + fmtShort(s.end) }; });
-    var paces = runs.filter(function (r) { return r.miles >= 1 && r.minutes > 0; })
+    var paces = perf(runs).filter(function (r) { return r.miles >= 1 && r.minutes > 0; })
       .slice().sort(function (a, b) { return pace(a) - pace(b); })
       .slice(0, n).map(function (r) { return { score: pace(r), label: fmtPace(pace(r)) + '/mi', date: r.date, detail: round1(r.miles) + ' mi' }; });
     var weeks = weeklyMiles(runs).slice().sort(function (a, b) { return b.miles - a.miles; })
@@ -600,7 +608,7 @@ nav.tabs svg { width: 24px; height: 24px; }
   function achievements(profile, weights, runs) { // (profile, weights) kept for call compatibility; weight goals were removed
     if (Array.isArray(profile)) runs = profile; runs = runs || [];
     var miles = totalMiles(runs), best = longestStreak(runs);
-    var longest = runs.reduce(function (m, r) { return r.miles > m ? r.miles : m; }, 0);
+    var longest = perf(runs).reduce(function (m, r) { return r.miles > m ? r.miles : m; }, 0);
     function group(id, title, unit, marks, have, label) {
       var items = marks.map(function (m) { var at = m[0] != null ? m[0] : m; return { id: id + '-' + (m[1] || at), at: at, label: label(m), earned: have >= at * 0.995 - 1e-9 }; });
       var next = items.filter(function (i) { return !i.earned; })[0] || null;
@@ -633,15 +641,16 @@ nav.tabs svg { width: 24px; height: 24px; }
     var runs = state.runs.filter(function (r) { return inRange(r.date, start, today); });
     var prevRuns = state.runs.filter(function (r) { return inRange(r.date, pStart, pEnd); });
     var miles = runs.reduce(function (s, r) { return s + r.miles; }, 0);
-    var mins = runs.reduce(function (s, r) { return s + r.minutes; }, 0);
+    var pRuns = perf(runs), pPrev = perf(prevRuns);
+    var mins = pRuns.reduce(function (s, r) { return s + r.minutes; }, 0), pMiles = pRuns.reduce(function (s, r) { return s + r.miles; }, 0);
     var prevMiles = prevRuns.reduce(function (s, r) { return s + r.miles; }, 0);
-    var prevMins = prevRuns.reduce(function (s, r) { return s + r.minutes; }, 0);
+    var prevMins = pPrev.reduce(function (s, r) { return s + r.minutes; }, 0), pPrevMiles = pPrev.reduce(function (s, r) { return s + r.miles; }, 0);
     var days = [];
     for (var i = 0; i < 7; i++) {
       var d = addDays(start, i), dm = runs.reduce(function (s, r) { return s + (r.date === d ? r.miles : 0); }, 0);
       days.push({ date: d, miles: round1(dm), ran: dm > 0 });
     }
-    var avgPace = miles > 0 ? mins / miles : null, prevPace = prevMiles > 0 ? prevMins / prevMiles : null;
+    var avgPace = pMiles > 0 ? mins / pMiles : null, prevPace = pPrevMiles > 0 ? prevMins / pPrevMiles : null;
     var delta = round1(miles - prevMiles);
     return {
       start: start, end: today, runs: runs.length, miles: round1(miles), prevMiles: round1(prevMiles), milesDelta: delta,
@@ -677,6 +686,7 @@ nav.tabs svg { width: 24px; height: 24px; }
     return best || (Math.round(miles * 100) / 100) + ' mi';
   }
   function raceResults(runs) {
+    runs = perf(runs);
     var list = (runs || []).filter(function (r) { return r && r.race && r.miles > 0 && r.minutes > 0; }).map(function (r) {
       var x = r.race;
       return { id: r.id, name: x.name || 'Race', date: r.date, miles: r.miles, minutes: r.minutes, pace: r.minutes / r.miles, dist: raceLabel(r.miles),
@@ -696,7 +706,7 @@ nav.tabs svg { width: 24px; height: 24px; }
     var targetMin = parseDuration(race.targetTime);
     var reqPace = (isFinite(targetMin) && miles > 0) ? targetMin / miles : null;
     // current fitness: best pace from runs >= 1 mi in last 60 days (null if none)
-    var recent = (runs || []).filter(function (r) { return r.miles >= 1 && r.minutes > 0 && dayDiff(r.date, today) <= 60 && dayDiff(r.date, today) >= 0; });
+    var recent = perf(runs).filter(function (r) { return r.miles >= 1 && r.minutes > 0 && dayDiff(r.date, today) <= 60 && dayDiff(r.date, today) >= 0; });
     var best = recent.length ? Math.min.apply(null, recent.map(pace)) : null;
     var avg = recent.length ? recent.reduce(function (s, r) { return s + r.minutes; }, 0) / recent.reduce(function (s, r) { return s + r.miles; }, 0) : null;
     return {
@@ -718,6 +728,8 @@ nav.tabs svg { width: 24px; height: 24px; }
     var out = { date: d, miles: Math.round(mi * 100) / 100, minutes: Math.round(min * 1000) / 1000, cadence: +r.cadence > 0 ? +r.cadence : null, hr: +r.hr > 0 ? +r.hr : null,
       shoeId: null, route: null, mood: +r.mood || null, energy: +r.energy || null, note: typeof r.note === 'string' ? r.note : null };
     if (r.source || source) out.source = r.source || source;
+    if (r.milesOnly) out.milesOnly = true;
+    if (r.race && typeof r.race === 'object' && r.race.name) out.race = r.race;
     return out;
   }
   // same date, distance within 0.05 mi and time within 1 minute (so two different runs on one day both count)
@@ -746,6 +758,7 @@ nav.tabs svg { width: 24px; height: 24px; }
   }
   // best previous effort: same route name (if given) else similar distance (±5%); compares at the new run's distance
   function ghostFor(runs, opts) {
+    runs = perf(runs);
     var miles = +opts.miles, exclude = opts.excludeId, key = normRoute(opts.route), before = opts.beforeDate;
     var pool = runs.filter(function (r) { return r.id !== exclude && r.miles > 0 && r.minutes > 0 && (!before || r.date <= before); });
     var mode = key ? 'route' : 'distance';
@@ -791,6 +804,7 @@ nav.tabs svg { width: 24px; height: 24px; }
     return { routes: routes, added: added };
   }
   function routeStats(route, runs) {
+    runs = perf(runs);
     var list = routeRuns(route, runs).filter(function (r) { return r.miles > 0 && r.minutes > 0; }).sort(function (a, b) { return a.date < b.date ? 1 : a.date > b.date ? -1 : 0; });
     if (!list.length) return { count: 0, runs: [], best: null, last: null, avgPace: null, trend: [], trendSec: null };
     var best = list.slice().sort(function (a, b) { return pace(a) - pace(b); })[0];
@@ -861,6 +875,7 @@ nav.tabs svg { width: 24px; height: 24px; }
   // ---------- run journal ----------
   var MOODS = ['', '😫', '😕', '😐', '🙂', '🤩'];
   function journalPatterns(runs) {
+    runs = perf(runs);
     var j = runs.filter(function (r) { return (r.mood || r.energy) && r.miles > 0 && r.minutes > 0; });
     function groupBy(field) {
       var g = {}; j.forEach(function (r) { if (!r[field]) return; (g[r[field]] = g[r[field]] || []).push(r); });
@@ -896,6 +911,7 @@ nav.tabs svg { width: 24px; height: 24px; }
   // Best equivalent time = run's average pace x distance, from runs at least that long (0.5% tolerance for GPS/rounding, e.g. a logged 3.1 counts as a 5K).
   // Marked as an estimate when the run was more than 1% longer than the distance (it's a split of a longer run, not a timed effort).
   function personalRecords(runs) {
+    runs = perf(runs);
     var valid = runs.filter(function (r) { return r.miles > 0 && r.minutes > 0; });
     var out = PR_DISTANCES.map(function (d) {
       var best = null;
@@ -932,6 +948,7 @@ nav.tabs svg { width: 24px; height: 24px; }
   }
   // "better than yesterday" targets: what it takes to beat each record + how close the latest attempt was
   function prTargets(runs, today) {
+    runs = perf(runs);
     var prs = personalRecords(runs), valid = runs.filter(function (r) { return r.miles > 0 && r.minutes > 0 && (!today || r.date <= today); });
     var byDate = valid.slice().sort(function (a, b) { return a.date < b.date ? 1 : a.date > b.date ? -1 : 0; });
     return prs.map(function (p) {
@@ -978,7 +995,7 @@ nav.tabs svg { width: 24px; height: 24px; }
     topEfforts: topEfforts, highScores: topEfforts, latestWeight: latestWeight, normalizeRun: normalizeRun, mergeRuns: mergeRuns, isDuplicateRun: isDuplicateRun, runCalories: runCalories, totalMiles: totalMiles, achievements: achievements,
     shoeMiles: shoeMiles, shoeStatus: shoeStatus,
     weeklyRecap: weeklyRecap, todayGoal: todayGoal, WATER_QUICK: WATER_QUICK, waterFor: waterFor, migrateWater: migrateWater,
-    RACE_DISTANCES: RACE_DISTANCES, raceInfo: raceInfo, KNOWN_RACES: KNOWN_RACES, tagKnownRaces: tagKnownRaces, raceLabel: raceLabel, raceResults: raceResults, 
+    perf: perf, RACE_DISTANCES: RACE_DISTANCES, raceInfo: raceInfo, KNOWN_RACES: KNOWN_RACES, tagKnownRaces: tagKnownRaces, raceLabel: raceLabel, raceResults: raceResults, 
 
     SURFACES: SURFACES, migrateRoutes: migrateRoutes, routeStats: routeStats, routeRuns: routeRuns, routeNames: routeNames, ghostFor: ghostFor, ghostCompare: ghostCompare,
     WMO: WMO, weatherTips: weatherTips, weatherUrl: weatherUrl, geocodeUrl: geocodeUrl, fmtHour: fmtHour, MOODS: MOODS, journalPatterns: journalPatterns,
@@ -1818,7 +1835,7 @@ nav.tabs svg { width: 24px; height: 24px; }
     var keys = prRunKeys(), runs = state.runs.slice().sort(function (a, b) { return a.date < b.date ? 1 : a.date > b.date ? -1 : 0; }).slice(0, 20);
     h += card('', 'history', hd('History', plural(state.runs.length, 'run') + ' · ' + F.totalMiles(state.runs).toFixed(1) + ' mi'), runs.length ? '<ul class="list runs" data-testid="run-list">' + runs.map(function (x) {
       var sh = state.shoes.filter(function (s) { return s.id === x.shoeId; })[0], pr = keys[x.date + '|' + F.pace(x).toFixed(6)];
-      return '<li><div class="name"><b>' + x.miles.toFixed(2) + ' mi · ' + F.fmtDuration(x.minutes) + ' · ' + F.fmtPace(F.pace(x)) + '/mi</b>' + (pr ? ' <span class="tag gold" data-testid="pr-tag">PR</span>' : '') + (x.race ? ' <span class="tag gold" data-testid="race-tag">Race</span>' : '') +
+      return '<li><div class="name"><b>' + x.miles.toFixed(2) + ' mi · ' + F.fmtDuration(x.minutes) + ' · ' + F.fmtPace(F.pace(x)) + '/mi</b>' + (pr ? ' <span class="tag gold" data-testid="pr-tag">PR</span>' : '') + (x.race ? ' <span class="tag gold" data-testid="race-tag">Race</span>' : '') + (x.milesOnly ? ' <span class="tag mo" data-testid="miles-only-tag" title="Counts toward miles and streaks; not pace or records">miles only</span>' : '') +
         '<span class="s">' + dShort(x.date) + (x.route ? ' · ' + esc(x.route) : '') + (x.cadence ? ' · ' + x.cadence + ' spm' : '') + (x.hr ? ' · ' + x.hr + ' bpm' : '') + (sh ? ' · ' + esc(sh.name) : '') + (x.mood ? ' · ' + F.MOODS[x.mood] : '') + (kcal(x) ? ' · <span data-testid="run-kcal">' + kcal(x) + ' cal</span>' : '') + (x.source ? ' · ' + esc(x.source) : '') + '</span></div>' +
         '<button class="del" data-action="edit-run" data-id="' + x.id + '" aria-label="Edit run">' + ico('edit') + '</button><button class="del" data-action="del-run" data-id="' + x.id + '" aria-label="Delete run">' + ico('x') + '</button></li>'; }).join('') + '</ul>' : '<p class="muted">No runs yet.</p>');
     return h;
@@ -1923,7 +1940,8 @@ nav.tabs svg { width: 24px; height: 24px; }
   }
 
   // ---------- Nike Run Club history (bundled, one-time merge; adds only) ----------
-  var NRC_RUNS = [["2026-10-10",3.22,"35:07"],["2026-10-09",3.34,"35:40"],["2026-10-08",3.2,"34:08"],["2026-10-06",3.11,"33:54"],["2026-10-02",3.4,"37:43"],["2026-10-01",2.16,"22:59"],["2026-09-29",3.24,"34:03"],["2026-09-28",3,"31:56"],["2026-09-25",3.29,"36:08"],["2026-09-24",3.19,"35:15"],["2026-09-23",3.12,"34:35"],["2026-09-20",3.17,"35:45"],["2026-09-19",3.03,"35:02"],["2026-09-18",3.13,"35:37"],["2026-09-16",2.09,"22:58"],["2026-09-15",2.01,"22:00"],["2026-09-12",2.55,"27:47"],["2026-09-10",3.35,"37:57"],["2026-09-08",3.35,"36:19"],["2026-09-07",3.11,"34:03"],["2026-09-06",3.53,"40:04"],["2026-09-02",3,"33:35"],["2026-08-31",3.1,"35:02"],["2026-08-29",3.02,"34:08"],["2026-08-28",4.42,"49:14"],["2026-08-27",3.28,"39:35"],["2026-08-26",4.42,"50:44"],["2026-08-22",3.14,"37:15","Indianapolis, IN"],["2026-08-21",2.05,"23:22"],["2026-08-20",3,"34:25"],["2026-08-19",2.08,"23:39"],["2026-08-18",3.04,"35:02"],["2026-08-16",2.2,"26:00","Treadmill"],["2026-08-16",1,"14:09","Treadmill"],["2026-08-15",3.12,"35:57"],["2026-08-14",3.2,"38:01"],["2026-08-13",3.04,"36:20"],["2026-08-11",3.03,"38:13"],["2026-08-10",2.52,"32:13"],["2026-08-05",3.42,"39:12"],["2026-08-04",3.06,"34:41"],["2026-08-03",1.9,"21:12"],["2026-07-30",3.03,"32:47"],["2026-07-29",2.03,"21:57"],["2026-07-25",3.21,"35:09"],["2026-07-24",3.23,"35:43"],["2026-07-23",3.12,"35:55"],["2026-07-20",3.31,"39:07"],["2026-07-18",2.16,"23:56"],["2026-07-16",3.26,"37:06"],["2026-07-15",1.21,"13:30"],["2026-07-12",3.18,"34:23"],["2026-07-09",3.01,"34:18","Treadmill"],["2026-07-08",3.22,"36:32"],["2026-07-07",2.1,"25:11","Treadmill"],["2026-07-06",3.6,"41:58","Treadmill"],["2026-07-04",2.92,"33:00"],["2026-07-02",3.11,"36:58","Treadmill"],["2026-07-01",3.15,"35:09"],["2026-06-29",3.38,"38:37"],["2026-06-27",3.12,"35:44"],["2026-06-26",2.26,"25:46"],["2026-06-25",3.49,"41:10"],["2026-06-24",4.16,"46:45"],["2026-06-23",3.31,"37:02"],["2026-06-22",3.3,"37:51"],["2026-06-18",3.07,"34:09"],["2026-06-17",4.01,"45:58"],["2026-06-13",1.25,"13:54"],["2026-06-12",4.09,"46:38"],["2026-06-11",4.42,"50:41"],["2026-06-10",1.86,"20:22"],["2026-06-06",3.11,"34:52"],["2026-06-05",3.43,"36:50"],["2026-06-04",4.08,"45:58"],["2026-06-02",4.01,"46:27"],["2026-06-01",4.14,"46:54"],["2026-05-31",4.4,"49:22"],["2026-05-30",3.35,"37:01"],["2026-05-28",3.12,"35:18"],["2026-05-27",3.16,"36:49"],["2026-05-20",2.45,"26:58"],["2026-05-19",3.26,"37:11"],["2026-05-16",4.42,"50:06"],["2026-05-15",3.14,"34:59"],["2026-05-13",1.05,"11:42"],["2026-05-11",3.3,"35:51"],["2026-05-07",3.13,"33:30"],["2026-05-03",5.1,"59:12"],["2026-05-02",3.26,"32:57","Honor the fallen 5k (race)"],["2026-04-30",3.4,"38:47"],["2026-04-29",3.26,"34:49"],["2026-04-28",1.23,"13:21"],["2026-04-28",0.17,"1:57"],["2026-04-27",3.4,"37:14"],["2026-04-24",3.11,"33:50"],["2026-04-23",3.14,"33:20"],["2026-04-22",3.37,"36:02"],["2026-04-21",3.13,"33:36"],["2026-04-19",6.32,"1:10:13"],["2026-04-17",3.11,"34:34"],["2026-04-16",5.02,"54:43"],["2026-04-14",4.05,"45:17"],["2026-04-13",3.27,"36:12"],["2026-04-11",4.42,"48:46"],["2026-04-10",2.09,"24:15"],["2026-04-10",3.22,"36:31"],["2026-04-08",3.12,"32:10"],["2026-04-07",5.27,"57:45"],["2026-04-06",5.01,"54:50"],["2026-04-04",3.11,"31:37","FCA run the cedars 5k (race)"],["2026-04-02",4.22,"47:39"],["2026-04-01",4.1,"47:28"],["2026-03-31",4.0,"43:41"],["2026-03-30",4.04,"44:47"],["2026-03-28",3.37,"35:20"],["2026-03-26",3.19,"33:55"],["2026-03-25",3.17,"32:45"],["2026-03-24",3.14,"34:01"],["2026-03-23",3.12,"33:22"],["2026-03-21",4.1,"45:12"],["2026-03-20",3.18,"34:11"],["2026-03-19",3.22,"33:50"],["2026-03-18",3.12,"33:20"],["2026-03-14",3.18,"35:15","New Orleans"],["2026-03-13",3.12,"34:45","New Orleans"],["2026-03-12",3.17,"33:26"],["2026-03-10",3.15,"32:14"],["2026-03-09",3.1,"31:23"],["2026-03-06",3.13,"32:36"],["2026-03-05",3.35,"35:05"],["2026-03-04",3.0,"31:09"],["2026-03-03",3.15,"32:28"],["2026-02-25",3.11,"31:28"],["2026-02-24",3.12,"32:11"],["2026-02-22",3.13,"32:09"],["2026-02-20",3.2,"33:21"],["2026-02-19",3.11,"33:28"],["2026-02-17",3.27,"34:56"],["2026-02-16",3.11,"33:09"],["2026-02-14",3.13,"32:31"],["2026-02-12",3.12,"32:52"],["2026-02-11",2.0,"25:32"],["2026-02-10",3.11,"32:49"],["2026-02-09",1.29,"12:49"],["2026-02-05",3.1,"32:49"],["2026-02-04",3.11,"31:55"],["2026-02-04",0.12,"1:59"],["2026-02-03",2.24,"23:17"],["2026-02-02",3.29,"34:01"],["2026-02-01",2.0,"21:02"],["2026-01-22",4.63,"41:18"],["2026-01-22",1.27,"12:31"],["2026-01-16",3.15,"31:52"],["2026-01-11",2.67,"27:20"],["2026-01-10",1.27,"12:45"],["2026-01-08",0.28,"4:51"],["2026-01-07",2.54,"26:44"],["2026-01-06",3.22,"35:20"],["2026-01-03",3.27,"33:19"],["2025-12-31",3.2,"34:07"],["2025-12-30",3.1,"33:21"],["2025-12-28",3.12,"32:16"],["2025-12-27",3.12,"34:04"],["2025-12-26",3.11,"32:53"],["2025-12-25",4.0,"42:49"],["2025-12-22",3.28,"33:43"],["2025-12-21",1.2,"11:54"],["2025-12-20",5.67,"1:00:54"],["2025-12-18",3.19,"33:39"],["2025-12-17",3.37,"37:24"],["2025-12-16",3.12,"33:30"],["2025-12-13",6.2,"1:06:14"],["2025-12-11",3.19,"33:17"],["2025-12-10",3.33,"35:00"],["2025-12-09",3.27,"35:18"],["2025-12-08",1.32,"12:53"],["2025-12-07",4.02,"44:23"],["2025-12-06",3.19,"34:42"],["2025-12-05",3.28,"35:00"],["2025-12-03",2.05,"21:22"],["2025-12-02",3.11,"34:55"],["2025-11-30",6.24,"1:07:16"],["2025-11-28",4.0,"42:16"],["2025-11-27",3.12,"31:11","Turkey Trot Nashville"],["2025-11-26",1.36,"13:50"],["2025-11-24",3.1,"33:16"],["2025-11-23",3.25,"35:26"],["2025-11-22",4.04,"45:53"],["2025-11-21",3.38,"37:42"],["2025-11-11",3.11,"36:25"],["2025-11-07",6.24,"1:11:48"],["2025-11-06",3.18,"35:43"],["2025-11-05",3.1,"35:23","Treadmill"],["2025-11-04",3.36,"38:27"],["2025-10-31",2.28,"23:29"],["2025-10-30",3.26,"36:03"],["2025-10-28",6.29,"1:10:46"],["2025-10-27",3.17,"35:36"],["2025-10-25",3.1,"34:59"],["2025-10-23",3.24,"34:53"],["2025-10-21",3.19,"36:15"],["2025-10-20",4.35,"48:44"],["2025-10-18",2.66,"32:37"],["2025-10-18",3.32,"37:46"],["2025-10-16",3.31,"38:39"],["2025-10-15",4.09,"49:31"],["2025-10-12",6.2,"1:10:09","Panama City Beach"],["2025-10-10",3.53,"38:10"],["2025-10-08",5.7,"1:04:01"],["2025-10-06",3.1,"35:50"],["2025-10-05",3.8,"45:55"],["2025-10-04",3.18,"32:52","Booby Bolt 5K"],["2025-10-02",3.1,"34:46"],["2025-10-01",3.26,"35:14"],["2025-09-29",3.3,"36:01"],["2025-09-27",4.61,"52:00"],["2025-09-25",3.3,"35:31"],["2025-09-24",3.51,"38:20"],["2025-09-23",0.32,"3:48"],["2025-09-22",3.13,"35:11"],["2025-09-21",2.83,"31:19"],["2025-09-18",6.03,"1:08:32"],["2025-09-16",3.34,"38:13"],["2025-09-15",4.15,"47:17"],["2025-09-13",6.1,"1:11:18"],["2025-09-12",1.69,"18:39"],["2025-09-11",3.15,"34:23"],["2025-09-09",3.24,"35:24"],["2025-09-08",3.16,"35:01"],["2025-09-07",3.25,"34:33"],["2025-09-06",3.77,"42:40","10K plan: Speed Run"],["2025-09-05",2.73,"30:36","10K plan: Recovery Run"],["2025-09-03",2.28,"25:06","10K plan: Recovery Run"],["2025-09-01",6.27,"1:14:18","10K plan"],["2025-08-27",6.21,"1:12:39","10K plan: Speed Run"],["2025-08-25",3.1,"35:10"],["2025-08-24",3.16,"35:33","10K plan: Recovery Run"],["2025-08-22",3.25,"36:08","10K plan: Long Run"],["2025-08-21",2.28,"26:09","10K plan: Recovery Run"],["2025-08-20",1.56,"18:38"],["2025-08-20",1.65,"19:29","10K plan: Speed Run"],["2025-08-19",4.0,"48:33","10K plan: Recovery Run"],["2025-08-17",2.08,"23:20","10K plan: Recovery Run"],["2025-08-16",2.14,"24:57"],["2025-08-16",1.3,"14:46"],["2025-08-14",3.15,"36:05"],["2025-08-13",1.46,"15:59"],["2025-08-12",2.04,"23:51"],["2025-08-11",2.0,"22:35"],["2025-08-10",3.1,"35:11"],["2025-08-08",0.36,"5:06","Treadmill"],["2025-08-08",1.5,"16:40","Treadmill"],["2025-08-06",3.1,"34:32"],["2025-08-05",3.3,"34:23"],["2025-08-04",2.01,"21:38","Treadmill"]].map(function (a) { return { date: a[0], miles: a[1], time: a[2], note: a[3] || null, source: 'Nike Run Club' }; });
+  var NRC_MILES_ONLY_BEFORE = '2025-08-04'; // Jon: runs before Aug 4, 2025 count for miles only
+  var NRC_RUNS = [["2026-10-10",3.22,"35:07"],["2026-10-09",3.34,"35:40"],["2026-10-08",3.2,"34:08"],["2026-10-06",3.11,"33:54"],["2026-10-02",3.4,"37:43"],["2026-10-01",2.16,"22:59"],["2026-09-29",3.24,"34:03"],["2026-09-28",3,"31:56"],["2026-09-25",3.29,"36:08"],["2026-09-24",3.19,"35:15"],["2026-09-23",3.12,"34:35"],["2026-09-20",3.17,"35:45"],["2026-09-19",3.03,"35:02"],["2026-09-18",3.13,"35:37"],["2026-09-16",2.09,"22:58"],["2026-09-15",2.01,"22:00"],["2026-09-12",2.55,"27:47"],["2026-09-10",3.35,"37:57"],["2026-09-08",3.35,"36:19"],["2026-09-07",3.11,"34:03"],["2026-09-06",3.53,"40:04"],["2026-09-02",3,"33:35"],["2026-08-31",3.1,"35:02"],["2026-08-29",3.02,"34:08"],["2026-08-28",4.42,"49:14"],["2026-08-27",3.28,"39:35"],["2026-08-26",4.42,"50:44"],["2026-08-22",3.14,"37:15","Indianapolis, IN"],["2026-08-21",2.05,"23:22"],["2026-08-20",3,"34:25"],["2026-08-19",2.08,"23:39"],["2026-08-18",3.04,"35:02"],["2026-08-16",2.2,"26:00","Treadmill"],["2026-08-16",1,"14:09","Treadmill"],["2026-08-15",3.12,"35:57"],["2026-08-14",3.2,"38:01"],["2026-08-13",3.04,"36:20"],["2026-08-11",3.03,"38:13"],["2026-08-10",2.52,"32:13"],["2026-08-05",3.42,"39:12"],["2026-08-04",3.06,"34:41"],["2026-08-03",1.9,"21:12"],["2026-07-30",3.03,"32:47"],["2026-07-29",2.03,"21:57"],["2026-07-25",3.21,"35:09"],["2026-07-24",3.23,"35:43"],["2026-07-23",3.12,"35:55"],["2026-07-20",3.31,"39:07"],["2026-07-18",2.16,"23:56"],["2026-07-16",3.26,"37:06"],["2026-07-15",1.21,"13:30"],["2026-07-12",3.18,"34:23"],["2026-07-09",3.01,"34:18","Treadmill"],["2026-07-08",3.22,"36:32"],["2026-07-07",2.1,"25:11","Treadmill"],["2026-07-06",3.6,"41:58","Treadmill"],["2026-07-04",2.92,"33:00"],["2026-07-02",3.11,"36:58","Treadmill"],["2026-07-01",3.15,"35:09"],["2026-06-29",3.38,"38:37"],["2026-06-27",3.12,"35:44"],["2026-06-26",2.26,"25:46"],["2026-06-25",3.49,"41:10"],["2026-06-24",4.16,"46:45"],["2026-06-23",3.31,"37:02"],["2026-06-22",3.3,"37:51"],["2026-06-18",3.07,"34:09"],["2026-06-17",4.01,"45:58"],["2026-06-13",1.25,"13:54"],["2026-06-12",4.09,"46:38"],["2026-06-11",4.42,"50:41"],["2026-06-10",1.86,"20:22"],["2026-06-06",3.11,"34:52"],["2026-06-05",3.43,"36:50"],["2026-06-04",4.08,"45:58"],["2026-06-02",4.01,"46:27"],["2026-06-01",4.14,"46:54"],["2026-05-31",4.4,"49:22"],["2026-05-30",3.35,"37:01"],["2026-05-28",3.12,"35:18"],["2026-05-27",3.16,"36:49"],["2026-05-20",2.45,"26:58"],["2026-05-19",3.26,"37:11"],["2026-05-16",4.42,"50:06"],["2026-05-15",3.14,"34:59"],["2026-05-13",1.05,"11:42"],["2026-05-11",3.3,"35:51"],["2026-05-07",3.13,"33:30"],["2026-05-03",5.1,"59:12"],["2026-05-02",3.26,"32:57","Honor the fallen 5k (race)"],["2026-04-30",3.4,"38:47"],["2026-04-29",3.26,"34:49"],["2026-04-28",1.23,"13:21"],["2026-04-28",0.17,"1:57"],["2026-04-27",3.4,"37:14"],["2026-04-24",3.11,"33:50"],["2026-04-23",3.14,"33:20"],["2026-04-22",3.37,"36:02"],["2026-04-21",3.13,"33:36"],["2026-04-19",6.32,"1:10:13"],["2026-04-17",3.11,"34:34"],["2026-04-16",5.02,"54:43"],["2026-04-14",4.05,"45:17"],["2026-04-13",3.27,"36:12"],["2026-04-11",4.42,"48:46"],["2026-04-10",2.09,"24:15"],["2026-04-10",3.22,"36:31"],["2026-04-08",3.12,"32:10"],["2026-04-07",5.27,"57:45"],["2026-04-06",5.01,"54:50"],["2026-04-04",3.11,"31:37","FCA run the cedars 5k (race)"],["2026-04-02",4.22,"47:39"],["2026-04-01",4.1,"47:28"],["2026-03-31",4.0,"43:41"],["2026-03-30",4.04,"44:47"],["2026-03-28",3.37,"35:20"],["2026-03-26",3.19,"33:55"],["2026-03-25",3.17,"32:45"],["2026-03-24",3.14,"34:01"],["2026-03-23",3.12,"33:22"],["2026-03-21",4.1,"45:12"],["2026-03-20",3.18,"34:11"],["2026-03-19",3.22,"33:50"],["2026-03-18",3.12,"33:20"],["2026-03-14",3.18,"35:15","New Orleans"],["2026-03-13",3.12,"34:45","New Orleans"],["2026-03-12",3.17,"33:26"],["2026-03-10",3.15,"32:14"],["2026-03-09",3.1,"31:23"],["2026-03-06",3.13,"32:36"],["2026-03-05",3.35,"35:05"],["2026-03-04",3.0,"31:09"],["2026-03-03",3.15,"32:28"],["2026-02-25",3.11,"31:28"],["2026-02-24",3.12,"32:11"],["2026-02-22",3.13,"32:09"],["2026-02-20",3.2,"33:21"],["2026-02-19",3.11,"33:28"],["2026-02-17",3.27,"34:56"],["2026-02-16",3.11,"33:09"],["2026-02-14",3.13,"32:31"],["2026-02-12",3.12,"32:52"],["2026-02-11",2.0,"25:32"],["2026-02-10",3.11,"32:49"],["2026-02-09",1.29,"12:49"],["2026-02-05",3.1,"32:49"],["2026-02-04",3.11,"31:55"],["2026-02-04",0.12,"1:59"],["2026-02-03",2.24,"23:17"],["2026-02-02",3.29,"34:01"],["2026-02-01",2.0,"21:02"],["2026-01-22",4.63,"41:18"],["2026-01-22",1.27,"12:31"],["2026-01-16",3.15,"31:52"],["2026-01-11",2.67,"27:20"],["2026-01-10",1.27,"12:45"],["2026-01-08",0.28,"4:51"],["2026-01-07",2.54,"26:44"],["2026-01-06",3.22,"35:20"],["2026-01-03",3.27,"33:19"],["2025-12-31",3.2,"34:07"],["2025-12-30",3.1,"33:21"],["2025-12-28",3.12,"32:16"],["2025-12-27",3.12,"34:04"],["2025-12-26",3.11,"32:53"],["2025-12-25",4.0,"42:49"],["2025-12-22",3.28,"33:43"],["2025-12-21",1.2,"11:54"],["2025-12-20",5.67,"1:00:54"],["2025-12-18",3.19,"33:39"],["2025-12-17",3.37,"37:24"],["2025-12-16",3.12,"33:30"],["2025-12-13",6.2,"1:06:14"],["2025-12-11",3.19,"33:17"],["2025-12-10",3.33,"35:00"],["2025-12-09",3.27,"35:18"],["2025-12-08",1.32,"12:53"],["2025-12-07",4.02,"44:23"],["2025-12-06",3.19,"34:42"],["2025-12-05",3.28,"35:00"],["2025-12-03",2.05,"21:22"],["2025-12-02",3.11,"34:55"],["2025-11-30",6.24,"1:07:16"],["2025-11-28",4.0,"42:16"],["2025-11-27",3.12,"31:11","Turkey Trot Nashville"],["2025-11-26",1.36,"13:50"],["2025-11-24",3.1,"33:16"],["2025-11-23",3.25,"35:26"],["2025-11-22",4.04,"45:53"],["2025-11-21",3.38,"37:42"],["2025-11-11",3.11,"36:25"],["2025-11-07",6.24,"1:11:48"],["2025-11-06",3.18,"35:43"],["2025-11-05",3.1,"35:23","Treadmill"],["2025-11-04",3.36,"38:27"],["2025-10-31",2.28,"23:29"],["2025-10-30",3.26,"36:03"],["2025-10-28",6.29,"1:10:46"],["2025-10-27",3.17,"35:36"],["2025-10-25",3.1,"34:59"],["2025-10-23",3.24,"34:53"],["2025-10-21",3.19,"36:15"],["2025-10-20",4.35,"48:44"],["2025-10-18",2.66,"32:37"],["2025-10-18",3.32,"37:46"],["2025-10-16",3.31,"38:39"],["2025-10-15",4.09,"49:31"],["2025-10-12",6.2,"1:10:09","Panama City Beach"],["2025-10-10",3.53,"38:10"],["2025-10-08",5.7,"1:04:01"],["2025-10-06",3.1,"35:50"],["2025-10-05",3.8,"45:55"],["2025-10-04",3.18,"32:52","Booby Bolt 5K"],["2025-10-02",3.1,"34:46"],["2025-10-01",3.26,"35:14"],["2025-09-29",3.3,"36:01"],["2025-09-27",4.61,"52:00"],["2025-09-25",3.3,"35:31"],["2025-09-24",3.51,"38:20"],["2025-09-23",0.32,"3:48"],["2025-09-22",3.13,"35:11"],["2025-09-21",2.83,"31:19"],["2025-09-18",6.03,"1:08:32"],["2025-09-16",3.34,"38:13"],["2025-09-15",4.15,"47:17"],["2025-09-13",6.1,"1:11:18"],["2025-09-12",1.69,"18:39"],["2025-09-11",3.15,"34:23"],["2025-09-09",3.24,"35:24"],["2025-09-08",3.16,"35:01"],["2025-09-07",3.25,"34:33"],["2025-09-06",3.77,"42:40","10K plan: Speed Run"],["2025-09-05",2.73,"30:36","10K plan: Recovery Run"],["2025-09-03",2.28,"25:06","10K plan: Recovery Run"],["2025-09-01",6.27,"1:14:18","10K plan"],["2025-08-27",6.21,"1:12:39","10K plan: Speed Run"],["2025-08-25",3.1,"35:10"],["2025-08-24",3.16,"35:33","10K plan: Recovery Run"],["2025-08-22",3.25,"36:08","10K plan: Long Run"],["2025-08-21",2.28,"26:09","10K plan: Recovery Run"],["2025-08-20",1.56,"18:38"],["2025-08-20",1.65,"19:29","10K plan: Speed Run"],["2025-08-19",4.0,"48:33","10K plan: Recovery Run"],["2025-08-17",2.08,"23:20","10K plan: Recovery Run"],["2025-08-16",2.14,"24:57"],["2025-08-16",1.3,"14:46"],["2025-08-14",3.15,"36:05"],["2025-08-13",1.46,"15:59"],["2025-08-12",2.04,"23:51"],["2025-08-11",2.0,"22:35"],["2025-08-10",3.1,"35:11"],["2025-08-08",0.36,"5:06","Treadmill"],["2025-08-08",1.5,"16:40","Treadmill"],["2025-08-06",3.1,"34:32"],["2025-08-05",3.3,"34:23"],["2025-08-04",2.01,"21:38","Treadmill"],["2025-07-31",1.03,"10:41"],["2025-07-30",2.01,"20:02"],["2025-07-28",3.29,"35:03"],["2025-07-25",1.79,"18:55"],["2025-07-24",2.01,"23:29","Treadmill"],["2025-07-23",2.11,"20:54"],["2025-07-21",3.12,"33:13"],["2025-07-18",2.2,"25:07"],["2025-07-17",2.03,"24:05"],["2025-07-16",2.01,"23:16"],["2025-07-15",2.56,"30:22"],["2025-07-14",2.0,"20:21"],["2025-07-11",0.11,"1:15"],["2025-07-11",2.0,"22:36","Treadmill · phone died"],["2025-07-09",2.02,"21:16"],["2025-07-08",3.1,"35:51"],["2025-07-07",2.52,"26:02"],["2025-06-30",0.02,"0:26"],["2025-06-27",3.12,"37:03"],["2025-06-26",2.3,"25:14"],["2025-06-25",2.21,"25:03"],["2025-06-24",2.05,"23:45"],["2025-06-23",3.1,"35:47"],["2025-06-20",2.75,"31:31"],["2025-06-19",2.06,"25:07"],["2025-06-18",3.17,"33:03"],["2025-06-17",2.14,"24:02"],["2025-06-16",2.27,"23:11"],["2025-06-13",2.71,"30:04"],["2025-06-12",0.38,"4:13"],["2025-06-12",1.27,"15:04"],["2025-06-11",2.7,"30:19"],["2025-06-10",2.01,"23:35"],["2025-06-09",2.57,"27:06"],["2025-06-03",2.02,"21:02"],["2025-06-02",2.0,"21:00"],["2025-05-31",1.66,"22:15"],["2025-05-30",2.05,"25:03"],["2025-05-29",0.41,"4:36"],["2025-05-28",2.03,"21:02"],["2025-05-27",2.09,"25:14"],["2025-05-25",1.0,"11:48"],["2025-05-25",2.06,"24:18"],["2025-05-24",0.45,"5:11"],["2025-05-22",1.87,"21:02"],["2025-05-21",1.8,"19:57"],["2025-05-20",0.47,"6:15"],["2025-05-20",1.04,"10:34"],["2025-05-19",1.94,"19:33"],["2025-05-17",0.64,"8:14"],["2025-05-16",0.1,"1:22"],["2025-05-15",1.04,"11:13"],["2025-05-14",1.11,"13:35"],["2025-05-13",1.01,"13:23"]].map(function (a) { return { date: a[0], miles: a[1], time: a[2], note: a[3] || null, source: 'Nike Run Club', milesOnly: a[0] < NRC_MILES_ONLY_BEFORE || undefined }; });
   function nrcPending() { return NRC_RUNS.filter(function (r) { var n = F.normalizeRun(r); return !state.runs.some(function (x) { return F.isDuplicateRun(x, n); }); }); }
   function nrcRange() { var p = nrcPending(); var d = (p.length ? p : NRC_RUNS).map(function (r) { return r.date; }).sort(); var y0 = d[0].slice(0, 4), y1 = d[d.length - 1].slice(0, 4), ty = today().slice(0, 4); if (y0 !== y1) return F.fmtShort(d[0]) + ', ' + y0 + ' – ' + F.fmtShort(d[d.length - 1]) + ', ' + y1; return F.fmtShort(d[0]) + ' – ' + F.fmtShort(d[d.length - 1]) + (y1 !== ty ? ', ' + y1 : ''); }
   function dShort(d) { return F.fmtShort(d) + (d.slice(0, 4) !== today().slice(0, 4) ? ', ' + d.slice(0, 4) : ''); }
@@ -1973,7 +1991,8 @@ nav.tabs svg { width: 24px; height: 24px; }
       '<div class="field"><label for="edit-miles">Distance (mi)</label><input id="edit-miles" name="miles" type="number" inputmode="decimal" step="0.01" min="0.1" max="100" value="' + r.miles + '" required></div>' +
       '<div class="field"><label for="edit-date">Date</label><input id="edit-date" name="date" type="date" max="' + today() + '" value="' + r.date + '" required></div></div>' +
       timeField('etime', 'Time', r.minutes, true) +
-      routePicker('edit', r.routeId) + raceFields('edit', r) +
+      routePicker('edit', r.routeId) +
+      '<label class="check mo-check"><input type="checkbox" id="edit-miles-only" name="milesOnly" value="1"' + (r.milesOnly ? ' checked' : '') + '><span>Miles only<small>Counts toward miles and streaks; skipped for pace, records, ghost and race PRs</small></span></label>' + raceFields('edit', r) +
       '<button class="btn primary block">Save changes</button></form><div class="sheet-actions"><button class="btn ghost block" data-action="close-overlay">Cancel</button></div></div>');
   }
 
@@ -2111,7 +2130,7 @@ nav.tabs svg { width: 24px; height: 24px; }
       var er = state.runs.filter(function (x) { return x.id === f.dataset.id; })[0], emi = parseFloat(fd.get('miles')), emin = readTime(f, 'etime');
       if (!er) return; if (!(emi > 0) || !(emin > 0)) { toast('Enter a distance and a time (seconds 0–59)'); return; }
       var ert = resolveRoute(fd, emi); if (ert === false) return;
-      er.miles = Math.round(emi * 100) / 100; er.minutes = emin; er.date = fd.get('date') || er.date; er.route = ert ? ert.name : null; er.routeId = ert ? ert.id : null; er.race = readRace(fd);
+      er.miles = Math.round(emi * 100) / 100; er.minutes = emin; er.date = fd.get('date') || er.date; er.route = ert ? ert.name : null; er.routeId = ert ? ert.id : null; er.race = readRace(fd); if (fd.get('milesOnly')) er.milesOnly = true; else delete er.milesOnly;
       save(); closeOverlay(); render(); toast('Run updated'); return;
     }
     if (f.id === 'past-race-form') {
