@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<!-- Grit standalone build 2026-10-14T16:27:23.196Z · Fonts: Inter (SIL OFL 1.1) -->
+<!-- Grit standalone build 2026-10-14T17:27:53.716Z · Fonts: Inter (SIL OFL 1.1) -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#000000">
@@ -563,6 +563,39 @@ nav.tabs button.has-dot .nav-dot { display: block; animation: dotPulse 1.6s ease
 .pd-d { min-width: 0; flex: 0 1 auto; text-align: right; }
 .pd-top .pd-line { flex-direction: column; align-items: flex-start; gap: 2px; }
 .pd-top .pd-d { text-align: left; font-size: 12.5px; }
+
+/* ===== Achievements (compact, proud) ===== */
+.ach-card { position: relative; overflow: hidden; border-color: rgba(212,175,55,.35); background: radial-gradient(120% 80% at 0% 0%, rgba(212,175,55,.14), transparent 55%), radial-gradient(90% 70% at 100% 0%, rgba(105,190,40,.12), transparent 60%), #0b0b0c; }
+.ah-hero { display: flex; gap: 14px; align-items: center; margin-bottom: 12px; }
+.ah-ring { position: relative; width: 78px; height: 78px; flex: none; }
+.ah-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.ah-trk { fill: none; stroke: rgba(255,255,255,.08); stroke-width: 7; }
+.ah-val { fill: none; stroke: #D4AF37; stroke-width: 7; stroke-linecap: round; filter: drop-shadow(0 0 6px rgba(212,175,55,.7)); }
+.ah-n { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1; }
+.ah-n b { font-size: 26px; font-weight: 900; color: #F3D77A; } .ah-n span { font-size: 11px; color: var(--dim); margin-top: 3px; }
+.gold-t { color: #D4AF37 !important; }
+.ah-title { font-size: 20px; font-weight: 900; letter-spacing: -.02em; margin: 2px 0 6px; }
+.ah-best { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px; font-size: 13px; background: linear-gradient(90deg, hsla(var(--h),100%,45%,.3), hsla(calc(var(--h) + 40),100%,55%,.18)); border: 1px solid hsla(var(--h),100%,60%,.55); color: hsl(var(--h),100%,80%); box-shadow: 0 0 16px -4px hsla(var(--h),100%,55%,.6); }
+.ah-best b { color: #fff; }
+.ah-sub { font-size: 12px; color: var(--dim); margin-top: 6px; }
+.ar { padding: 10px 0; border-top: 1px solid rgba(255,255,255,.07); }
+.ar-head { all: unset; box-sizing: border-box; width: 100%; display: flex; gap: 12px; align-items: center; cursor: pointer; }
+.ar-badge { position: relative; flex: none; width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; color: #fff; background: linear-gradient(140deg, hsl(var(--h),100%,52%), hsl(calc(var(--h) + 45),100%,40%)); box-shadow: 0 0 18px -2px hsla(var(--h),100%,55%,.75), inset 0 1px 0 rgba(255,255,255,.35); }
+.ar-badge .ico { width: 24px; height: 24px; }
+.ar-badge i { position: absolute; right: -5px; bottom: -5px; font-style: normal; font-size: 11px; font-weight: 900; min-width: 20px; height: 20px; padding: 0 4px; border-radius: 10px; display: grid; place-items: center; background: #D4AF37; color: #000; border: 2px solid #0b0b0c; }
+.ar-badge.none { background: rgba(255,255,255,.06); box-shadow: none; color: var(--dim); } .ar-badge.none i { background: #333; color: #aaa; }
+.ar-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.ar-top { display: flex; justify-content: space-between; align-items: baseline; } .ar-top b { font-size: 15px; }
+.ar-have { font-size: 13px; font-weight: 800; color: hsl(var(--h),100%,72%); }
+.ar-cur { font-size: 12px; color: #ddd; }
+.ar-bar { height: 7px; margin: 2px 0; } .ar-bar i { background: linear-gradient(90deg, hsl(var(--h),100%,45%), hsl(calc(var(--h) + 30),100%,62%)) !important; box-shadow: 0 0 10px hsla(var(--h),100%,55%,.6); }
+.ar-copy { font-size: 12px; color: var(--dim); } .ar-copy b { color: #fff; } .ar-done { color: #F3D77A; font-weight: 700; }
+.ar .ach-chips { margin: 8px 0 0 60px; gap: 5px; }
+.ar .ach { font-size: 11px; padding: 3px 8px; display: inline-flex; align-items: center; gap: 4px; }
+.ar .ach.earned { background: hsla(var(--h),100%,50%,.16); border-color: hsla(var(--h),100%,60%,.5); color: hsl(var(--h),100%,82%); box-shadow: none; }
+.ar .ach.earned svg { color: hsl(var(--h),100%,70%); }
+.ar .ach:not(.earned) .ico { opacity: .6; }
+.ar .ach.more { background: none; border-style: dashed; color: var(--dim); cursor: pointer; font: inherit; font-size: 11px; }
 
 </style>
 <link rel="manifest" href="manifest.webmanifest">
@@ -1853,6 +1886,8 @@ nav.tabs button.has-dot .nav-dot { display: block; animation: dotPulse 1.6s ease
     ghost: '<path d="M6 20V11a6 6 0 0 1 12 0v9l-2-1.5-2 1.5-2-1.5-2 1.5-2-1.5z"/><circle cx="10" cy="11" r=".8"/><circle cx="14" cy="11" r=".8"/>',
     shoe: '<path d="M3 16.5V12l4-1 3-4 2 1 1 3 5 2.5a3 3 0 0 1 3 3V17a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1.5z"/><path d="M3 15h18"/>',
     flag: '<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>',
+    road: '<path d="M8 3 5 21M16 3l3 18M12 4v3M12 10.5v3M12 17v3"/>',
+    lock: '<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
     check: '<path d="m5 12.5 4.5 4.5L19 7.5"/>',
     up: '<path d="m6 15 6-6 6 6"/>', down: '<path d="m6 9 6 6 6-6"/>', x: '<path d="M6 6l12 12M18 6 6 18"/>',
     drop: '<path d="M12 3s6 6.4 6 11a6 6 0 0 1-12 0c0-4.6 6-11 6-11z"/>', can: '<path d="M8 4h8l1 3v12a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V7z"/><path d="M7 8h10"/>',
@@ -2426,6 +2461,32 @@ nav.tabs button.has-dot .nav-dot { display: block; animation: dotPulse 1.6s ease
       }).join('') + '</ol>' + (rows.length > 3 ? '<button class="linkish eff-more" data-action="eff-more" data-testid="eff-more">' + (more ? 'Show less' : 'Show #4–' + rows.length) + '</button>' : '');
     return card('', 'efforts', hd('Top efforts', tab[2]), seg + list);
   }
+  var ACH_STYLE = { miles: [145, 'road', 'Every mile you’ve ever run'], dist: [24, 'flag', 'Farthest single run'], streak: [272, 'flame', 'Best days in a row'] };
+  function achNum(v) { return v % 1 ? (+v).toFixed(1) : String(v); }
+  function achHtml(a) {
+    var open = state.ui.achOpen || {}, tot = a.total, got = a.earned.length, pct = tot ? got / tot * 100 : 0;
+    var top = a.groups.map(function (g) { var e = g.items.filter(function (i) { return i.earned; }); return { g: g, i: e[e.length - 1], rank: e.length / g.items.length }; }).filter(function (x) { return x.i; }).sort(function (x, y) { return y.rank - x.rank; })[0];
+    var R = 30, C = 2 * Math.PI * R;
+    var hero = '<div class="ah-hero"><div class="ah-ring"><svg viewBox="0 0 72 72"><circle cx="36" cy="36" r="' + R + '" class="ah-trk"/><circle cx="36" cy="36" r="' + R + '" class="ah-val" stroke-dasharray="' + (C * pct / 100).toFixed(1) + ' ' + C.toFixed(1) + '"/></svg><div class="ah-n"><b data-testid="ach-count">' + got + '</b><span>of ' + tot + '</span></div></div>' +
+      '<div class="grow"><div class="eyebrow gold-t">Achievements</div><div class="ah-title">' + (got ? 'Look what you’ve built.' : 'Your first one is waiting.') + '</div>' +
+      (top ? '<div class="ah-best" style="--h:' + ACH_STYLE[top.g.id][0] + '">' + ico(ACH_STYLE[top.g.id][1], 'inline') + '<b>' + esc(top.i.label) + '</b></div>' : '') +
+      '<div class="ah-sub">' + achNum(a.totalMiles) + ' lifetime miles. All you.</div></div></div>';
+    var rows = a.groups.map(function (g) {
+      var st = ACH_STYLE[g.id] || [140, 'flag', ''], e = g.items.filter(function (i) { return i.earned; }), cur = e[e.length - 1], isOpen = !!open[g.id];
+      var togo = g.next ? Math.max(0, g.next.at - g.have) : 0, unit = g.unit === 'days' && Math.ceil(togo) === 1 ? 'day' : g.unit;
+      var copy = !g.next ? '<span class="ar-done">Maxed out. Legend.</span>' : '<b>' + (g.unit === 'days' ? Math.ceil(togo) : achNum(Math.round(togo * 10) / 10)) + ' ' + unit + '</b> to ' + esc(g.next.label);
+      var chips = g.items.map(function (i) { return (!i.earned && !isOpen) ? '' : '<span class="ach' + (i.earned ? ' earned' : '') + '" data-ach="' + i.id + '"' + (!i.earned ? '' : '') + '>' + (i.earned ? ico('check', 'inline') : ico('lock', 'inline')) + esc(i.label) + '</span>'; }).join('');
+      var locked = g.items.length - e.length;
+      return '<div class="ar' + (isOpen ? ' open' : '') + '" style="--h:' + st[0] + '" data-testid="ach-row-' + g.id + '">' +
+        '<button class="ar-head" data-action="ach-toggle" data-id="' + g.id + '" aria-expanded="' + isOpen + '">' +
+        '<span class="ar-badge' + (cur ? '' : ' none') + '">' + ico(st[1]) + '<i>' + e.length + '</i></span>' +
+        '<span class="ar-main"><span class="ar-top"><b>' + g.title + '</b><span class="ar-have">' + achNum(g.have) + ' ' + g.unit + '</span></span>' +
+        '<span class="ar-cur">' + (cur ? esc(cur.label) : 'Not yet — go get it') + '</span>' +
+        '<span class="bar ar-bar"><i style="width:' + g.nextPct.toFixed(1) + '%"></i></span><span class="ar-copy">' + copy + '</span></span></button>' +
+        '<div class="ach-chips">' + chips + (locked && !isOpen ? '<span class="ach more" data-action="ach-toggle" data-id="' + g.id + '">+' + locked + ' to unlock</span>' : '') + (isOpen && locked ? '<span class="ach more" data-action="ach-toggle" data-id="' + g.id + '">Hide</span>' : '') + '</div></div>';
+    }).join('');
+    return '<section class="card ach-card" data-testid="achievements"><div class="ah-glow" aria-hidden="true"></div>' + hero + rows + '</section>';
+  }
   function renderScores() {
     var t = today(), te = F.topEfforts(state.runs, 5), a = ach(), h = title('Records', 'The only competition is who you were yesterday.');
     h += '<section class="pr-grid" data-testid="pr-wall">' + F.personalRecords(state.runs).map(function (p) {
@@ -2435,9 +2496,7 @@ nav.tabs button.has-dot .nav-dot { display: block; animation: dotPulse 1.6s ease
       return '<div class="pr' + (p.set ? ' gold' : ' empty') + '" data-testid="pr-' + p.id + '"><div class="eyebrow">' + (p.set ? ico('scores', 'inline') : '') + DIST_NAME[p.id] + '</div><div class="pr-v">' + big + '</div><div class="muted small">' + sub + '</div>' +
         (p.estimate ? '<div class="est">Est. from ' + p.fromMiles + ' mi run</div>' : '') + '</div>';
     }).join('') + '</section><p class="fine">Distance bests use a run’s average pace × the distance. “Est.” means it came from a longer run, not a timed effort.</p>';
-    var cur = F.currentStreak(state.runs, t), best = F.longestStreak(state.runs);
-    h += card('', 'streaks', hd('Streak'), '<div class="stats two"><div class="stat"><b data-testid="streak-current">' + cur + '</b><span>current · days</span></div><div class="stat"><b data-testid="streak-best">' + best + '</b><span>longest · days</span></div></div>' +
-      (cur && cur >= best ? '<p class="small accent" style="margin-top:12px">' + ico('flame', 'inline') + 'You’re on your longest streak.</p>' : best ? '<p class="small muted" style="margin-top:12px">' + (best - cur + 1) + ' more day' + (best - cur + 1 === 1 ? '' : 's') + ' in a row sets a new streak record.</p>' : ''));
+    h += achHtml(a);
     var rn = F.routeNames(state.runs);
     if (rn.length) {
       var sel = state.ui.ghostRoute && rn.indexOf(state.ui.ghostRoute) !== -1 ? state.ui.ghostRoute : rn[0];
@@ -2461,10 +2520,6 @@ nav.tabs button.has-dot .nav-dot { display: block; animation: dotPulse 1.6s ease
     h += card('', 'miles-chart', hd('Miles', mode === 'month' ? 'Last 6 months' : 'Last 8 weeks (Mon–Sun)', '<div class="seg mini"><button data-action="miles-view" data-id="week" aria-pressed="' + (mode === 'week') + '">Week</button><button data-action="miles-view" data-id="month" aria-pressed="' + (mode === 'month') + '">Month</button></div>'), periodBars(mode));
     h += card('', 'pace-trend', hd('Pace trend', 'Weekly average · higher is faster'), lineChart(wp.map(function (w) { return { x: F.fmtShort(w.week), y: w.pace }; }), { label: 'Weekly average pace', invert: true, fmt: function (v) { return F.fmtPace(v); }, empty: 'Log runs in two different weeks to see your pace trend.' }));
     h += raceResultsHtml();
-    h += card('', 'achievements', hd('Achievements', a.earned.length + ' earned'), a.groups.map(function (g) {
-      return '<div class="ach-group"><div class="row spread"><b>' + g.title + '</b><span class="muted small">' + (g.next ? g.have + ' / ' + (g.next.at % 1 ? g.next.at.toFixed(1) : g.next.at) + ' ' + g.unit : 'All done') + '</span></div>' + bar(g.nextPct) +
-        '<div class="ach-chips">' + g.items.map(function (i) { return '<span class="ach' + (i.earned ? ' earned' : '') + '" data-ach="' + i.id + '">' + (i.earned ? ico('check', 'inline') : '') + esc(i.label) + '</span>'; }).join('') + '</div></div>';
-    }).join(''));
     return h;
   }
 
@@ -2589,6 +2644,7 @@ nav.tabs button.has-dot .nav-dot { display: block; animation: dotPulse 1.6s ease
       case 'trophy': { var tx = trophyData().list.filter(function (x) { return x.id === id; })[0]; if (tx && window.GritTrophies) { if (tx.earned) GritTrophies.takeover([tx], { replay: true, fmtDate: trophyDate }); else toast(tx.name + ': ' + tx.req + (tx.progress ? ' · ' + tx.progress : '')); } break; }
       case 'del-run': state.runs = state.runs.filter(function (r) { return r.id !== id; }); save(); render(); break;
       case 'eff-tab': state.ui.effTab = id; state.ui.effMore = false; save(); render(); break;
+      case 'ach-toggle': state.ui.achOpen = state.ui.achOpen || {}; state.ui.achOpen[id] = !state.ui.achOpen[id]; render(); break;
       case 'eff-more': state.ui.effMore = !state.ui.effMore; render(); break;
       case 'miles-view': state.ui.milesView = id; save(); render(); break;
       case 'shoe-active': state.activeShoe = id; save(); render(); break;
