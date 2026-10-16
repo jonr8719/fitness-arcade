@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<!-- Grit standalone build 2026-10-14T17:27:53.716Z · Fonts: Inter (SIL OFL 1.1) -->
+<!-- Grit standalone build 2026-10-16T16:46:55.216Z · Fonts: Inter (SIL OFL 1.1) -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#000000">
@@ -597,6 +597,33 @@ nav.tabs button.has-dot .nav-dot { display: block; animation: dotPulse 1.6s ease
 .ar .ach:not(.earned) .ico { opacity: .6; }
 .ar .ach.more { background: none; border-style: dashed; color: var(--dim); cursor: pointer; font: inherit; font-size: 11px; }
 
+.tr-tile { position: relative; }
+.tr-tile.fresh { border-color: hsla(var(--h),100%,60%,.8) !important; box-shadow: 0 0 22px -4px hsla(var(--h),100%,55%,.8), inset 0 0 18px -8px hsla(var(--h),100%,60%,.6); animation: trFresh 2.4s ease-in-out infinite; }
+@keyframes trFresh { 50% { box-shadow: 0 0 30px -2px hsla(var(--h),100%,58%,.95), inset 0 0 22px -8px hsla(var(--h),100%,60%,.7); } }
+.tr-new { position: absolute; top: 8px; right: 8px; font-size: 10px; font-weight: 900; letter-spacing: .08em; padding: 3px 7px; border-radius: 999px; background: #69BE28; color: #000; box-shadow: 0 0 12px rgba(105,190,40,.7); z-index: 2; }
+
+/* ===== Today: last run + 7 days ===== */
+.rw-card { background: radial-gradient(100% 70% at 0% 0%, rgba(105,190,40,.14), transparent 60%), #0b0b0c; }
+.rw-big { display: flex; align-items: baseline; gap: 4px; margin: 2px 0 4px; } .rw-big b { font-size: 40px; font-weight: 900; letter-spacing: -.03em; line-height: 1; } .rw-big small { font-size: 15px; color: var(--dim); font-weight: 700; }
+.rw-meta { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 15px; font-weight: 700; } .rw-meta span + span::before { content: ''; }
+.rw-ghost { display: inline-flex; align-items: center; gap: 5px; margin-top: 8px; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; background: rgba(255,255,255,.06); color: var(--dim); }
+.rw-ghost.pos { background: rgba(105,190,40,.15); color: #8fd85a; } .rw-ghost.neg { background: rgba(255,120,90,.12); color: #ff9c85; }
+.rw-wk { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,.07); }
+.rw-wh { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; } .rw-tot { font-size: 12px; color: var(--dim); } .rw-tot b { color: #fff; font-size: 14px; }
+.rbars { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; margin-left: -6px; margin-right: -6px; margin-top: 10px; }
+.rb { all: unset; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; padding: 4px 0; border-radius: 10px; min-height: 40px; }
+.rb.sel { background: rgba(255,255,255,.06); }
+.rb-mi { font-size: 11px; font-weight: 800; height: 14px; color: #fff; }
+.rb-col { width: 100%; max-width: 30px; height: 86px; display: flex; align-items: flex-end; }
+.rb-col i { display: block; width: 100%; border-radius: 7px 7px 3px 3px; background: linear-gradient(180deg, hsl(96,65%,var(--l,46%)), hsl(96,70%,calc(var(--l,46%) - 18%))); }
+.rb.fast .rb-col i { box-shadow: 0 0 12px -2px rgba(105,190,40,.8); }
+.rb.off .rb-col i { background: rgba(255,255,255,.1); }
+.rb.last .rb-col i { outline: 2px solid #D4AF37; outline-offset: 2px; }
+.rb-p { font-size: 10px; color: var(--dim); font-variant-numeric: tabular-nums; } .rb.fast .rb-p { color: #8fd85a; }
+.rb-d { font-size: 11px; font-weight: 700; color: var(--dim); } .rb.today .rb-d { color: #69BE28; }
+.rw-detail { margin-top: 8px; font-size: 12px; color: var(--dim); background: rgba(255,255,255,.04); border-radius: 10px; padding: 8px 10px; } .rw-detail b { color: #fff; }
+.rw-key { font-size: 10px; color: var(--dim); margin-left: auto; align-self: center; }
+
 </style>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
@@ -1135,8 +1162,9 @@ nav.tabs button.has-dot .nav-dot { display: block; animation: dotPulse 1.6s ease
     var longest = all.reduce(function (m, r) { return Math.max(m, r.miles); }, 0);
     var defs = [];
     function H(d, s) { return { d: d, s: s }; }
+    var lastRunDay = dayList[dayList.length - 1];
     function T(o) {
-      var hits = o.hits || [], n = hits.length;
+      var hits = (o.hits || []).map(function (x) { return lastRunDay && x.d > lastRunDay ? { d: lastRunDay, s: x.s } : x; }), n = hits.length; // week/month hits are dated at period end; never show a future date
       var pct = n ? 100 : Math.max(0, Math.min(99, Math.round(o.pct || 0)));
       defs.push({ id: o.id, hue: o.hue, tier: o.tier, tierName: TIERS[o.tier], rarity: RARITY[o.tier], name: o.name, tag: o.tag, req: o.req, glyph: o.glyph, label: o.label, kind: o.kind || 'all', fam: o.fam,
         count: n, earned: n > 0, first: n ? hits[0].d : null, last: n ? hits[n - 1].d : null, stat: n ? hits[n - 1].s : '', pct: pct, progress: o.progress || '', fwd: !!o.fwd });
@@ -1793,7 +1821,7 @@ nav.tabs button.has-dot .nav-dot { display: block; animation: dotPulse 1.6s ease
     el.style.setProperty('--hue', t.hue);
     el.innerHTML = '<div class="ul-flash"></div><div class="ul-rays"></div><div class="ul-parts">' + parts(t.hue) + '</div>' +
       '<div class="ul-body" role="dialog" aria-label="Trophy unlocked" data-testid="unlock" data-trophy="' + esc(t.id) + '">' +
-      '<div class="ul-kicker">' + (cur.replay ? 'Trophy' : 'Trophy unlocked') + ' · <b>' + esc(t.tierName) + '</b> · ' + esc(t.rarity) + '</div>' +
+      '<div class="ul-kicker">' + (cur.replay ? 'Trophy' : t.again ? 'Earned again' : 'Trophy unlocked') + ' · <b>' + esc(t.tierName) + '</b> · ' + esc(t.rarity) + '</div>' +
       '<div class="ul-badge">' + badgeSVG(t, 230) + '</div>' +
       '<h1 class="ul-name">' + esc(t.name) + '</h1><p class="ul-tag">' + esc(t.tag) + '</p>' +
       '<div class="ul-stat" data-testid="unlock-stat">' + esc(t.stat || t.req) + '</div>' +
@@ -1945,10 +1973,17 @@ nav.tabs button.has-dot .nav-dot { display: block; animation: dotPulse 1.6s ease
     // first launch of Grit on an existing save: count already-earned achievements as seen (no flood of celebrations)
     // trophies already earned from history count as seen (no flood of unlocks)
     if (!Array.isArray(s.celebrated.trophies)) s.celebrated.trophies = F.trophies(s.runs, { today: today(), birthday: s.profile.birthday }).list.filter(function (x) { return x.earned; }).map(function (x) { return x.id; });
+    if (!s.celebrated.trophyCounts) {
+      var hist = s.runs.filter(function (r) { return r.source === 'Nike Run Club'; });
+      var hl = F.trophies(hist.length ? hist : s.runs, { today: today(), birthday: s.profile.birthday }).list;
+      s.celebrated.trophyCounts = {}; hl.forEach(function (x) { if (x.earned) s.celebrated.trophyCounts[x.id] = x.count; });
+      s.celebrated.trophies = s.celebrated.trophies.filter(function (id) { return s.celebrated.trophyCounts[id]; });
+    }
     if (!Array.isArray(s.celebrated.ach)) s.celebrated.ach = F.achievements(s.profile, s.weights, s.runs).earned.map(function (a) { return a.id; });
     return s;
   }
   var state = load();
+  setTimeout(function () { checkTrophies(); if (state.ui.tab === 'trophies') render(); }, 600); // retro-award anything earned since last check
   function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { toast('Storage full — could not save'); } }
   function firstName() { var p = state.profile, n = (p.name || '').trim(); if (n) return n.split(' ')[0]; var i = (p.initials || '').trim(); return i.length > 1 ? i.charAt(0).toUpperCase() + i.slice(1).toLowerCase() : ''; }
 
@@ -1973,11 +2008,26 @@ nav.tabs button.has-dot .nav-dot { display: block; animation: dotPulse 1.6s ease
   function trophyData() { return F.trophies(state.runs, { today: today(), birthday: state.profile.birthday }); }
   function trophyDate(d) { return F.fmtShort(d) + ', ' + d.slice(0, 4); }
   // new trophies: celebrate (silent = mark seen without a takeover, e.g. imports, merges, birthday edits)
+  // trophies are repeatable: track how many times each was earned, so a repeat win (e.g. another 5-day streak) celebrates too
+  var ROUTINE_TROPHIES = ['first-blood', 'dist-5k']; // earned on almost every run: count quietly, no takeover
+  function trophyCounts(list) { var c = {}; list.forEach(function (x) { if (x.earned) c[x.id] = x.count; }); return c; }
   function checkTrophies(silent) {
-    if (!Array.isArray(state.celebrated.trophies)) state.celebrated.trophies = [];
-    var seen = state.celebrated.trophies, fresh = trophyData().list.filter(function (x) { return x.earned && seen.indexOf(x.id) === -1; });
-    fresh.forEach(function (x) { seen.push(x.id); });
-    if (fresh.length && !silent && state.ui.tab !== 'trophies') { state.ui.trophyNew = true; document.querySelectorAll('nav.tabs button[data-goto=trophies]').forEach(function (b) { b.classList.add('has-dot'); }); }
+    var C = state.celebrated;
+    if (!Array.isArray(C.trophies)) C.trophies = [];
+    if (!C.trophyCounts || typeof C.trophyCounts !== 'object') C.trophyCounts = {};
+    if (!Array.isArray(C.trophyFresh)) C.trophyFresh = [];
+    var list = trophyData().list, fresh = list.filter(function (x) {
+      if (!x.earned) return false;
+      var first = C.trophies.indexOf(x.id) === -1, again = !first && x.count > (C.trophyCounts[x.id] || 0);
+      if (!first && !again) return false;
+      x.again = again; return first || ROUTINE_TROPHIES.indexOf(x.id) === -1;
+    });
+    list.forEach(function (x) { if (x.earned && C.trophies.indexOf(x.id) === -1) C.trophies.push(x.id); });
+    C.trophyCounts = trophyCounts(list);
+    if (fresh.length && !silent) {
+      fresh.forEach(function (x) { if (C.trophyFresh.indexOf(x.id) === -1) C.trophyFresh.push(x.id); });
+      if (state.ui.tab !== 'trophies') { state.ui.trophyNew = true; document.querySelectorAll('nav.tabs button[data-goto=trophies]').forEach(function (b) { b.classList.add('has-dot'); }); }
+    }
     save();
     if (fresh.length && !silent && !window.__noTrophyFx && window.GritTrophies) GritTrophies.takeover(fresh.sort(function (a, b) { return a.tier - b.tier; }), { fmtDate: trophyDate });
     return fresh;
@@ -1988,10 +2038,11 @@ nav.tabs button.has-dot .nav-dot { display: block; animation: dotPulse 1.6s ease
     var b = '<div class="tr-count"><b data-testid="trophy-earned">' + T.earned + '</b><span>of ' + T.total + ' earned · ' + T.times.toLocaleString() + ' times</span></div>';
     if (T.next.length) b += '<div class="eyebrow" style="margin-top:12px">Next up</div><ul class="tr-next" data-testid="trophy-next">' + T.next.map(function (x) {
       return '<li style="--h:' + x.hue + '" data-action="trophy" data-id="' + x.id + '">' + B.badgeSVG(x, 46) + '<div class="grow"><b>' + esc(x.name) + '</b><span class="s">' + esc(x.req) + ' · ' + esc(x.progress) + '</span><div class="tr-bar"><i style="width:' + x.pct + '%"></i></div></div></li>'; }).join('') + '</ul>';
-    var earned = T.list.filter(function (x) { return x.earned; }).sort(function (a, c) { return a.last < c.last ? 1 : a.last > c.last ? -1 : c.tier - a.tier; });
+    var FR = state.celebrated.trophyFresh || [], isF = function (x) { return FR.indexOf(x.id) !== -1 ? 1 : 0; };
+    var earned = T.list.filter(function (x) { return x.earned; }).sort(function (a, c) { return isF(c) - isF(a) || (a.last < c.last ? 1 : a.last > c.last ? -1 : c.tier - a.tier); });
     var locked = T.list.filter(function (x) { return !x.earned; }).sort(function (a, c) { return c.pct - a.pct || a.tier - c.tier; });
     function tile(x) {
-      return '<button class="tr-tile t' + x.tier + (x.earned ? '' : ' locked') + '" style="--h:' + x.hue + '" data-action="trophy" data-id="' + x.id + '" data-testid="trophy-' + x.id + '" aria-label="' + esc(x.name) + (x.earned ? ', earned' : ', locked') + '">' + B.badgeSVG(x, 92) +
+      return '<button class="tr-tile t' + x.tier + (x.earned ? '' : ' locked') + (x.earned && isF(x) ? ' fresh' : '') + '" style="--h:' + x.hue + '" data-action="trophy" data-id="' + x.id + '" data-testid="trophy-' + x.id + '" aria-label="' + esc(x.name) + (x.earned ? ', earned' : ', locked') + '">' + (x.earned && isF(x) ? '<span class="tr-new" data-testid="trophy-new">NEW</span>' : '') + B.badgeSVG(x, 92) +
         '<span class="tn">' + esc(x.name) + '</span>' + (x.earned ? '<span class="td">' + trophyDate(x.last) + '</span>' + (x.count > 1 ? '<span class="tx">' + x.count + ' times</span>' : '') :
         '<span class="td">' + esc(x.req) + '</span>' + (x.pct > 0 ? '<span class="tr-bar"><i style="width:' + x.pct + '%"></i></span>' : '') + (x.fwd ? '<span class="fwd">from now on</span>' : '')) + '</button>';
     }
@@ -2088,13 +2139,12 @@ nav.tabs button.has-dot .nav-dot { display: block; animation: dotPulse 1.6s ease
       '<button class="btn primary block hero-btn" data-goto="run">' + ico('run') + (tg.runs ? 'Log another run' : 'Log today’s run') + '</button></section>';
     h += nrcBanner();
     h += nextPrCard(t);
-    h += lastRunCard();
     var shoe = activeShoe();
     if (shoe) {
       var sm = F.shoeMiles(shoe, state.runs), st = F.shoeStatus(sm);
       if (st.level !== 'ok') h += '<div class="alert ' + st.level + '" data-testid="shoe-alert">' + ico('shoe') + '<div><b>' + esc(shoe.name) + ' · ' + sm.toFixed(0) + ' mi</b><span>' + esc(st.msg) + '</span></div></div>';
     }
-    h += recapCard(t) + raceCard(t) + weatherCard() + waterCard(t);
+    h += runWeekCard(t) + raceCard(t) + weatherCard() + waterCard(t);
     var qt = Q.quoteFor(t);
     h += '<section class="quote-card" data-testid="daily-quote"><div class="eyebrow">Daily reflection</div>' +
       '<blockquote>“' + esc(qt.text) + '”</blockquote><div class="q-attr">— ' + esc(qt.author) + (qt.source ? '<span>' + esc(qt.source) + '</span>' : '') + '</div></section>';
@@ -2133,6 +2183,41 @@ nav.tabs button.has-dot .nav-dot { display: block; animation: dotPulse 1.6s ease
       '<div class="trend-row"><span class="chip ' + (tr === 'up' ? 'pos' : tr === 'down' ? 'neg' : '') + '" data-testid="recap-trend">' + (tr === 'up' ? ico('up', 'inline') : tr === 'down' ? ico('down', 'inline') : '') + (rc.milesDelta >= 0 ? '+' : '') + rc.milesDelta + ' mi</span>' +
       (rc.paceDeltaSec != null ? '<span class="chip ' + (rc.paceDeltaSec < 0 ? 'pos' : rc.paceDeltaSec > 0 ? 'neg' : '') + '">' + (rc.paceDeltaSec <= 0 ? Math.abs(rc.paceDeltaSec) + 's/mi faster' : rc.paceDeltaSec + 's/mi slower') + '</span>' : '') +
       '<span class="chip">' + rc.runDays + '/7 days</span>' + '</div>');
+  }
+  // one tile: last run headline + 7-day bars (height = miles, shade = pace vs 7-day avg, tap for detail)
+  function runWeekCard(t) {
+    var r = state.runs.slice().sort(function (a, b) { return a.date < b.date ? 1 : a.date > b.date ? -1 : 0; })[0];
+    var rc = F.weeklyRecap(state, t), tr = rc.milesTrend;
+    if (!r) return recapCardOnly(rc, t, tr);
+    var gc = F.ghostCompare(state.runs.filter(function (x) { return x !== r; }), { route: r.route, miles: r.miles, minutes: r.minutes, beforeDate: r.date }), g = '';
+    if (gc && gc.ready) g = '<span class="rw-ghost ' + (gc.ahead ? 'pos' : gc.tie ? '' : 'neg') + '" data-testid="last-ghost">' + ico('ghost', 'inline') + (gc.ahead ? fmtGap(gc.deltaSec) + ' ahead of your ghost' : gc.tie ? 'Even with your ghost' : fmtGap(gc.deltaSec) + ' behind your ghost') + (gc.ghost.mode === 'route' ? ' on ' + esc(gc.ghost.run.route) : '') + '</span>';
+    var head = '<div class="rw-top" data-testid="last-run"><div class="rw-l"><div class="eyebrow">Last run · ' + esc(longDate(r.date)) + (r.route ? ' · ' + esc(r.route) : '') + '</div>' +
+      '<div class="rw-big"><b>' + r.miles.toFixed(2) + '</b><small>mi</small></div>' +
+      '<div class="rw-meta"><span>' + F.fmtDuration(r.minutes) + '</span><span>' + F.fmtPace(F.pace(r)) + '/mi</span>' + (kcal(r) ? '<span data-testid="last-kcal">≈' + kcal(r) + ' cal</span>' : '') + '</div>' + g + '</div></div>';
+    return card('rw-card', 'recap', '', head + weekBlock(rc, t, tr, r));
+  }
+  function recapCardOnly(rc, t, tr) { return card('rw-card', 'recap', hd('Last 7 days'), weekBlock(rc, t, tr, null)); }
+  function weekBlock(rc, t, tr, last) {
+    var dayRuns = {}; state.runs.forEach(function (x) { if (x.date >= rc.start && x.date <= rc.end) (dayRuns[x.date] = dayRuns[x.date] || []).push(x); });
+    var max = Math.max.apply(null, rc.days.map(function (d) { return d.miles; }).concat([1])), avg = rc.avgPace, sel = state.ui.daySel;
+    function dPace(d) { var l = (dayRuns[d] || []).filter(function (x) { return !x.milesOnly && x.minutes > 0; }), m = l.reduce(function (s, x) { return s + x.miles; }, 0); return m ? l.reduce(function (s, x) { return s + x.minutes; }, 0) / m : null; }
+    var bars = rc.days.map(function (d) {
+      var p = d.ran ? dPace(d.date) : null, diff = p && avg ? (avg - p) / avg : 0; // + = faster than avg
+      var light = Math.max(30, Math.min(68, 46 + diff * 400)), isLast = last && d.date === last.date, on = sel === d.date;
+      return '<button class="rb' + (d.ran ? '' : ' off') + (d.date === t ? ' today' : '') + (isLast ? ' last' : '') + (on ? ' sel' : '') + (p && diff > 0.005 ? ' fast' : '') + '" data-action="day-sel" data-id="' + d.date + '" data-testid="day-' + d.date + '" aria-label="' + esc(longDate(d.date)) + (d.ran ? ': ' + d.miles + ' mi' : ': rest') + '">' +
+        '<span class="rb-mi">' + (d.ran ? d.miles.toFixed(1) : '') + '</span><span class="rb-col"><i style="height:' + (d.ran ? Math.max(8, d.miles / max * 100).toFixed(0) : 3) + '%;--l:' + light.toFixed(0) + '%"></i></span>' +
+        '<span class="rb-p">' + (p ? F.fmtPace(p) : d.ran ? '—' : 'rest') + '</span><span class="rb-d">' + 'SMTWTFS'[F.parseISO(d.date).getDay()] + '</span></button>';
+    }).join('');
+    var detail = '';
+    if (sel && sel >= rc.start && sel <= rc.end) {
+      var l = dayRuns[sel] || [], dp = dPace(sel);
+      detail = '<div class="rw-detail" data-testid="day-detail"><b>' + esc(longDate(sel)) + '</b> · ' + (l.length ? plural(l.length, 'run') + ' · ' + (Math.round(l.reduce(function (s, x) { return s + x.miles; }, 0) * 100) / 100) + ' mi' + (dp ? ' · ' + F.fmtPace(dp) + '/mi' + (avg ? ' (' + (dp <= avg ? Math.round((avg - dp) * 60) + 's faster' : Math.round((dp - avg) * 60) + 's slower') + ' than avg)' : '') : '') : 'Rest day') + '</div>';
+    }
+    return '<div class="rw-wk"><div class="rw-wh"><span class="eyebrow">Last 7 days</span><span class="rw-tot"><b data-testid="recap-miles">' + rc.miles.toFixed(1) + '</b> mi · ' + plural(rc.runs, 'run') + ' · <b data-testid="recap-pace">' + (avg ? F.fmtPace(avg) : '–') + '</b>/mi avg · <b data-testid="recap-longest">' + rc.longest.toFixed(1) + '</b> long</span></div>' +
+      '<div class="rbars" aria-label="Daily miles, shaded by pace">' + bars + '</div>' + detail +
+      '<div class="trend-row"><span class="chip ' + (tr === 'up' ? 'pos' : tr === 'down' ? 'neg' : '') + '" data-testid="recap-trend">' + (tr === 'up' ? ico('up', 'inline') : tr === 'down' ? ico('down', 'inline') : '') + (rc.milesDelta >= 0 ? '+' : '') + rc.milesDelta + ' mi</span>' +
+      (rc.paceDeltaSec != null ? '<span class="chip ' + (rc.paceDeltaSec < 0 ? 'pos' : rc.paceDeltaSec > 0 ? 'neg' : '') + '">' + (rc.paceDeltaSec <= 0 ? Math.abs(rc.paceDeltaSec) + 's/mi faster' : rc.paceDeltaSec + 's/mi slower') + '</span>' : '') +
+      '<span class="chip">' + rc.runDays + '/7 days</span><span class="rw-key">vs prior 7 days · brighter = faster</span></div></div>';
   }
   function raceCard(t) {
     var r = F.raceInfo(state.race, t, state.runs);
@@ -2618,6 +2703,8 @@ nav.tabs button.has-dot .nav-dot { display: block; animation: dotPulse 1.6s ease
   function render() {
     var tab = state.ui.tab in SCREENS ? state.ui.tab : 'home';
     $('#main').innerHTML = header() + '<div class="screen" data-screen="' + tab + '">' + SCREENS[tab]() + '</div>';
+    if (state.ui.lastTab === 'trophies' && tab !== 'trophies' && (state.celebrated.trophyFresh || []).length) { state.celebrated.trophyFresh = []; save(); }
+    state.ui.lastTab = tab;
     if (tab === 'trophies' && state.ui.trophyNew) { state.ui.trophyNew = false; save(); }
     document.querySelectorAll('nav.tabs button').forEach(function (b) { b.setAttribute('aria-selected', b.dataset.goto === tab); b.classList.toggle('has-dot', b.dataset.goto === 'trophies' && !!state.ui.trophyNew); });
     if (tab === 'home') fetchWeather();
@@ -2645,6 +2732,7 @@ nav.tabs button.has-dot .nav-dot { display: block; animation: dotPulse 1.6s ease
       case 'del-run': state.runs = state.runs.filter(function (r) { return r.id !== id; }); save(); render(); break;
       case 'eff-tab': state.ui.effTab = id; state.ui.effMore = false; save(); render(); break;
       case 'ach-toggle': state.ui.achOpen = state.ui.achOpen || {}; state.ui.achOpen[id] = !state.ui.achOpen[id]; render(); break;
+      case 'day-sel': state.ui.daySel = state.ui.daySel === id ? null : id; render(); break;
       case 'eff-more': state.ui.effMore = !state.ui.effMore; render(); break;
       case 'miles-view': state.ui.milesView = id; save(); render(); break;
       case 'shoe-active': state.activeShoe = id; save(); render(); break;
